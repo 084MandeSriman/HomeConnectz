@@ -112,6 +112,7 @@
 @keyframes scrolldot{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
 .svc-section .head{margin-bottom:44px}
 .svc-section .head h2{color:var(--ink);font-weight:500}
+.svc-section.svc-page{padding-top:clamp(40px,6vw,72px)}
 .svc-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:24px}
 .svc-card{display:flex;flex-direction:column;min-width:0;background:var(--deep);border-radius:26px;overflow:hidden;box-shadow:0 14px 40px rgba(20,35,59,.12);transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s}
 .svc-card:hover{transform:translateY(-6px);box-shadow:0 24px 52px rgba(20,35,59,.2)}

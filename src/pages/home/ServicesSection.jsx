@@ -22,9 +22,9 @@ function ServiceCard({ s }) {
 }
 
 
-export default function ServicesSection() {
+export default function ServicesSection({ standalone = false }) {
   return (
-    <section className="section container svc-section" id="services">
+    <section className={`section container svc-section${standalone ? ' svc-page' : ''}`} id="services">
       <div className="head">
         <h2>Our services</h2>
         <p className="lead">From finding the property to finishing and powering it.</p>

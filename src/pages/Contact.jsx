@@ -110,7 +110,7 @@ export default function Contact() {
       <div className="talk">
         <div className="talk-info">
           <h1>Talk to us</h1>
-          <p className="muted">Call or WhatsApp between {SITE.hours}. Or leave your number and we’ll call you.</p>
+          <p className="muted contact-intro">Call or WhatsApp between {SITE.hours}. Or leave your number and we’ll call you.</p>
           <a className="big-phone" href={`tel:${SITE.tel}`}>{SITE.phone}</a>
           <a className="link wa-link" href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp us &rarr;</a>
           <address className="muted">{SITE.addressLines.map((l) => <span key={l}>{l}</span>)}</address>
@@ -137,7 +137,8 @@ const CSS = `
 .ok{background:#e3f4e8;color:#1d6b3a;padding:12px 16px;border-radius:12px}
 .talk{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:start}
 .talk-info{display:grid;gap:18px;justify-items:start;padding-top:8px}
-.talk-info h1{font-size:clamp(3rem,7vw,5.2rem);font-weight:600;margin-bottom:12px}
+.talk-info h1{color:var(--navy);font-family:var(--serif);font-style:normal;font-weight:500;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:0}
+.talk-info .contact-intro{max-width:560px;margin:0;font-size:1.05rem;line-height:1.65;letter-spacing:0}
 .big-phone{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3rem);font-weight:600;color:var(--navy);line-height:1}
 .talk address{font-style:normal;display:grid;margin-top:8px}
 .map-card{width:100%;display:grid;gap:14px;justify-items:center;margin:clamp(40px,6vw,72px) auto 0}
