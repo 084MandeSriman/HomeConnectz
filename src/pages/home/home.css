@@ -149,6 +149,8 @@
 
 /* ---------- Projects we represent (our palette, our background) ---------- */
 .sp-section{padding:clamp(44px,5.5vw,70px) 0 clamp(50px,6vw,76px)}
+.sp-section.sp-page{padding-top:clamp(132px,10vw,156px)}
+.home-no-hero .sp-section:first-child{padding-top:clamp(132px,10vw,156px)}
 .sp-container{width:min(1340px,100% - 48px);margin-inline:auto}
 .sp-heading{text-align:center}
 .sp-heading h2{color:var(--navy);font-family:var(--serif);font-style:normal;font-weight:500;font-size:clamp(2rem,4vw,3rem);line-height:1.15}
@@ -198,6 +200,8 @@
   .sp-track{grid-auto-columns:calc((100% - var(--sp-gap))/2);--sp-gap:32px}
 }
 @media (max-width:700px){
+  .sp-section.sp-page{padding-top:126px}
+  .home-no-hero .sp-section:first-child{padding-top:126px}
   .sp-container{width:calc(100% - 36px)}
   .sp-cities{gap:8px;margin-top:26px}
   .sp-cities button{width:auto;flex:1 1 0;min-height:46px;font-size:.92rem}

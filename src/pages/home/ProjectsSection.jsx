@@ -36,7 +36,7 @@ function ProjectCard({ p }) {
   );
 }
 
-export default function ProjectsSection({ status: selectedStatus, type: selectedType, onFiltersChange }) {
+export default function ProjectsSection({ status: selectedStatus, type: selectedType, onFiltersChange, standalone = false }) {
   const [city, setCity] = useState('Hyderabad');
   const [localStatus, setLocalStatus] = useState('completed');
   const [localType, setLocalType] = useState('all');
@@ -63,7 +63,7 @@ export default function ProjectsSection({ status: selectedStatus, type: selected
   };
 
   return (
-    <section className="sp-section" id="projects">
+    <section className={`sp-section${standalone ? ' sp-page' : ''}`} id="projects">
       <div className="sp-container">
         <header className="sp-heading">
           <h2>Projects we represent</h2>

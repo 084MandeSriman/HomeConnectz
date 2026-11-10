@@ -14,6 +14,7 @@ export default function Projects() {
     <ProjectsSection
       status={status}
       type={type}
+      standalone
       onFiltersChange={(nextStatus, nextType) => setParams({ status: nextStatus, type: nextType })}
     />
   );
