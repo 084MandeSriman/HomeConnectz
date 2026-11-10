@@ -985,23 +985,7 @@ export default function SrivariMeadows() {
         </div>
       </section>
 
-      <Reveal className="sm-visit">
-        <Image src={IMG + 'entrance.jpg'} alt="" className="sm-visit-img" />
-        <div className="sm-visit-shade" />
-        <div className="sm-visit-copy">
-          <p className="sm-eyebrow">Ready when you are</p>
-          <h2>See Srivari Meadows in person.</h2>
-          <p>Arrange a site visit and get the latest availability and pricing from the developer.</p>
-          <div className="sm-actions">
-            <Link className="sm-btn" to="/contact">
-              Book your site visit <Arrow />
-            </Link>
-            <a className="sm-btn ghost" href="tel:+919866384827">
-              Call +91 98663 84827
-            </a>
-          </div>
-        </div>
-      </Reveal>
+      
       <p className="sm-legal">
         Developed by {PROJECT.developer} · TG-RERA {PROJECT.rera} · HMDA layout permit {PROJECT.hmda} · Price is indicative and subject to change. This page is a conceptual presentation of the project and not a legal offering.
       </p>

@@ -187,7 +187,7 @@ export const projects = [
     "summary": "117 villas on 14 acres by Vara Prasad Constructions. Lift, home theatre and terrace garden in every villa. 100% Vaastu. TG-RERA P02400004825.",
     "price": "₹5 Cr onwards",
     "priceNote": "Builder price, zero brokerage",
-    "img": "/images/srivari-card.jpg"
+    "img": "/images/srivari-home-project.png"
   },
   {
     "slug": "maple-court",
