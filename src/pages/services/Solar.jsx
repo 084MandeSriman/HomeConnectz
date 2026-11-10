@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 
 /* ------------------------------------------------------------------ */
@@ -12,7 +13,7 @@ export const SERVICE = {
   title: 'Solar panels',
   tagline: 'Power that pays back',
   icon: 'sun',
-  image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2000&q=75',
+  image: IMG + 'hero.jpg',
   fallback: '/images/services/solar.svg',
   summary:
     'Design, engineering, installation and maintenance of grid-connected and off-grid solar PV systems, from Hyderabad rooftops to utility-scale plants across India.',
@@ -241,122 +242,151 @@ const CONTACT = {
 /* ------------------------------------------------------------------ */
 /*  Styles                                                             */
 /* ------------------------------------------------------------------ */
+const LB_CSS = `
+.sl-lb{position:fixed;inset:0;z-index:99999;display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100vh;height:100dvh;background:rgba(10,20,34,.96);color:#fff;animation:sl-fade .3s ease}
+.sl-lb *{box-sizing:border-box}
+.sl-lb-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;font-size:.9rem}
+.sl-lb-bar div{display:flex;gap:10px}
+.sl-lb-bar button{padding:8px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:none;color:#fff;font:inherit;cursor:pointer}
+.sl-lb-stage{display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden;padding:0 76px}
+.sl-lb-stage img{display:block;width:auto;height:auto;max-width:100%;max-height:calc(100vh - 140px);max-height:calc(100dvh - 140px);object-fit:contain;border-radius:6px}
+.sl-lb-stage.zoom{display:block;overflow:auto;padding:0 20px;cursor:zoom-out}
+.sl-lb-stage.zoom img{max-width:none;max-height:none;width:220%;margin:0 auto}
+.sl-lb-cap{margin:0;padding:12px 20px 18px;text-align:center;color:rgba(255,255,255,.85);font-size:.9rem}
+.sl-lb-nav{position:absolute;top:50%;width:48px;height:48px;margin-top:-24px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:1.8rem;line-height:1;cursor:pointer}
+.sl-lb-nav.prev{left:14px}.sl-lb-nav.next{right:14px}
+@keyframes sl-fade{from{opacity:0}to{opacity:1}}
+@media (max-width:640px){.sl-lb-stage{padding:0 8px}.sl-lb-nav{top:auto;bottom:70px;margin-top:0;width:42px;height:42px}}
+`;
+
 const CSS = `
-.solar-page{--sun:#f6a723;--ember:#ee6a2c;--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--night:var(--deep,#0f2238);--line:rgba(33,69,111,.14);--ease:cubic-bezier(.2,.7,.2,1);padding-top:clamp(24px,3vw,40px);overflow-x:clip}
+.solar-page{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--gold,#b8953f);--g1:#e6cf9f;--g2:#c9a55a;--night:var(--deep,#0f2238);--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1)}
 .solar-page *{box-sizing:border-box}
 .solar-page img{display:block;max-width:100%}
-.solar-page .back{display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;color:var(--ink);font-weight:600}
-.solar-page .eyebrow{margin-bottom:10px;color:var(--ember);font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
-.solar-page h2{margin-bottom:12px;font-size:clamp(1.9rem,3.2vw,2.7rem);line-height:1.12}
-.solar-page h3{margin-bottom:8px}
+.solar-page button{font:inherit;color:inherit;cursor:pointer}
 .solar-page p{color:var(--mute);line-height:1.7}
+.solar-page h2{margin-bottom:12px;font-size:clamp(1.9rem,3.2vw,2.7rem);line-height:1.12}
+.solar-page h2 em{color:var(--acc)}
+.solar-page h3{margin-bottom:8px}
+.solar-page .eyebrow{margin-bottom:10px;color:var(--acc);font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
 .solar-page .ico{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.solar-page .section{display:grid;gap:34px;padding-top:clamp(64px,8vw,104px)}
+.solar-page .section{display:grid;gap:34px;padding-top:clamp(64px,8vw,104px);scroll-margin-top:120px}
 .solar-page .sec-head{max-width:760px}
 .solar-page .sec-head p{font-size:1.05rem}
+
+/* page-level: lets the hero run edge to edge without a sideways scrollbar */
+html,body{overflow-x:clip}
 
 /* reveal */
 .solar-page .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease) var(--d,0ms),transform .9s var(--ease) var(--d,0ms)}
 .solar-page .rv.in{opacity:1;transform:none}
 
-/* hero */
-.solar-page .hero{position:relative;min-height:clamp(440px,54vw,620px);overflow:hidden;border-radius:28px;background:var(--night)}
-.solar-page .hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:s-kenburns 24s ease-in-out infinite alternate}
-.solar-page .hero .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,34,56,.92),rgba(15,34,56,.6) 55%,rgba(15,34,56,.1))}
-.solar-page .hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.14) 50%,transparent 58%);transform:translateX(-120%);animation:s-sheen 8s ease-in-out 1.5s infinite}
-.solar-page .sun{position:absolute;right:-6%;top:-16%;width:min(54vw,560px);aspect-ratio:1;pointer-events:none;z-index:1}
-.solar-page .sun .rays{transform-origin:center;animation:s-spin 80s linear infinite}
-.solar-page .sun .rays line{stroke:rgba(255,236,170,.9);stroke-width:1.8;stroke-linecap:round}
-.solar-page .sun .halo{fill:none;stroke:rgba(255,214,107,.35);stroke-width:.8;stroke-dasharray:2 5;transform-origin:center;animation:s-spin 60s linear infinite reverse}
-.solar-page .sun .glow{transform-origin:center;animation:s-pulse 5s ease-in-out infinite}
-.solar-page .hero-copy{position:absolute;left:clamp(24px,6vw,72px);bottom:clamp(30px,6vw,70px);z-index:2;max-width:720px;color:#fff}
-.solar-page .hero .eyebrow{color:var(--sun)}
-.solar-page .hero h1{margin-bottom:14px;color:#fff;font-size:clamp(2.9rem,6.4vw,5.2rem);line-height:1.02}
-.solar-page .hero h1 em{font-style:italic;background:linear-gradient(90deg,#ffd46b,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
-.solar-page .hero-copy>p{color:rgba(255,255,255,.9);font-size:clamp(1rem,1.5vw,1.15rem)}
-.solar-page .hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-.solar-page .hero-tags span{padding:8px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;color:#fff;font-size:.84rem;font-weight:500;backdrop-filter:blur(6px);background:rgba(255,255,255,.08)}
-.solar-page .scroll-hint{position:absolute;right:clamp(20px,4vw,48px);bottom:clamp(24px,4vw,44px);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.8);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
-.solar-page .scroll-hint i{width:1px;height:46px;background:linear-gradient(var(--sun),transparent);animation:s-drip 2s ease-in-out infinite}
+/* breadcrumb */
+.solar-page .crumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding-top:clamp(36px,4vw,56px);color:var(--mute);font-size:.9rem;position:relative;z-index:1}
+.solar-page .crumb a,.solar-page .crumb b{color:var(--ink);font-weight:600}
+
+/* intro: centred under the breadcrumb */
+.solar-page .intro{display:flex;flex-direction:column;align-items:center;max-width:880px;margin:0 auto;padding:clamp(20px,4vw,44px) 0 clamp(30px,4vw,48px);text-align:center}
+.solar-page .intro>*{animation:s-up 1s var(--ease) both}
+.solar-page .intro>*:nth-child(2){animation-delay:.08s}
+.solar-page .intro>*:nth-child(3){animation-delay:.16s}
+.solar-page .intro>*:nth-child(4){animation-delay:.26s}
+.solar-page .intro>*:nth-child(5){animation-delay:.36s}
+.solar-page .intro .eyebrow{margin-bottom:12px}
+.solar-page .intro h1{margin-bottom:16px;color:var(--ink);font-size:clamp(3rem,7.4vw,6rem);line-height:1.02}
+.solar-page .intro h1 em{font-style:italic;color:var(--acc)}
+.solar-page .lede{max-width:700px;font-size:clamp(1rem,1.5vw,1.18rem)}
+.solar-page .hero-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px}
+.solar-page .hero-tags span{padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6);color:var(--ink);font-size:.84rem;font-weight:600}
+.solar-page .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px}
+.solar-page .btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border:1px solid transparent;border-radius:999px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#1b2b40;font-weight:700;font-size:.94rem;transition:transform .3s var(--ease),box-shadow .3s}
+.solar-page .btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.2)}
+.solar-page .btn.ghost{border-color:var(--ink);background:transparent;color:var(--ink)}
+
+/* hero: full screen, edge to edge, image only */
+.solar-page .hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:100vh;height:100svh;min-height:520px;overflow:hidden;background:rgba(33,69,111,.12)}
+.solar-page .hero>img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;animation:s-reveal 1.4s var(--ease) both}
 
 /* stats */
-.solar-page .stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:32px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.solar-page .stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .solar-page .stat{padding:28px 24px;border-left:1px solid var(--line)}
 .solar-page .stat:first-child{border-left:0}
-.solar-page .stat strong{display:block;font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.3rem);font-weight:500;line-height:1;background:linear-gradient(90deg,var(--ink),var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
+.solar-page .stat strong{display:block;font-family:var(--serif);font-size:clamp(2rem,3.6vw,3rem);font-weight:500;line-height:1;color:var(--ink)}
 .solar-page .stat>span{display:block;margin-top:8px;color:var(--mute);font-size:.92rem}
 
+/* image frame: the picture sits INSIDE the border, edge to edge */
+.solar-page .frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(184,149,63,.6);border-radius:30px;background:rgba(255,255,255,.55)}
+.solar-page .frame>button{position:relative;display:block;width:100%;padding:0;border:0;background:var(--night);border-radius:20px;overflow:hidden;cursor:zoom-in}
+.solar-page .frame img{display:block;width:100%;aspect-ratio:var(--ar,4/3);object-fit:cover;border-radius:20px}
+.solar-page .hint{position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.74rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}
+.solar-page .frame>button:hover .hint,.solar-page .frame>button:focus-visible .hint{opacity:1}
+.solar-page .tag{position:absolute;left:14px;top:14px;padding:7px 14px;border-radius:999px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#1b2b40;font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.solar-page .cap{position:absolute;left:24px;bottom:24px;margin:0;padding:8px 14px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.82rem;pointer-events:none}
+.solar-page .badge{position:absolute;right:24px;bottom:24px;display:grid;padding:14px 18px;border-radius:16px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#1b2b40;box-shadow:0 14px 30px rgba(0,0,0,.22);pointer-events:none}
+.solar-page .badge strong{font-family:var(--serif);font-size:1.8rem;font-weight:500;line-height:1}
+.solar-page .badge span{font-size:.76rem;font-weight:600}
+
 /* about */
-.solar-page .about{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(30px,6vw,84px);align-items:center}
-.solar-page .about-media{position:relative;margin:0 0 0 18px}
-.solar-page .about-media::before{content:'';position:absolute;inset:-18px 18px 18px -18px;border:2px solid var(--sun);border-radius:26px;opacity:.7}
-.solar-page .about-media img{position:relative;width:100%;aspect-ratio:4/3.4;object-fit:cover;border-radius:24px}
-.solar-page .badge{position:absolute;right:-14px;bottom:26px;display:grid;padding:16px 20px;border-radius:18px;background:linear-gradient(135deg,var(--sun),var(--ember));color:#fff;box-shadow:0 18px 40px rgba(238,106,44,.35);animation:s-float 5s ease-in-out infinite}
-.solar-page .badge strong{font-family:var(--serif);font-size:2rem;font-weight:500;line-height:1}
-.solar-page .badge span{font-size:.78rem;opacity:.95}
+.solar-page .about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:center}
+.solar-page .about>*{min-width:0}
 .solar-page .checks{display:grid;gap:12px;margin:18px 0 0;padding:0;list-style:none}
 .solar-page .checks li{display:flex;align-items:flex-start;gap:12px;color:var(--ink);font-weight:500;line-height:1.5}
-.solar-page .checks .ico{width:22px;height:22px;margin-top:1px;padding:3px;border-radius:50%;background:rgba(246,167,35,.2);color:var(--ember)}
+.solar-page .checks .ico{width:22px;height:22px;margin-top:1px;padding:3px;border-radius:50%;background:rgba(184,149,63,.2);color:var(--acc)}
 .solar-page .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:30px;border-top:1px solid var(--line)}
 .solar-page .pillar{padding:18px 16px 0 0}
-.solar-page .pillar .ico{width:26px;height:26px;color:var(--ember)}
+.solar-page .pillar .ico{width:26px;height:26px;color:var(--acc)}
 .solar-page .pillar b{display:block;margin:8px 0 2px;color:var(--ink)}
 .solar-page .pillar span{color:var(--mute);font-size:.86rem;line-height:1.5}
 
 /* process */
 .solar-page .steps{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:18px;margin-top:12px}
-.solar-page .steps::before{content:'';position:absolute;left:8%;right:8%;top:35px;height:2px;background:linear-gradient(90deg,var(--sun),var(--ember));transform:scaleX(0);transform-origin:left;transition:transform 1.8s var(--ease) .2s}
+.solar-page .steps::before{content:'';position:absolute;left:8%;right:8%;top:35px;height:2px;background:linear-gradient(90deg,var(--g1),var(--acc));transform:scaleX(0);transform-origin:left;transition:transform 1.8s var(--ease) .2s}
 .solar-page .steps.in::before{transform:scaleX(1)}
 .solar-page .step{position:relative;text-align:center}
-.solar-page .node{position:relative;display:grid;place-items:center;width:70px;height:70px;margin:0 auto 16px;border:2px solid var(--sun);border-radius:50%;background:#fff;color:var(--ink);font-size:1.6rem;transition:background .35s,color .35s,transform .35s}
+.solar-page .node{position:relative;display:grid;place-items:center;width:70px;height:70px;margin:0 auto 16px;border:2px solid var(--acc);border-radius:50%;background:#fff;color:var(--ink);font-size:1.6rem;transition:background .35s,color .35s}
 .solar-page .node::after{content:attr(data-n);position:absolute;top:-6px;right:-6px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:.7rem;font-weight:700}
-.solar-page .step:hover .node{background:linear-gradient(135deg,var(--sun),var(--ember));color:#fff;transform:translateY(-4px) scale(1.05)}
+.solar-page .step:hover .node{background:linear-gradient(135deg,var(--g1),var(--g2));color:#1b2b40}
 .solar-page .step h3{font-size:1rem;line-height:1.3}
 .solar-page .step p{font-size:.88rem;line-height:1.55}
 
 /* solutions */
-.solar-page .tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--line)}
-.solar-page .tab{position:relative;padding:14px 20px;border:0;background:none;color:var(--mute);font:inherit;font-weight:600;cursor:pointer;transition:color .25s}
-.solar-page .tab::after{content:'';position:absolute;left:12px;right:12px;bottom:-1px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--sun),var(--ember));transform:scaleX(0);transition:transform .35s var(--ease)}
-.solar-page .tab:hover{color:var(--ink)}
-.solar-page .tab[aria-selected=true]{color:var(--ink)}
+.solar-page .tabs{display:flex;flex-wrap:wrap;gap:6px 28px;border-bottom:1px solid var(--line)}
+.solar-page .tab{position:relative;padding:10px 0 14px;border:0;background:none;color:var(--mute);font-weight:600;text-align:left;transition:color .3s}
+.solar-page .tab::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.solar-page .tab:hover,.solar-page .tab[aria-selected=true]{color:var(--ink)}
 .solar-page .tab[aria-selected=true]::after{transform:scaleX(1)}
-.solar-page .panel{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(26px,5vw,64px);align-items:center;padding-top:36px;animation:s-fadeup .7s var(--ease)}
-.solar-page .panel-media{position:relative;overflow:hidden;border-radius:24px;aspect-ratio:4/3.3;background:var(--night)}
-.solar-page .panel-media img{width:100%;height:100%;object-fit:cover;animation:s-zoom 1.6s var(--ease)}
-.solar-page .panel-media figcaption{position:absolute;left:16px;bottom:16px;padding:8px 14px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.82rem;backdrop-filter:blur(6px)}
+.solar-page .panel{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,5vw,64px);align-items:center;padding-top:36px;animation:s-fadeup .7s var(--ease)}
+.solar-page .panel>*{min-width:0}
 .solar-page .segs{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
 .solar-page .seg{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:rgba(33,69,111,.08);color:var(--ink);font-weight:600;font-size:.92rem}
-.solar-page .seg .ico{color:var(--ember)}
+.solar-page .seg .ico{color:var(--acc)}
 .solar-page .lists{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px 30px;margin-top:20px}
 .solar-page .lists h4{margin:0 0 4px;color:var(--ink);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
 .solar-page .flow{display:flex;align-items:flex-start;margin-top:26px}
 .solar-page .flow-node{flex:1;min-width:0;text-align:center}
-.solar-page .flow-ico{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 8px;border-radius:50%;background:rgba(246,167,35,.18);color:var(--ink);font-size:1.5rem;animation:s-glow 3.2s ease-in-out infinite;animation-delay:var(--d,0s)}
+.solar-page .flow-ico{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 8px;border-radius:50%;background:rgba(184,149,63,.18);color:var(--ink);font-size:1.5rem}
 .solar-page .flow-node b{display:block;color:var(--ink);font-size:.95rem}
 .solar-page .flow-node span{display:block;color:var(--mute);font-size:.8rem;line-height:1.4}
-.solar-page .flow-line{flex:0 0 clamp(18px,3vw,40px);height:2px;margin-top:26px;background:repeating-linear-gradient(90deg,var(--ember) 0 6px,transparent 6px 12px);background-size:24px 2px;animation:s-dash 1s linear infinite}
+.solar-page .flow-line{flex:0 0 clamp(18px,3vw,40px);height:2px;margin-top:26px;background:repeating-linear-gradient(90deg,var(--acc) 0 6px,transparent 6px 12px)}
 
 /* showcase */
 .solar-page .filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
-.solar-page .chip{padding:10px 20px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);font:inherit;font-weight:600;cursor:pointer;transition:all .3s}
-.solar-page .chip:hover{border-color:var(--ember)}
-.solar-page .chip[aria-pressed=true]{border-color:transparent;background:linear-gradient(135deg,var(--sun),var(--ember));color:#fff;box-shadow:0 10px 24px rgba(238,106,44,.28)}
+.solar-page .chip{padding:10px 20px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);font-weight:600;transition:all .3s}
+.solar-page .chip:hover{border-color:var(--acc)}
+.solar-page .chip[aria-pressed=true]{border-color:transparent;background:linear-gradient(135deg,var(--g1),var(--g2));color:#1b2b40}
 .solar-page .showcase{display:grid;grid-template-columns:minmax(240px,.55fr) 1.6fr;gap:clamp(22px,4vw,48px);align-items:start}
+.solar-page .showcase>*{min-width:0}
 .solar-page .sc-list{display:grid;gap:4px;margin:0;padding:0;list-style:none}
-.solar-page .sc-item{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border:0;border-radius:14px;background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer;box-shadow:inset 3px 0 0 transparent;transition:background .3s,box-shadow .3s}
+.solar-page .sc-item{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border:0;border-radius:14px;background:transparent;color:var(--ink);text-align:left;box-shadow:inset 3px 0 0 transparent;transition:background .3s,box-shadow .3s}
 .solar-page .sc-item:hover{background:rgba(33,69,111,.05)}
-.solar-page .sc-item[aria-current=true]{background:rgba(246,167,35,.14);box-shadow:inset 3px 0 0 var(--ember)}
+.solar-page .sc-item[aria-current=true]{background:rgba(184,149,63,.14);box-shadow:inset 3px 0 0 var(--acc)}
 .solar-page .sc-item b{display:block;font-size:.98rem}
 .solar-page .sc-item small{display:block;margin-top:2px;color:var(--mute);font-size:.8rem}
-.solar-page .sc-item em{flex:none;font-family:var(--serif);font-size:1.35rem;font-style:normal;color:var(--ember)}
+.solar-page .sc-item em{flex:none;font-family:var(--serif);font-size:1.3rem;font-style:normal;color:var(--acc)}
 .solar-page .sc-view{display:grid;gap:26px;animation:s-fadeup .6s var(--ease)}
-.solar-page .sc-photo{position:relative;overflow:hidden;border-radius:24px;aspect-ratio:16/9;background:var(--night)}
-.solar-page .sc-photo img{width:100%;height:100%;object-fit:cover;animation:s-zoom 1.4s var(--ease)}
-.solar-page .sc-tag{position:absolute;left:16px;top:16px;padding:7px 14px;border-radius:999px;background:linear-gradient(135deg,var(--sun),var(--ember));color:#fff;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .solar-page .sc-big{display:flex;flex-wrap:wrap;gap:12px 48px}
 .solar-page .sc-big strong{display:block;font-family:var(--serif);font-size:clamp(2.2rem,4.6vw,3.4rem);font-weight:500;line-height:1;color:var(--ink)}
-.solar-page .sc-big strong small{margin-left:6px;font-size:.45em;color:var(--ember);font-family:inherit}
+.solar-page .sc-big strong small{margin-left:6px;font-size:.45em;color:var(--acc);font-family:inherit}
 .solar-page .sc-big span{display:block;margin-top:6px;color:var(--mute);font-size:.85rem}
 .solar-page .specs{display:grid;margin:0}
 .solar-page .specs div{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:16px;padding:13px 0;border-bottom:1px solid var(--line)}
@@ -365,21 +395,23 @@ const CSS = `
 
 /* utility band */
 .solar-page .band{position:relative;overflow:hidden;margin-top:clamp(64px,8vw,104px);border-radius:28px;background:var(--night);color:#fff}
-.solar-page .band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
-.solar-page .band::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(15,34,56,.95),rgba(15,34,56,.78) 55%,rgba(15,34,56,.55))}
+.solar-page .band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+.solar-page .band::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(15,34,56,.95),rgba(15,34,56,.8) 55%,rgba(15,34,56,.6))}
 .solar-page .band-in{position:relative;z-index:2;display:grid;grid-template-columns:.8fr 1.4fr;gap:clamp(26px,5vw,64px);padding:clamp(28px,5vw,64px)}
+.solar-page .band-in>*{min-width:0}
 .solar-page .band h2{color:#fff}
+.solar-page .band h2 em{color:var(--g1)}
 .solar-page .band p{color:rgba(255,255,255,.82)}
-.solar-page .band .eyebrow{color:var(--sun)}
+.solar-page .band .eyebrow{color:var(--g1)}
 .solar-page .band .checks li{color:#fff}
-.solar-page .band .checks .ico{background:rgba(246,167,35,.25);color:#ffd46b}
+.solar-page .band .checks .ico{background:rgba(230,207,159,.25);color:var(--g1)}
 .solar-page .tbl-wrap{overflow-x:auto}
 .solar-page table{width:100%;min-width:560px;border-collapse:collapse}
-.solar-page th{padding:0 14px 12px 0;color:var(--sun);font-size:.72rem;letter-spacing:.14em;text-align:left;text-transform:uppercase;white-space:nowrap}
+.solar-page th{padding:0 14px 12px 0;color:var(--g1);font-size:.72rem;letter-spacing:.14em;text-align:left;text-transform:uppercase;white-space:nowrap}
 .solar-page td{padding:16px 14px 16px 0;border-top:1px solid rgba(255,255,255,.18);color:#fff;vertical-align:top}
 .solar-page td:first-child{font-weight:600}
 .solar-page td small{display:block;color:rgba(255,255,255,.7);font-size:.82rem}
-.solar-page td.mw{font-family:var(--serif);font-size:1.5rem;color:#ffd46b;white-space:nowrap}
+.solar-page td.mw{font-family:var(--serif);font-size:1.5rem;color:var(--g1);white-space:nowrap}
 .solar-page tbody tr{opacity:0;transform:translateX(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .solar-page .tbl-wrap.in tbody tr{opacity:1;transform:none}
 .solar-page .tbl-wrap.in tbody tr:nth-child(1){transition-delay:.1s}.solar-page .tbl-wrap.in tbody tr:nth-child(2){transition-delay:.25s}.solar-page .tbl-wrap.in tbody tr:nth-child(3){transition-delay:.4s}.solar-page .tbl-wrap.in tbody tr:nth-child(4){transition-delay:.55s}.solar-page .tbl-wrap.in tbody tr:nth-child(5){transition-delay:.7s}
@@ -388,20 +420,20 @@ const CSS = `
 .solar-page .bars{display:grid;gap:14px}
 .solar-page .bar{display:grid;grid-template-columns:minmax(180px,.9fr) 2fr 84px;align-items:center;gap:18px}
 .solar-page .bar>span{color:var(--ink);font-size:.92rem;line-height:1.35}
-.solar-page .track{height:14px;border-radius:99px;background:rgba(33,69,111,.08);overflow:hidden}
-.solar-page .fill{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--sun),var(--ember));transition:width 1.6s var(--ease) var(--d,0ms)}
+.solar-page .track{height:12px;border-radius:99px;background:rgba(33,69,111,.08);overflow:hidden}
+.solar-page .fill{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--g1),var(--acc));transition:width 1.6s var(--ease) var(--d,0ms)}
 .solar-page .bars.in .fill{width:var(--w)}
 .solar-page .bar b{font-family:var(--serif);font-size:1.25rem;font-weight:500;color:var(--ink);text-align:right}
 .solar-page .bar b small{font-size:.65em;color:var(--mute);font-family:inherit}
-.solar-page .more{align-self:start;justify-self:start;display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border:1.5px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font:inherit;font-weight:600;cursor:pointer;transition:all .3s}
+.solar-page .more{align-self:start;justify-self:start;display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border:1.5px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font-weight:600;transition:all .3s}
 .solar-page .more:hover{background:var(--ink);color:#fff}
 .solar-page .more .ico{transition:transform .3s}
-.solar-page .more[aria-expanded=true] .ico{transform:rotate(90deg)}
+.solar-page .more[aria-expanded=true] .ico{transform:rotate(45deg)}
 .solar-page .plist{animation:s-fadeup .6s var(--ease)}
 .solar-page .plist .row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.7fr) 130px;gap:18px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
 .solar-page .plist .row b{color:var(--ink)}
 .solar-page .plist .row span{color:var(--mute);font-size:.92rem;line-height:1.5}
-.solar-page .plist .row em{color:var(--ember);font-family:var(--serif);font-size:1.15rem;font-style:normal;text-align:right}
+.solar-page .plist .row em{color:var(--acc);font-family:var(--serif);font-size:1.15rem;font-style:normal;text-align:right}
 .solar-page .plist .row.head{padding:0 0 10px;border-bottom:2px solid var(--ink);color:var(--ink);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 .solar-page .plist .row.head *{font:inherit;color:inherit}
 
@@ -409,68 +441,57 @@ const CSS = `
 .solar-page .partners{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .solar-page .partner{display:grid;gap:14px;padding:clamp(24px,4vw,44px)}
 .solar-page .partner+.partner{border-left:1px solid var(--line)}
-.solar-page .logo-box{display:grid;place-items:center;height:110px;border-radius:18px;background:#fff;box-shadow:var(--shadow)}
-.solar-page .logo-box img{max-height:70px;width:auto;mix-blend-mode:multiply;transition:transform .5s var(--ease)}
-.solar-page .partner:hover .logo-box img{transform:scale(1.06)}
+.solar-page .logo-box{display:grid;place-items:center;height:110px;border-radius:18px;background:#fff;border:1px solid var(--line)}
+.solar-page .logo-box img{max-height:70px;width:auto;mix-blend-mode:multiply}
 .solar-page .partner h3{margin:6px 0 0;color:var(--ink)}
 .solar-page .partner p{margin:0}
 .solar-page .note{margin-top:4px;color:var(--ink);font-weight:500}
 
 /* values */
 .solar-page .vm{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,56px)}
-.solar-page .vm-item{position:relative;padding-top:26px;border-top:2px solid var(--ink)}
-.solar-page .vm-item::before{content:'';position:absolute;left:0;top:-2px;width:0;height:2px;background:linear-gradient(90deg,var(--sun),var(--ember));transition:width 1.2s var(--ease) .3s}
+.solar-page .vm-item{position:relative;padding-top:26px;border-top:2px solid var(--line)}
+.solar-page .vm-item::before{content:'';position:absolute;left:0;top:-2px;width:0;height:2px;background:var(--acc);transition:width 1.2s var(--ease) .3s}
 .solar-page .vm-item.in::before{width:100%}
-.solar-page .vm-item .num{display:block;margin-bottom:10px;font-family:var(--serif);font-size:2.6rem;line-height:1;color:var(--ember)}
-.solar-page .vm-item h3{font-size:1.4rem}
+.solar-page .vm-item .num{display:block;margin-bottom:10px;font-family:var(--serif);font-size:2.6rem;line-height:1;color:var(--acc)}
+.solar-page .vm-item h3{font-size:1.4rem;color:var(--ink)}
 .solar-page .vm-item p{margin:0;font-size:1rem}
 .solar-page .vm-item .checks{margin-top:0;gap:10px;font-size:.96rem}
 
 /* clientele */
-.solar-page .clients{padding:clamp(14px,3vw,30px);border-radius:24px;background:#fff;box-shadow:var(--shadow)}
+.solar-page .clients{padding:clamp(14px,3vw,30px);border:1.5px solid rgba(184,149,63,.6);border-radius:30px;background:#fff;overflow-x:auto}
 .solar-page .clients img{width:100%;height:auto}
-.solar-page .clients{overflow-x:auto}
 @media(max-width:640px){.solar-page .clients img{min-width:620px}}
 
 /* leadership */
 .solar-page .leaders{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,72px)}
 .solar-page .leader{display:grid;grid-template-columns:132px 1fr;gap:24px;align-items:start}
-.solar-page .avatar{position:relative;width:132px;height:132px;border-radius:50%;padding:5px;background:conic-gradient(from 0deg,var(--sun),var(--ember),var(--sun));animation:s-spin 14s linear infinite}
-.solar-page .avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:4px solid #fff;animation:s-spin 14s linear infinite reverse}
+.solar-page .avatar{width:132px;height:132px;border-radius:50%;padding:5px;border:1.5px solid rgba(184,149,63,.6);background:rgba(255,255,255,.55)}
+.solar-page .avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
 .solar-page .leader h3{margin:0;font-size:1.5rem;color:var(--ink)}
-.solar-page .leader .role{margin:2px 0 10px;color:var(--ember);font-weight:600;font-size:.92rem}
+.solar-page .leader .role{margin:2px 0 10px;color:var(--acc);font-weight:600;font-size:.92rem}
 .solar-page .leader p:last-child{margin:0;font-size:.95rem}
 
 /* contact */
 .solar-page .contact{position:relative;overflow:hidden;margin-top:clamp(64px,8vw,104px);border-radius:28px;background:var(--night);color:#fff}
 .solar-page .contact>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.4}
-.solar-page .contact::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(110deg,rgba(15,34,56,.96),rgba(15,34,56,.8))}
-.solar-page .contact .sun{right:-22%;top:-70%;width:min(60vw,620px);opacity:.45}
+.solar-page .contact::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(110deg,rgba(15,34,56,.96),rgba(15,34,56,.82))}
 .solar-page .contact-in{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(26px,5vw,64px);padding:clamp(28px,5vw,64px);align-items:center}
+.solar-page .contact-in>*{min-width:0}
 .solar-page .contact h2{color:#fff}
+.solar-page .contact h2 em{color:var(--g1)}
 .solar-page .contact p{color:rgba(255,255,255,.84)}
-.solar-page .contact .eyebrow{color:var(--sun)}
+.solar-page .contact .eyebrow{color:var(--g1)}
 .solar-page .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
-.solar-page .cta{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;border-radius:999px;background:linear-gradient(135deg,var(--sun),var(--ember));color:#fff;font-weight:700;box-shadow:0 14px 32px rgba(238,106,44,.4);transition:transform .3s var(--ease),box-shadow .3s}
-.solar-page .cta:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(238,106,44,.5)}
-.solar-page .cta.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.5);box-shadow:none}
-.solar-page .cta.ghost:hover{background:rgba(255,255,255,.1)}
+.solar-page .contact .btn.ghost{border-color:rgba(255,255,255,.55);color:#fff}
 .solar-page .reach{display:grid;gap:18px;margin:0;padding:0;list-style:none}
 .solar-page .reach li{display:flex;gap:14px;align-items:flex-start;color:#fff;line-height:1.5}
-.solar-page .reach .ico{width:38px;height:38px;padding:9px;border-radius:50%;background:rgba(255,255,255,.12);color:#ffd46b}
+.solar-page .reach .ico{width:38px;height:38px;padding:9px;border-radius:50%;background:rgba(255,255,255,.12);color:var(--g1)}
 .solar-page .reach small{display:block;color:rgba(255,255,255,.65);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase}
-.solar-page .reach a{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.4);text-underline-offset:3px}
+.solar-page .reach a{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.4);text-underline-offset:3px;word-break:break-word}
 
-@keyframes s-kenburns{from{transform:scale(1)}to{transform:scale(1.09) translate(-1.5%,1%)}}
-@keyframes s-sheen{0%,60%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
-@keyframes s-spin{to{transform:rotate(360deg)}}
-@keyframes s-pulse{0%,100%{transform:scale(.94);opacity:.8}50%{transform:scale(1.06);opacity:1}}
-@keyframes s-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-@keyframes s-drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes s-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes s-reveal{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
 @keyframes s-fadeup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@keyframes s-zoom{from{transform:scale(1.12)}to{transform:scale(1)}}
-@keyframes s-dash{to{background-position:24px 0}}
-@keyframes s-glow{0%,100%{box-shadow:0 0 0 0 rgba(246,167,35,.45)}50%{box-shadow:0 0 0 12px rgba(246,167,35,0)}}
 
 @media(max-width:1100px){
   .solar-page .steps{grid-template-columns:repeat(3,1fr);row-gap:34px}
@@ -480,6 +501,9 @@ const CSS = `
   .solar-page .sc-list{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
   .solar-page .sc-item{min-width:210px}
 }
+@media(max-width:960px){
+  .solar-page .hero{height:auto;min-height:0;aspect-ratio:16/9;max-height:80vh;max-height:80svh}
+}
 @media(max-width:860px){
   .solar-page .about,.solar-page .panel,.solar-page .contact-in,.solar-page .leaders,.solar-page .vm,.solar-page .partners{grid-template-columns:1fr}
   .solar-page .partner+.partner{border-left:0;border-top:1px solid var(--line)}
@@ -487,7 +511,6 @@ const CSS = `
   .solar-page .stat:nth-child(3){border-left:0}
   .solar-page .stat:nth-child(n+3){border-top:1px solid var(--line)}
   .solar-page .pillars{grid-template-columns:1fr 1fr}
-  .solar-page .scroll-hint{display:none}
   .solar-page .bar{grid-template-columns:1fr auto;row-gap:6px}
   .solar-page .bar .track{grid-column:1/-1;order:3}
   .solar-page .plist .row{grid-template-columns:1fr auto}
@@ -495,18 +518,27 @@ const CSS = `
   .solar-page .plist .row.head span{display:none}
 }
 @media(max-width:640px){
-  .solar-page .steps{grid-template-columns:1fr;gap:0;padding-left:0}
+  .solar-page .hero{aspect-ratio:4/3}
+  .solar-page .intro{padding-left:6px;padding-right:6px}
+  .solar-page .intro h1{font-size:clamp(2.6rem,13vw,3.4rem)}
+  .solar-page .actions{width:100%}
+  .solar-page .actions .btn{flex:1 1 100%;justify-content:center}
+  .solar-page .cta-row .btn{flex:1 1 100%;justify-content:center}
+  .solar-page .frame{padding:7px;border-radius:24px}
+  .solar-page .frame>button,.solar-page .frame img{border-radius:17px}
+  .solar-page .cap{left:16px;bottom:16px;max-width:calc(100% - 32px)}
+  .solar-page .steps{grid-template-columns:1fr;gap:0}
   .solar-page .steps::before{display:block;left:34px;right:auto;top:30px;bottom:30px;width:2px;height:auto;transform:scaleY(0);transform-origin:top}
   .solar-page .steps.in::before{transform:scaleY(1)}
   .solar-page .step{display:grid;grid-template-columns:70px 1fr;gap:18px;padding-bottom:28px;text-align:left}
   .solar-page .node{margin:0}
   .solar-page .flow{flex-direction:column;align-items:center}
-  .solar-page .flow-line{flex:0 0 28px;width:2px;height:28px;margin:6px 0;background:repeating-linear-gradient(180deg,var(--ember) 0 6px,transparent 6px 12px);background-size:2px 24px;animation:s-dash-v 1s linear infinite}
+  .solar-page .flow-line{flex:0 0 28px;width:2px;height:28px;margin:6px 0;background:repeating-linear-gradient(180deg,var(--acc) 0 6px,transparent 6px 12px)}
   .solar-page .leader{grid-template-columns:1fr;justify-items:start}
   .solar-page .specs div{grid-template-columns:1fr;gap:2px}
-  .solar-page .tab{padding:12px 14px}
+  .solar-page .tabs{gap:6px 20px}
+  .solar-page .clients{border-radius:24px}
 }
-@keyframes s-dash-v{to{background-position:0 24px}}
 @media(prefers-reduced-motion:reduce){
   .solar-page *,.solar-page *::before,.solar-page *::after{animation:none!important;transition:none!important}
   .solar-page .rv,.solar-page tbody tr{opacity:1;transform:none}
@@ -642,53 +674,97 @@ function ServiceImage({ src, fallback, alt, eager = false }) {
   );
 }
 
-function SunArt({ className = 'sun' }) {
+/* A framed picture: sits inside its gold border and opens in the viewer when clicked. */
+function Pic({ src, fallback, alt, caption, tag, ratio = '4 / 3', onOpen, children }) {
   return (
-    <svg className={className} viewBox="-100 -100 200 200" aria-hidden="true">
-      <defs>
-        <radialGradient id="solar-sun-glow">
-          <stop offset="0" stopColor="#ffd46b" stopOpacity=".85" />
-          <stop offset=".5" stopColor="#f6a723" stopOpacity=".22" />
-          <stop offset="1" stopColor="#f6a723" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id="solar-sun-core" cx=".4" cy=".35" r=".8">
-          <stop offset="0" stopColor="#fff6cf" />
-          <stop offset=".55" stopColor="#ffc94d" />
-          <stop offset="1" stopColor="#f08a24" />
-        </radialGradient>
-      </defs>
-      <circle r="98" fill="url(#solar-sun-glow)" className="glow" />
-      <circle r="90" className="halo" />
-      <g className="rays">
-        {Array.from({ length: 24 }, (_, i) => (
-          <line key={i} x1="0" y1="-48" x2="0" y2={i % 2 ? -62 : -78} transform={`rotate(${i * 15})`} />
-        ))}
-      </g>
-      <circle r="28" fill="url(#solar-sun-core)" />
-    </svg>
+    <figure className="frame" style={{ '--ar': ratio }}>
+      <button type="button" onClick={() => onOpen([{ src, fallback, alt: caption || alt }], 0)} aria-label={`Open image: ${alt}`}>
+        <ServiceImage src={src} fallback={fallback} alt={alt} />
+        <span className="hint">Click to enlarge</span>
+        {tag && <span className="tag">{tag}</span>}
+      </button>
+      {caption && <figcaption className="cap">{caption}</figcaption>}
+      {children}
+    </figure>
   );
+}
+
+/* Opens on <body> so nothing can crop it. Whole picture fits the screen; "Zoom in" lets you scroll. */
+function Lightbox({ items, index, onClose, onIndex }) {
+  const [zoom, setZoom] = useState(false);
+  const item = items[index];
+  const count = items.length;
+
+  useEffect(() => setZoom(false), [index]);
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowRight') onIndex((index + 1) % count);
+      if (e.key === 'ArrowLeft') onIndex((index - 1 + count) % count);
+    };
+    window.addEventListener('keydown', onKey);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previous;
+    };
+  }, [index, count, onClose, onIndex]);
+
+  const node = (
+    <div className="sl-lb" role="dialog" aria-modal="true" aria-label={item.alt} onClick={onClose}>
+      <style>{LB_CSS}</style>
+      <div className="sl-lb-bar" onClick={(e) => e.stopPropagation()}>
+        <span>
+          {index + 1} / {count}
+        </span>
+        <div>
+          <button type="button" onClick={() => setZoom(!zoom)}>
+            {zoom ? 'Fit to screen' : 'Zoom in'}
+          </button>
+          <button type="button" onClick={onClose} aria-label="Close">
+            ✕
+          </button>
+        </div>
+      </div>
+      <div className={`sl-lb-stage ${zoom ? 'zoom' : ''}`} onClick={zoom ? (e) => e.stopPropagation() : onClose}>
+        <ServiceImage key={item.src} src={item.src} fallback={item.fallback} alt={item.alt} eager />
+      </div>
+      <p className="sl-lb-cap" onClick={(e) => e.stopPropagation()}>
+        {item.alt}
+      </p>
+      {count > 1 && (
+        <>
+          <button type="button" className="sl-lb-nav prev" aria-label="Previous image" onClick={(e) => { e.stopPropagation(); onIndex((index - 1 + count) % count); }}>
+            ‹
+          </button>
+          <button type="button" className="sl-lb-nav next" aria-label="Next image" onClick={(e) => { e.stopPropagation(); onIndex((index + 1) % count); }}>
+            ›
+          </button>
+        </>
+      )}
+    </div>
+  );
+  return typeof document === 'undefined' ? node : createPortal(node, document.body);
 }
 
 /* ------------------------------------------------------------------ */
 /*  Sections                                                           */
 /* ------------------------------------------------------------------ */
-function Solutions() {
+function Solutions({ onOpen }) {
   const [active, setActive] = useState(SOLUTIONS[0].id);
   const item = SOLUTIONS.find((s) => s.id === active);
   return (
     <>
       <div className="tabs" role="tablist" aria-label="Solar solutions">
         {SOLUTIONS.map((s) => (
-          <button key={s.id} role="tab" id={`tab-${s.id}`} aria-selected={s.id === active} aria-controls="solar-panel" className="tab" onClick={() => setActive(s.id)}>
+          <button key={s.id} type="button" role="tab" id={`tab-${s.id}`} aria-selected={s.id === active} aria-controls="solar-panel" className="tab" onClick={() => setActive(s.id)}>
             {s.label}
           </button>
         ))}
       </div>
       <div className="panel" key={item.id} role="tabpanel" id="solar-panel" aria-labelledby={`tab-${item.id}`}>
-        <figure className="panel-media" style={{ margin: 0 }}>
-          <ServiceImage src={item.image} fallback={SERVICE.fallback} alt={item.caption} />
-          <figcaption>{item.caption}</figcaption>
-        </figure>
+        <Pic src={item.image} fallback={SERVICE.fallback} alt={item.caption} caption={item.caption} ratio="4 / 3.2" onOpen={onOpen} />
         <div>
           <p className="eyebrow">{item.eyebrow}</p>
           <h3 style={{ fontSize: 'clamp(1.5rem,2.4vw,2rem)', lineHeight: 1.2 }}>{item.title}</h3>
@@ -708,7 +784,7 @@ function Solutions() {
               {GRID_BENEFITS.map((b, i) => (
                 <div key={b.title} style={{ display: 'contents' }}>
                   <div className="flow-node">
-                    <div className="flow-ico" style={{ '--d': `${i * 0.5}s` }}>
+                    <div className="flow-ico">
                       <Icon name={b.icon} />
                     </div>
                     <b>{b.title}</b>
@@ -742,7 +818,7 @@ function Solutions() {
   );
 }
 
-function Showcase() {
+function Showcase({ onOpen }) {
   const [cat, setCat] = useState(CATS[0]);
   const list = PROJECTS.filter((p) => p.cat === cat);
   const [activeId, setActiveId] = useState(list[0].id);
@@ -757,7 +833,7 @@ function Showcase() {
     <>
       <div className="filters" role="group" aria-label="Project type">
         {CATS.map((c) => (
-          <button key={c} className="chip" aria-pressed={c === cat} onClick={() => pick(c)}>
+          <button key={c} type="button" className="chip" aria-pressed={c === cat} onClick={() => pick(c)}>
             {c}
           </button>
         ))}
@@ -766,7 +842,7 @@ function Showcase() {
         <ul className="sc-list">
           {list.map((p) => (
             <li key={p.id}>
-              <button className="sc-item" aria-current={p.id === project.id} onClick={() => setActiveId(p.id)}>
+              <button type="button" className="sc-item" aria-current={p.id === project.id} onClick={() => setActiveId(p.id)}>
                 <span>
                   <b>{p.title}</b>
                   <small>{p.sub}</small>
@@ -777,12 +853,15 @@ function Showcase() {
           ))}
         </ul>
         <div className="sc-view" key={project.id}>
-          <div className="sc-photo">
-            <ServiceImage src={IMG + project.image} fallback={SERVICE.fallback} alt={`${project.title} solar installation`} />
-            <span className="sc-tag">
-              {project.cat} · {project.year}
-            </span>
-          </div>
+          <Pic
+            src={IMG + project.image}
+            fallback={SERVICE.fallback}
+            alt={`${project.title} solar installation`}
+            caption={`${project.title} · ${project.size} kWp`}
+            tag={`${project.cat} · ${project.year}`}
+            ratio="16 / 9"
+            onOpen={onOpen}
+          />
           <div className="sc-big">
             <div>
               <strong>
@@ -831,17 +910,17 @@ function ProjectList() {
   const rows = which === 'res' ? RES_LIST : CI_LIST;
   return (
     <>
-      <button className="more" aria-expanded={open} onClick={() => setOpen(!open)}>
+      <button type="button" className="more" aria-expanded={open} onClick={() => setOpen(!open)}>
         <Icon name="plus" />
         {open ? 'Hide' : 'View'} the complete project list
       </button>
       {open && (
         <div className="plist">
           <div className="filters" style={{ marginBottom: 18 }} role="group" aria-label="List type">
-            <button className="chip" aria-pressed={which === 'res'} onClick={() => setWhich('res')}>
+            <button type="button" className="chip" aria-pressed={which === 'res'} onClick={() => setWhich('res')}>
               Residential ({RES_LIST.length})
             </button>
-            <button className="chip" aria-pressed={which === 'ci'} onClick={() => setWhich('ci')}>
+            <button type="button" className="chip" aria-pressed={which === 'ci'} onClick={() => setWhich('ci')}>
               Commercial &amp; industrial ({CI_LIST.length})
             </button>
           </div>
@@ -867,36 +946,51 @@ function ProjectList() {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 export default function Solar() {
+  const [lb, setLb] = useState(null);
+  const open = useCallback((items, index) => setLb({ items, index }), []);
+  const close = useCallback(() => setLb(null), []);
+  const setIndex = useCallback((index) => setLb((st) => (st ? { ...st, index } : st)), []);
+
   return (
     <section className="section container page-top solar-page">
       <style>{CSS}</style>
-      <Link to="/services" className="back">
-        ← All services
-      </Link>
 
-      {/* Hero */}
-      <div className="hero">
-        <ServiceImage src={SERVICE.image} fallback={IMG + 'about.jpg'} alt="Solar panels under a sunny sky" eager />
-        <div className="shade" />
-        <SunArt />
-        <div className="hero-copy">
-          <p className="eyebrow">{SERVICE.tagline}</p>
-          <h1>
-            Solar <em>panels</em>
-          </h1>
-          <p>{SERVICE.summary}</p>
-          <div className="hero-tags">
-            <span>Grid-connected</span>
-            <span>Off-grid &amp; hybrid</span>
-            <span>Utility-scale</span>
-            <span>Rural electrification</span>
-          </div>
+      {/* Breadcrumb */}
+      <div className="crumb">
+        <Link to="/">Home</Link>
+        <span>/</span>
+        <Link to="/services">Services</Link>
+        <span>/</span>
+        <b>{SERVICE.title}</b>
+      </div>
+
+      {/* Intro text, centred */}
+      <div className="intro">
+        <p className="eyebrow">{SERVICE.tagline}</p>
+        <h1>
+          Solar <em>panels</em>
+        </h1>
+        <p className="lede">{SERVICE.summary}</p>
+        <div className="hero-tags">
+          <span>Grid-connected</span>
+          <span>Off-grid &amp; hybrid</span>
+          <span>Utility-scale</span>
+          <span>Rural electrification</span>
         </div>
-        <div className="scroll-hint" aria-hidden="true">
-          Scroll
-          <i />
+        <div className="actions">
+          <Link className="btn" to="/contact">
+            Talk to our team <Icon name="arrow" />
+          </Link>
+          <a className="btn ghost" href="#solar-process">
+            Our solar process
+          </a>
         </div>
       </div>
+
+      {/* Full-screen hero image */}
+      <header className="hero">
+        <ServiceImage src={SERVICE.image} fallback={IMG + 'about.jpg'} alt="Solar panels under a sunny sky" eager />
+      </header>
 
       {/* Stats */}
       <div className="stats">
@@ -910,16 +1004,19 @@ export default function Solar() {
 
       {/* About */}
       <div className="section about">
-        <Reveal className="about-media">
-          <ServiceImage src={IMG + 'about.jpg'} fallback={SERVICE.fallback} alt="Solar panels on a tiled rooftop" />
-          <div className="badge">
-            <strong>2014</strong>
-            <span>Powering India since</span>
-          </div>
+        <Reveal>
+          <Pic src={IMG + 'about.jpg'} fallback={SERVICE.fallback} alt="Solar panels on a tiled rooftop" ratio="4 / 3.4" onOpen={open}>
+            <div className="badge">
+              <strong>2014</strong>
+              <span>Powering India since</span>
+            </div>
+          </Pic>
         </Reveal>
         <Reveal delay={120}>
           <p className="eyebrow">Delivered with our solar partner, Helios</p>
-          <h2>Solar, engineered end to end</h2>
+          <h2>
+            Solar, engineered <em>end to end</em>
+          </h2>
           <p>
             Helios has been an innovative solar solutions provider since 2014. Headquartered in Hyderabad, it has executed projects across India and
             distributes solar equipment from leading manufacturers, with full service support from the first site visit to long-term maintenance.
@@ -951,10 +1048,12 @@ export default function Solar() {
       </div>
 
       {/* Process */}
-      <div className="section">
+      <div className="section" id="solar-process">
         <Reveal className="sec-head">
           <p className="eyebrow">How it works</p>
-          <h2>Our solar process</h2>
+          <h2>
+            Our solar <em>process</em>
+          </h2>
           <p>Six clear steps take you from a site visit to a plant that generates, and keeps generating.</p>
         </Reveal>
         <InView className="steps">
@@ -976,11 +1075,13 @@ export default function Solar() {
       <div className="section">
         <Reveal className="sec-head">
           <p className="eyebrow">Explore the possibilities</p>
-          <h2>Solar solutions for every need</h2>
+          <h2>
+            Solar solutions for <em>every need</em>
+          </h2>
           <p>Whether it is a villa rooftop, a factory, a remote farm or a megawatt plant, there is a system designed for it.</p>
         </Reveal>
         <Reveal>
-          <Solutions />
+          <Solutions onOpen={open} />
         </Reveal>
       </div>
 
@@ -988,11 +1089,13 @@ export default function Solar() {
       <div className="section">
         <Reveal className="sec-head">
           <p className="eyebrow">Systems at a glance</p>
-          <h2>Real plants. Real generation.</h2>
+          <h2>
+            Real plants. <em>Real generation.</em>
+          </h2>
           <p>A selection of installed systems with their capacity, structure and measured yearly generation.</p>
         </Reveal>
         <Reveal>
-          <Showcase />
+          <Showcase onOpen={open} />
         </Reveal>
       </div>
 
@@ -1002,7 +1105,9 @@ export default function Solar() {
         <div className="band-in">
           <Reveal>
             <p className="eyebrow">Plant construction services</p>
-            <h2>Utility-scale track record</h2>
+            <h2>
+              Utility-scale <em>track record</em>
+            </h2>
             <p>Complete engineering, testing and commissioning, backed by long-term operations and maintenance.</p>
             <ul className="checks">
               <li>
@@ -1047,7 +1152,9 @@ export default function Solar() {
       <div className="section">
         <Reveal className="sec-head">
           <p className="eyebrow">Recent installations</p>
-          <h2>Our largest rooftop and captive projects</h2>
+          <h2>
+            Our largest rooftop and <em>captive projects</em>
+          </h2>
           <p>From gated villa communities to factories, hospitals, railway stations and captive plants.</p>
         </Reveal>
         <InView className="bars">
@@ -1070,7 +1177,9 @@ export default function Solar() {
       <div className="section">
         <Reveal className="sec-head">
           <p className="eyebrow">Partnership for success</p>
-          <h2>Built with trusted manufacturers</h2>
+          <h2>
+            Built with <em>trusted manufacturers</em>
+          </h2>
           <p>Helios is an authorised channel partner for sales and service, and we value long-term, close relations with our manufacturers.</p>
         </Reveal>
         <Reveal className="partners">
@@ -1097,7 +1206,9 @@ export default function Solar() {
       <div className="section">
         <Reveal className="sec-head">
           <p className="eyebrow">What drives us</p>
-          <h2>Vision, mission and values</h2>
+          <h2>
+            Vision, mission and <em>values</em>
+          </h2>
         </Reveal>
         <div className="vm">
           <Reveal as="div" className="vm-item" delay={0}>
@@ -1129,7 +1240,9 @@ export default function Solar() {
       <div className="section">
         <Reveal className="sec-head">
           <p className="eyebrow">Our clientele</p>
-          <h2>Trusted by developers, institutions and industry</h2>
+          <h2>
+            Trusted by developers, <em>institutions and industry</em>
+          </h2>
         </Reveal>
         <Reveal className="clients">
           <img src={IMG + 'clientele.png'} alt="Logos of Helios clients including Alekhya Homes, CPWD, T-Hub, Visaka, IndianOil, Greenko and Bharat Petroleum" loading="lazy" />
@@ -1140,7 +1253,9 @@ export default function Solar() {
       <div className="section">
         <Reveal className="sec-head">
           <p className="eyebrow">Our leadership</p>
-          <h2>Experience you can rely on</h2>
+          <h2>
+            Experience you <em>can rely on</em>
+          </h2>
         </Reveal>
         <div className="leaders">
           {LEADERS.map((l, i) => (
@@ -1161,17 +1276,18 @@ export default function Solar() {
       {/* Contact */}
       <div className="contact">
         <ServiceImage src={IMG + 'band-residential.jpg'} fallback={SERVICE.fallback} alt="" />
-        <SunArt />
         <div className="contact-in">
           <Reveal>
             <p className="eyebrow">Get started</p>
-            <h2>Ready to explore solar?</h2>
+            <h2>
+              Ready to <em>explore solar?</em>
+            </h2>
             <p>Talk to our team to plan a system for your home, business or community. We will take it from site assessment to commissioning.</p>
             <div className="cta-row">
-              <Link to="/contact" className="cta">
+              <Link to="/contact" className="btn">
                 Talk to our team <Icon name="arrow" />
               </Link>
-              <a href={CONTACT.phoneHref} className="cta ghost">
+              <a href={CONTACT.phoneHref} className="btn ghost">
                 <Icon name="phone" /> {CONTACT.phone}
               </a>
             </div>
@@ -1212,6 +1328,8 @@ export default function Solar() {
           </Reveal>
         </div>
       </div>
+
+      {lb && <Lightbox items={lb.items} index={lb.index} onClose={close} onIndex={setIndex} />}
     </section>
   );
 }

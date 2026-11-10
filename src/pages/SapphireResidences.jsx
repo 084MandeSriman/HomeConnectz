@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 
 /* The project render stays where your site already keeps it:
    public/images/sapphire-residences.png                              */
 const IMAGE = '/images/sapphire-residences.png';
+
+const HERO_IMAGE = '/images/sapphire-hero.png';
 
 const PROJECT = {
   name: 'Sapphire Residences',
@@ -86,9 +89,9 @@ function Ico({ name }) {
 
 /* Tries the usual public-folder locations before giving up. */
 const BASES = ['/images/', '/images/sapphire/', '/'];
-function Image({ src, alt, className = '', eager = false, style }) {
+function Image({ src, alt, className = '', eager = false, style, fallback }) {
   const file = src.split('/').pop();
-  const options = [src, ...BASES.map((b) => b + file).filter((c) => c !== src)];
+  const options = [src, ...BASES.map((b) => b + file).filter((c) => c !== src), ...(fallback ? [fallback] : [])];
   const [n, setN] = useState(0);
   return (
     <img
@@ -163,6 +166,65 @@ function Counter({ to, duration = 1500 }) {
   return <span ref={ref}>{value}</span>;
 }
 
+/* Opens on <body> so nothing can crop it. Whole picture fits the screen; "Zoom in" lets you scroll. */
+function Lightbox({ items, index, onClose, onIndex }) {
+  const [zoom, setZoom] = useState(false);
+  const item = items[index];
+  const count = items.length;
+
+  useEffect(() => setZoom(false), [index]);
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowRight') onIndex((index + 1) % count);
+      if (e.key === 'ArrowLeft') onIndex((index - 1 + count) % count);
+    };
+    window.addEventListener('keydown', onKey);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previous;
+    };
+  }, [index, count, onClose, onIndex]);
+
+  const node = (
+    <div className="sr-lb" role="dialog" aria-modal="true" aria-label={item.alt} onClick={onClose}>
+      <style>{LB_CSS}</style>
+      <div className="sr-lb-bar" onClick={(e) => e.stopPropagation()}>
+        <span>
+          {index + 1} / {count}
+        </span>
+        <div>
+          <button type="button" onClick={() => setZoom(!zoom)}>
+            {zoom ? 'Fit to screen' : 'Zoom in'}
+          </button>
+          <button type="button" onClick={onClose} aria-label="Close">
+            ✕
+          </button>
+        </div>
+      </div>
+      <div className={`sr-lb-stage ${zoom ? 'zoom' : ''}`} onClick={zoom ? (e) => e.stopPropagation() : onClose}>
+        <Image src={item.src} alt={item.alt} eager />
+      </div>
+      <p className="sr-lb-cap" onClick={(e) => e.stopPropagation()}>
+        {item.alt}
+      </p>
+      {count > 1 && (
+        <>
+          <button type="button" className="sr-lb-nav prev" aria-label="Previous image" onClick={(e) => { e.stopPropagation(); onIndex((index - 1 + count) % count); }}>
+            ‹
+          </button>
+          <button type="button" className="sr-lb-nav next" aria-label="Next image" onClick={(e) => { e.stopPropagation(); onIndex((index + 1) % count); }}>
+            ›
+          </button>
+        </>
+      )}
+    </div>
+  );
+  return typeof document === 'undefined' ? node : createPortal(node, document.body);
+}
+
 function Heading({ eyebrow, title, children }) {
   return (
     <Reveal className="sr-head">
@@ -184,35 +246,22 @@ function Hero() {
         <span>/</span>
         <b>{PROJECT.name}</b>
       </div>
+
+      <div className="sr-intro">
+        <span className="sr-status">
+          <i />
+          {PROJECT.status} project
+        </span>
+        <p className="sr-eyebrow">Luxury apartments · Hyderabad</p>
+        <h1>
+          Sapphire <em>Residences</em>
+        </h1>
+        <p className="sr-lead">Contemporary G+11 floor apartments with a clubhouse, landscaped gardens and convenient access to key destinations.</p>
+        
+      </div>
+
       <header className="sr-hero">
-        <div className="sr-hero-copy">
-          <span className="sr-status">
-            <i />
-            {PROJECT.status} project
-          </span>
-          <p className="sr-eyebrow">Luxury apartments · Hyderabad</p>
-          <h1>
-            Sapphire <em>Residences</em>
-          </h1>
-          <p className="sr-lead">Contemporary G+11 floor apartments with a clubhouse, landscaped gardens and convenient access to key destinations.</p>
-          <div className="sr-actions">
-            <Link className="sr-btn" to="/contact">
-              Enquire about this project <Arrow />
-            </Link>
-            <a className="sr-btn ghost" href="#overview">
-              Explore the project <Arrow diagonal />
-            </a>
-          </div>
-        </div>
-        <div className="sr-hero-art">
-          <div className="sr-frame in">
-            <Image src={IMAGE} alt="Sapphire Residences apartment building rendering" eager />
-            <div className="sr-badge">
-              <strong>G+11</strong>
-              <span>Luxury apartments</span>
-            </div>
-          </div>
-        </div>
+        <Image className="sr-hero-img" src={HERO_IMAGE} fallback={IMAGE} alt="Sapphire Residences project" eager />
       </header>
 
       <div className="sr-facts">
@@ -264,12 +313,7 @@ function SectionNav() {
   );
 }
 
-function Overview() {
-  const views = [
-    ['top', 'Sky terrace and pool'],
-    ['center', 'Balconies on every floor'],
-    ['bottom', 'Grand entrance lobby'],
-  ];
+function Overview({ onOpen }) {
   return (
     <section className="sr-sec" id="overview">
       <Heading eyebrow="A new address to look forward to" title={<>Modern homes, <em>thoughtfully connected.</em></>}>
@@ -286,19 +330,14 @@ function Overview() {
           </Link>
         </Reveal>
         <Reveal className="sr-frame" delay={140}>
-          <Image src={IMAGE} alt="Sapphire Residences apartment building rendering" />
+          <button type="button" onClick={() => onOpen([{ src: IMAGE, alt: 'Sapphire Residences apartment building rendering' }], 0)} aria-label="Open Sapphire Residences image">
+            <Image src={IMAGE} alt="Sapphire Residences apartment building rendering" />
+            <span className="sr-hint">Click to enlarge</span>
+          </button>
           <span className="sr-cap">Project rendering supplied with the project information</span>
         </Reveal>
       </div>
 
-      <div className="sr-views">
-        {views.map(([pos, label], i) => (
-          <Reveal as="figure" key={pos} delay={i * 130}>
-            <Image src={IMAGE} alt={label} style={{ transformOrigin: `50% ${pos === 'top' ? '0%' : pos === 'bottom' ? '100%' : '45%'}` }} />
-            <figcaption>{label}</figcaption>
-          </Reveal>
-        ))}
-      </div>
     </section>
   );
 }
@@ -408,12 +447,17 @@ function Connectivity() {
 }
 
 export default function SapphireResidences() {
+  const [lb, setLb] = useState(null);
+  const open = useCallback((items, index) => setLb({ items, index }), []);
+  const close = useCallback(() => setLb(null), []);
+  const setIndex = useCallback((index) => setLb((st) => (st ? { ...st, index } : st)), []);
+
   return (
     <section className="section container page-top sapphire">
       <style>{CSS}</style>
       <Hero />
       <SectionNav />
-      <Overview />
+      <Overview onOpen={open} />
       <Amenities />
       <Highlights />
       <Connectivity />
@@ -439,19 +483,37 @@ export default function SapphireResidences() {
         </div>
       </section>
 
-      
       <p className="sr-legal">Project information shown is based on the material supplied. Prices, approvals, possession dates and availability were not provided; confirm all details with the developer before booking.</p>
 
       <Link className="sr-float" to="/contact">
         Enquire <Arrow />
       </Link>
+      {lb && <Lightbox items={lb.items} index={lb.index} onClose={close} onIndex={setIndex} />}
     </section>
   );
 }
 
+const LB_CSS = `
+.sr-lb{position:fixed;inset:0;z-index:99999;display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100vh;height:100dvh;background:rgba(10,20,34,.96);color:#fff;animation:sr-fade .3s ease}
+.sr-lb *{box-sizing:border-box}
+.sr-lb-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;font-size:.9rem}
+.sr-lb-bar div{display:flex;gap:10px}
+.sr-lb-bar button{padding:8px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:none;color:#fff;font:inherit;cursor:pointer}
+.sr-lb-stage{display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden;padding:0 76px}
+.sr-lb-stage img{display:block;width:auto;height:auto;max-width:100%;max-height:calc(100vh - 140px);max-height:calc(100dvh - 140px);object-fit:contain;border-radius:6px}
+.sr-lb-stage.zoom{display:block;overflow:auto;padding:0 20px;cursor:zoom-out}
+.sr-lb-stage.zoom img{max-width:none;max-height:none;width:220%;margin:0 auto}
+.sr-lb-cap{margin:0;padding:12px 20px 18px;text-align:center;color:rgba(255,255,255,.85);font-size:.9rem}
+.sr-lb-nav{position:absolute;top:50%;width:48px;height:48px;margin-top:-24px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:1.8rem;line-height:1;cursor:pointer}
+.sr-lb-nav.prev{left:14px}.sr-lb-nav.next{right:14px}
+@keyframes sr-fade{from{opacity:0}to{opacity:1}}
+@media (max-width:640px){.sr-lb-stage{padding:0 8px}.sr-lb-nav{top:auto;bottom:70px;margin-top:0;width:42px;height:42px}}
+`;
+
 const CSS = `
-.sapphire{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--gold,#b8953f);--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1);overflow-x:clip}
+.sapphire{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--gold,#b8953f);--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1)}
 .sapphire *{box-sizing:border-box}
+.sapphire button{font:inherit;color:inherit;cursor:pointer}
 .sapphire img{display:block;max-width:100%}
 .sapphire p{color:var(--mute);line-height:1.7}
 .sapphire h2{margin-bottom:12px;font-size:clamp(1.9rem,3.2vw,2.7rem);line-height:1.12}
@@ -464,33 +526,47 @@ const CSS = `
 .sapphire .sr-rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease) var(--d,0ms),transform .9s var(--ease) var(--d,0ms)}
 .sapphire .sr-rv.in{opacity:1;transform:none}
 
-.sapphire .sr-crumb{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;color:var(--mute);font-size:.88rem}
+/* page-level: lets the hero run edge to edge without a sideways scrollbar */
+html,body{overflow-x:clip}
+
+/* breadcrumb: pushed down so the fixed top bar never covers it */
+.sapphire .sr-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding-top:clamp(36px,4vw,56px);color:var(--mute);font-size:.9rem;position:relative;z-index:1}
 .sapphire .sr-crumb a,.sapphire .sr-crumb b{color:var(--ink);font-weight:600}
 
-/* hero */
-.sapphire .sr-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,6vw,84px);align-items:center;min-height:clamp(460px,48vw,600px)}
-.sapphire .sr-hero-copy>*{animation:sr-up 1s var(--ease) both}
-.sapphire .sr-hero-copy>*:nth-child(2){animation-delay:.08s}
-.sapphire .sr-hero-copy>*:nth-child(3){animation-delay:.16s}
-.sapphire .sr-hero-copy>*:nth-child(4){animation-delay:.26s}
-.sapphire .sr-hero-copy>*:nth-child(5){animation-delay:.36s}
-.sapphire .sr-status{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;color:var(--ink);font-size:.82rem;font-weight:600}
+/* intro text: centred right under the breadcrumb */
+.sapphire .sr-intro{display:flex;flex-direction:column;align-items:center;max-width:880px;margin:0 auto;padding:clamp(20px,4vw,44px) 0 clamp(30px,4vw,48px);text-align:center}
+.sapphire .sr-intro>*{animation:sr-up 1s var(--ease) both}
+.sapphire .sr-intro>*:nth-child(2){animation-delay:.08s}
+.sapphire .sr-intro>*:nth-child(3){animation-delay:.16s}
+.sapphire .sr-intro>*:nth-child(4){animation-delay:.26s}
+.sapphire .sr-intro>*:nth-child(5){animation-delay:.36s}
+.sapphire .sr-status{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6);color:var(--ink);font-size:.82rem;font-weight:600}
 .sapphire .sr-status i{width:8px;height:8px;border-radius:50%;background:var(--acc);animation:sr-pulse 2s ease-in-out infinite}
-.sapphire .sr-hero h1{margin-bottom:16px;font-size:clamp(2.9rem,6vw,5.2rem);line-height:1.02;color:var(--ink)}
-.sapphire .sr-hero h1 em{font-style:italic;color:var(--acc)}
-.sapphire .sr-lead{max-width:520px;font-size:clamp(1rem,1.4vw,1.15rem)}
-.sapphire .sr-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.sapphire .sr-intro .sr-eyebrow{margin-bottom:12px}
+.sapphire .sr-intro h1{margin-bottom:16px;font-size:clamp(3rem,7.4vw,6rem);line-height:1.02;color:var(--ink)}
+.sapphire .sr-intro h1 em{font-style:italic;color:var(--acc)}
+.sapphire .sr-lead{max-width:640px;font-size:clamp(1rem,1.5vw,1.18rem)}
+.sapphire .sr-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px}
 .sapphire .sr-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border:1.5px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff;font-weight:700;font-size:.94rem;transition:transform .3s var(--ease),box-shadow .3s}
 .sapphire .sr-btn:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(33,69,111,.28)}
 .sapphire .sr-btn.ghost{background:transparent;color:var(--ink);border-color:var(--acc)}
-.sapphire .sr-frame{position:relative;margin:0 0 0 18px}
-.sapphire .sr-frame::before{content:'';position:absolute;inset:-18px 18px 18px -18px;border:2px solid var(--acc);border-radius:26px;opacity:.6;pointer-events:none}
-.sapphire .sr-frame>img{position:relative;width:100%;aspect-ratio:4/4.3;object-fit:cover;border-radius:24px;background:rgba(33,69,111,.08)}
-.sapphire .sr-hero-art .sr-frame>img{animation:sr-float 8s ease-in-out infinite}
-.sapphire .sr-badge{position:absolute;right:-14px;bottom:30px;display:grid;padding:16px 20px;border-radius:18px;background:linear-gradient(135deg,#e6cf9f,#c9a55a);color:#1b2b40;box-shadow:0 18px 40px rgba(120,90,30,.3);animation:sr-float 5s ease-in-out infinite}
-.sapphire .sr-badge strong{font-family:var(--serif);font-size:2rem;font-weight:500;line-height:1}
-.sapphire .sr-badge span{font-size:.78rem;font-weight:600}
-.sapphire .sr-cap{position:absolute;right:12px;bottom:12px;padding:6px 10px;border-radius:8px;background:rgba(15,34,56,.72);color:#fff;font-size:.7rem}
+
+/* hero: full screen, edge to edge, no card */
+.sapphire .sr-hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:100vh;height:100svh;min-height:520px;overflow:hidden;background:rgba(33,69,111,.12)}
+.sapphire .sr-hero-img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center}
+
+/* framed picture: the image sits INSIDE the border, edge to edge, uncropped */
+.sapphire .sr-frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(184,149,63,.6);border-radius:30px;background:rgba(255,255,255,.55)}
+.sapphire .sr-frame>button{position:relative;display:block;width:100%;padding:0;border:0;background:none;border-radius:20px;overflow:hidden;cursor:zoom-in}
+.sapphire .sr-frame img{display:block;width:100%;aspect-ratio:15/16;object-fit:cover;border-radius:20px;background:rgba(33,69,111,.08)}
+.sapphire .sr-hint{position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.74rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}
+.sapphire .sr-frame>button:hover .sr-hint,.sapphire .sr-frame>button:focus-visible .sr-hint{opacity:1}
+.sapphire .sr-cap{pointer-events:none;position:absolute;right:22px;bottom:22px;padding:6px 10px;border-radius:8px;background:rgba(15,34,56,.72);color:#fff;font-size:.7rem}
+
+/* one-time entrance only: images wipe in once and then stay perfectly still */
+.sapphire .sr-hero-img{animation:sr-reveal 1.4s var(--ease) both}
+.sapphire .sr-frame img{clip-path:inset(0 0 100% 0 round 20px);transition:clip-path 1.3s var(--ease) .15s}
+.sapphire .sr-frame.in img{clip-path:inset(0 0 0 0 round 20px)}
 
 /* facts */
 .sapphire .sr-facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -508,17 +584,14 @@ const CSS = `
 .sapphire .sr-nav a.on::after{transform:scaleX(1)}
 
 /* rows */
-.sapphire .sr-row{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(30px,6vw,84px);align-items:center}
+.sapphire .sr-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:center}
+.sapphire .sr-row>*{min-width:0}
 .sapphire .sr-row.top{align-items:start}
 .sapphire .sr-count{display:block;font-family:var(--serif);font-size:clamp(4rem,9vw,7rem);line-height:1;color:var(--acc);opacity:.85}
 .sapphire .sr-row h3{font-size:clamp(1.5rem,2.4vw,2rem)}
 .sapphire .sr-row h3.gap{margin-top:34px}
 .sapphire .sr-link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding-bottom:3px;border-bottom:1.5px solid var(--acc);color:var(--ink);font-weight:700}
-.sapphire .sr-views{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.sapphire .sr-views figure{position:relative;margin:0;overflow:hidden;border-radius:20px;background:rgba(33,69,111,.08)}
-.sapphire .sr-views img{width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform .9s var(--ease);transform:scale(2.1)}
-.sapphire .sr-views figure:hover img{transform:scale(2.3)}
-.sapphire .sr-views figcaption{position:absolute;left:0;right:0;bottom:0;padding:34px 16px 14px;background:linear-gradient(transparent,rgba(15,34,56,.78));color:#fff;font-size:.88rem;font-weight:500}
+
 
 /* amenities */
 .sapphire .sr-amenities{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(30px,6vw,84px);margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
@@ -558,27 +631,16 @@ const CSS = `
 .sapphire details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
 .sapphire details p{margin:0 0 18px}
 
-/* visit */
-.sapphire .sr-visit{position:relative;display:grid;align-items:end;min-height:clamp(340px,40vw,440px);margin-top:clamp(64px,8vw,104px);overflow:hidden;border-radius:28px;background:rgba(33,69,111,.12)}
-.sapphire .sr-visit-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;animation:sr-ken 26s ease-in-out infinite alternate}
-.sapphire .sr-visit-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,34,56,.92),rgba(15,34,56,.4))}
-.sapphire .sr-visit-copy{position:relative;max-width:620px;padding:clamp(26px,5vw,56px)}
-.sapphire .sr-visit-copy .sr-eyebrow{color:#e6cf9f}
-.sapphire .sr-visit-copy h2{color:#fff}
-.sapphire .sr-visit-copy p:not(.sr-eyebrow){color:rgba(255,255,255,.9)}
-.sapphire .sr-visit .sr-btn{background:linear-gradient(135deg,#e6cf9f,#c9a55a);border-color:transparent;color:#1b2b40}
-.sapphire .sr-visit .sr-btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
 .sapphire .sr-legal{margin-top:22px;font-size:.78rem;text-align:center}
 .sapphire .sr-float{position:fixed;right:18px;bottom:18px;z-index:30;display:none;align-items:center;gap:8px;padding:13px 20px;border-radius:999px;background:var(--ink);color:#fff;font-weight:700;box-shadow:0 12px 30px rgba(15,34,56,.35)}
 
+@keyframes sr-reveal{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
 @keyframes sr-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-@keyframes sr-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes sr-pulse{0%,100%{box-shadow:0 0 0 0 rgba(184,149,63,.55)}50%{box-shadow:0 0 0 7px rgba(184,149,63,0)}}
-@keyframes sr-ken{from{transform:scale(1)}to{transform:scale(1.09)}}
 
 @media (max-width:960px){
-  .sapphire .sr-hero,.sapphire .sr-row{grid-template-columns:1fr}
-  .sapphire .sr-hero{min-height:0}
+  .sapphire .sr-row{grid-template-columns:1fr}
+  .sapphire .sr-hero{height:auto;min-height:0;aspect-ratio:16/9;max-height:80vh;max-height:80svh}
   .sapphire .sr-facts{grid-template-columns:1fr 1fr}
   .sapphire .sr-facts>div:nth-child(3){border-left:0}
   .sapphire .sr-facts>div:nth-child(n+3){border-top:1px solid var(--line)}
@@ -587,9 +649,15 @@ const CSS = `
 }
 @media (max-width:640px){
   .sapphire .sr-nav{top:76px;gap:22px}
-  .sapphire .sr-views{grid-template-columns:1fr}
-  .sapphire .sr-views img{aspect-ratio:16/10}
-  .sapphire .sr-frame{margin:0 0 0 12px}
+  .sapphire .sr-hero{aspect-ratio:4/3}
+  .sapphire .sr-hero-img{object-position:52% center}
+  .sapphire .sr-intro{padding-left:6px;padding-right:6px}
+  .sapphire .sr-intro h1{font-size:clamp(2.6rem,13vw,3.4rem)}
+  .sapphire .sr-actions{width:100%}
+  .sapphire .sr-actions .sr-btn{flex:1 1 100%;justify-content:center}
+  .sapphire .sr-frame{padding:7px;border-radius:24px}
+  .sapphire .sr-frame img{border-radius:17px;clip-path:inset(0 0 100% 0 round 17px)}
+  .sapphire .sr-frame.in img{clip-path:inset(0 0 0 0 round 17px)}
 }
 @media (prefers-reduced-motion:reduce){
   .sapphire *{animation:none!important;transition:none!important}

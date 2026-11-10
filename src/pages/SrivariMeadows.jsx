@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 
 /* ------------------------------------------------------------------ */
@@ -49,7 +50,7 @@ const GLANCE = [
   ['Built-up area', PROJECT.size],
   ['Facing', 'East and West'],
   ['Vaastu', '100% compliant'],
-  ['Road width', "33 ft and 40 ft internal roads"],
+  ['Road width', '33 ft and 40 ft internal roads'],
   ['TG-RERA', PROJECT.rera],
   ['HMDA layout permit', PROJECT.hmda],
   ['Developer', PROJECT.developer],
@@ -311,7 +312,6 @@ function Arrow({ diagonal = false }) {
   );
 }
 
-
 /* Tries the usual public-folder locations before giving up, so a slightly
    different folder layout still shows every picture. */
 function Image({ src, alt, className = '', eager = false }) {
@@ -394,6 +394,8 @@ function Counter({ to, duration = 1600 }) {
   return <span ref={ref}>{value}</span>;
 }
 
+/* Rendered in a portal on <body> so no parent (transform, overflow, sticky nav)
+   can crop it. The whole picture is always shown; "Zoom in" lets you scroll. */
 function Lightbox({ items, index, onClose, onIndex }) {
   const [zoom, setZoom] = useState(false);
   const item = items[index];
@@ -415,8 +417,9 @@ function Lightbox({ items, index, onClose, onIndex }) {
     };
   }, [index, count, onClose, onIndex]);
 
-  return (
+  const node = (
     <div className="sm-lb" role="dialog" aria-modal="true" aria-label={item.alt} onClick={onClose}>
+      <style>{LB_CSS}</style>
       <div className="sm-lb-bar" onClick={(e) => e.stopPropagation()}>
         <span>
           {index + 1} / {count}
@@ -430,8 +433,8 @@ function Lightbox({ items, index, onClose, onIndex }) {
           </button>
         </div>
       </div>
-      <div className={`sm-lb-stage ${zoom ? 'zoom' : ''}`} onClick={(e) => e.stopPropagation()}>
-        <Image src={item.src} alt={item.alt} />
+      <div className={`sm-lb-stage ${zoom ? 'zoom' : ''}`} onClick={zoom ? (e) => e.stopPropagation() : onClose}>
+        <Image src={item.src} alt={item.alt} eager />
       </div>
       <p className="sm-lb-cap" onClick={(e) => e.stopPropagation()}>
         {item.alt}
@@ -448,6 +451,7 @@ function Lightbox({ items, index, onClose, onIndex }) {
       )}
     </div>
   );
+  return typeof document === 'undefined' ? node : createPortal(node, document.body);
 }
 
 function Heading({ eyebrow, title, children }) {
@@ -489,30 +493,22 @@ function Hero() {
         <span>/</span>
         <b>{PROJECT.name}</b>
       </div>
+      <div className="sm-intro">
+        <span className="sm-status">
+          <i />
+          {PROJECT.status}
+        </span>
+        <p className="sm-eyebrow">Luxury villas · Mokila, Hyderabad</p>
+        <h1>
+          Srivari <em>Meadows</em>
+        </h1>
+        <p className="sm-lede">Live like royalty in the home of your dreams. A ready-to-move gated villa community of 117 villas on 14 acres.</p>
+        
+      </div>
       <header className="sm-hero">
         {HERO_SLIDES.map((s, i) => (
           <Image key={s.src} src={s.src} alt={i === slide ? s.alt : ''} className={`sm-hero-img ${i === slide ? 'on' : ''}`} eager={i === 0} />
         ))}
-        <div className="sm-hero-shade" />
-        <div className="sm-hero-copy">
-          <span className="sm-status">
-            <i />
-            {PROJECT.status}
-          </span>
-          <p className="sm-eyebrow">Luxury villas · Mokila, Hyderabad</p>
-          <h1>
-            Srivari <em>Meadows</em>
-          </h1>
-          <p>Live like royalty in the home of your dreams. A ready-to-move gated villa community of 117 villas on 14 acres.</p>
-          <div className="sm-actions">
-            <Link className="sm-btn" to="/contact">
-              Book a site visit <Arrow />
-            </Link>
-            <a className="sm-btn ghost" href="#overview">
-              Explore the project <Arrow diagonal />
-            </a>
-          </div>
-        </div>
         <div className="sm-dots" role="tablist" aria-label="Hero images">
           {HERO_SLIDES.map((s, i) => (
             <button key={s.src} type="button" role="tab" aria-selected={i === slide} aria-label={`Show image ${i + 1}`} className={i === slide ? 'on' : ''} onClick={() => setSlide(i)} />
@@ -574,7 +570,7 @@ function SectionNav() {
   );
 }
 
-function Overview() {
+function Overview({ onOpen }) {
   return (
     <section className="sm-sec" id="overview">
       <Heading eyebrow="A home with room to grow" title={<>Space, privacy and a <em>ready-made community.</em></>}>
@@ -595,7 +591,10 @@ function Overview() {
       {STORY.map((s, i) => (
         <div className={`sm-row ${i % 2 ? 'flip' : ''}`} key={s.title}>
           <Reveal className="sm-frame">
-            <Image src={IMG + s.image} alt={s.alt} />
+            <button type="button" onClick={() => onOpen([{ src: IMG + s.image, alt: s.alt }], 0)} aria-label={`Open image: ${s.alt}`}>
+              <Image src={IMG + s.image} alt={s.alt} />
+              <span className="sm-hint">Enlarge</span>
+            </button>
           </Reveal>
           <Reveal delay={140}>
             <p className="sm-eyebrow">{s.eyebrow}</p>
@@ -785,8 +784,8 @@ function MasterPlan({ onOpen }) {
       <Heading eyebrow="The community" title="Your own little universe.">
         <p>Designed to meet your every need, with easy access to offices, IT parks, international schools and colleges.</p>
       </Heading>
-      <div className="sm-row">
-        <Reveal className="sm-frame">
+      <div className="sm-row top">
+        <Reveal className="sm-frame contain">
           <button type="button" onClick={() => onOpen([{ src: IMG + 'masterplan.jpg', alt: 'Srivari Meadows master plan with plot numbers' }], 0)} aria-label="Open Srivari Meadows master plan">
             <Image src={IMG + 'masterplan.jpg'} alt="Srivari Meadows community master plan" />
             <span className="sm-hint">View master plan</span>
@@ -810,15 +809,19 @@ function MasterPlan({ onOpen }) {
         </Reveal>
       </div>
 
-      <Reveal className="sm-wide">
-        <Image src={IMG + 'aerial-top.jpg'} alt="Top view of Srivari Meadows with 117 villas and the club house" />
+      <Reveal as="figure" className="sm-wide">
+        <button type="button" onClick={() => onOpen([{ src: IMG + 'aerial-top.jpg', alt: 'Top view of Srivari Meadows with 117 villas and the club house' }], 0)} aria-label="Open top view image">
+          <Image src={IMG + 'aerial-top.jpg'} alt="Top view of Srivari Meadows with 117 villas and the club house" />
+        </button>
         <figcaption>
           <h3>Srivari Meadows sets a high bar</h3>
           <p>Conceived and executed to offer amenities which surpass the best in the market, with your comfort in mind. Verdant nature has played an active role in its appeal.</p>
         </figcaption>
       </Reveal>
-      <Reveal className="sm-wide plain">
-        <Image src={IMG + 'aerial.jpg'} alt="Aerial view of the villas, clubhouse and main road" />
+      <Reveal as="figure" className="sm-wide plain">
+        <button type="button" onClick={() => onOpen([{ src: IMG + 'aerial.jpg', alt: 'Aerial view of the villas, clubhouse and main road' }], 0)} aria-label="Open aerial view image">
+          <Image src={IMG + 'aerial.jpg'} alt="Aerial view of the villas, clubhouse and main road" />
+        </button>
       </Reveal>
     </section>
   );
@@ -863,8 +866,8 @@ function Location({ onOpen, mapQuery }) {
       <Heading eyebrow="Mokila, Hyderabad" title="Far from the noisy city, within its easy reach.">
         <p>Enjoy peace and tranquillity amid green surroundings, with the Outer Ring Road taking you to any destination in minutes. The community abuts the 150-feet wide Hyderabad–Shankarpally road, 15 km from the upcoming Neopolis financial district.</p>
       </Heading>
-      <div className="sm-row">
-        <Reveal className="sm-frame">
+      <div className="sm-row top">
+        <Reveal className="sm-frame contain">
           <button type="button" onClick={() => onOpen([{ src: IMG + 'location-map.jpg', alt: 'Location map of Srivari Meadows near the Outer Ring Road' }], 0)} aria-label="Open location map">
             <Image src={IMG + 'location-map.jpg'} alt="Location map showing Srivari Meadows near the Outer Ring Road" />
             <span className="sm-hint">Enlarge map</span>
@@ -955,7 +958,7 @@ export default function SrivariMeadows() {
       <style>{CSS}</style>
       <Hero />
       <SectionNav />
-      <Overview />
+      <Overview onOpen={open} />
       <Gallery onOpen={open} />
       <Villas onOpen={open} />
       <Amenities onOpen={open} />
@@ -985,7 +988,6 @@ export default function SrivariMeadows() {
         </div>
       </section>
 
-      
       <p className="sm-legal">
         Developed by {PROJECT.developer} · TG-RERA {PROJECT.rera} · HMDA layout permit {PROJECT.hmda} · Price is indicative and subject to change. This page is a conceptual presentation of the project and not a legal offering.
       </p>
@@ -998,8 +1000,30 @@ export default function SrivariMeadows() {
   );
 }
 
+/* Lightbox styles live separately because the lightbox renders on <body>,
+   outside the .srivari wrapper. */
+const LB_CSS = `
+.sm-lb{position:fixed;inset:0;z-index:99999;display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100vh;height:100dvh;background:rgba(10,20,34,.96);color:#fff;animation:sm-fade .3s ease}
+.sm-lb *{box-sizing:border-box}
+.sm-lb-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;font-size:.9rem}
+.sm-lb-bar div{display:flex;gap:10px}
+.sm-lb-bar button{padding:8px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:none;color:#fff;font:inherit;cursor:pointer}
+.sm-lb-stage{display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden;padding:0 76px}
+.sm-lb-stage img{display:block;width:auto;height:auto;max-width:100%;max-height:calc(100vh - 140px);max-height:calc(100dvh - 140px);object-fit:contain;border-radius:6px;background:#fff}
+.sm-lb-stage.zoom{display:block;overflow:auto;padding:0 20px;cursor:zoom-out}
+.sm-lb-stage.zoom img{max-width:none;max-height:none;width:220%;margin:0 auto}
+.sm-lb-cap{margin:0;padding:12px 20px 18px;text-align:center;color:rgba(255,255,255,.85);font-size:.9rem}
+.sm-lb-nav{position:absolute;top:50%;width:48px;height:48px;margin-top:-24px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:1.8rem;line-height:1;cursor:pointer}
+.sm-lb-nav.prev{left:14px}.sm-lb-nav.next{right:14px}
+@keyframes sm-fade{from{opacity:0}to{opacity:1}}
+@media (max-width:640px){
+  .sm-lb-stage{padding:0 8px}
+  .sm-lb-nav{top:auto;bottom:70px;margin-top:0;width:42px;height:42px}
+}
+`;
+
 const CSS = `
-.srivari{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--gold,#b8953f);--night:var(--deep,#0f2238);--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1);overflow-x:clip}
+.srivari{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--gold,#b8953f);--night:var(--deep,#0f2238);--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1)}
 .srivari *{box-sizing:border-box}
 .srivari img{display:block;max-width:100%}
 .srivari button{font:inherit;color:inherit;cursor:pointer}
@@ -1017,28 +1041,33 @@ const CSS = `
 .srivari .sm-rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease) var(--d,0ms),transform .9s var(--ease) var(--d,0ms)}
 .srivari .sm-rv.in{opacity:1;transform:none}
 
-/* crumb + hero */
-.srivari .sm-crumb{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;color:var(--mute);font-size:.88rem}
+/* breadcrumb: pushed down so the fixed top bar never covers it */
+.srivari .sm-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding-top:clamp(36px,4vw,56px);color:var(--mute);font-size:.9rem;position:relative;z-index:1}
 .srivari .sm-crumb a{color:var(--ink);font-weight:600}
-.srivari .sm-crumb b{color:var(--ink);font-weight:600}
-.srivari .sm-hero{position:relative;min-height:clamp(460px,56vw,640px);overflow:hidden;border-radius:28px;background:rgba(33,69,111,.12)}
-.srivari .sm-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease}
-.srivari .sm-hero-img.on{opacity:1;animation:sm-ken 24s ease-in-out infinite alternate}
-.srivari .sm-hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,34,56,.9),rgba(15,34,56,.55) 55%,rgba(15,34,56,.08))}
-.srivari .sm-hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.12) 50%,transparent 58%);transform:translateX(-120%);animation:sm-sheen 9s ease-in-out 1.5s infinite}
-.srivari .sm-hero-copy{position:absolute;left:clamp(24px,6vw,72px);bottom:clamp(54px,7vw,80px);z-index:2;max-width:680px;color:#fff}
-.srivari .sm-hero-copy .sm-eyebrow{color:#e6cf9f}
-.srivari .sm-hero h1{margin-bottom:14px;color:#fff;font-size:clamp(2.9rem,6.4vw,5.2rem);line-height:1.02}
-.srivari .sm-hero h1 em{font-style:italic;color:#e6cf9f}
-.srivari .sm-hero-copy>p{color:rgba(255,255,255,.9);font-size:clamp(1rem,1.5vw,1.15rem)}
-.srivari .sm-status{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;padding:7px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.1);backdrop-filter:blur(6px);color:#fff;font-size:.82rem;font-weight:600}
-.srivari .sm-status i{width:8px;height:8px;border-radius:50%;background:#58d68d;animation:sm-pulse 2s ease-in-out infinite}
-.srivari .sm-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.srivari .sm-crumb b{color:var(--ink);font-weight:700}
+
+/* page-level: lets the hero run edge to edge without a sideways scrollbar */
+html,body{overflow-x:clip}
+
+/* intro text: centred right under the breadcrumb */
+.srivari .sm-intro{display:flex;flex-direction:column;align-items:center;max-width:880px;margin:0 auto;padding:clamp(20px,4vw,44px) 0 clamp(30px,4vw,48px);text-align:center}
+.srivari .sm-intro .sm-eyebrow{margin-bottom:12px}
+.srivari .sm-intro h1{margin-bottom:16px;color:var(--ink);font-size:clamp(3rem,7.4vw,6rem);line-height:1.02}
+.srivari .sm-intro h1 em{font-style:italic;color:var(--acc)}
+.srivari .sm-lede{max-width:680px;font-size:clamp(1rem,1.5vw,1.18rem)}
+.srivari .sm-status{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6);color:var(--ink);font-size:.82rem;font-weight:600}
+.srivari .sm-status i{width:8px;height:8px;border-radius:50%;background:#2fb36b;animation:sm-pulse 2s ease-in-out infinite}
+.srivari .sm-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px}
 .srivari .sm-btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border:1px solid transparent;border-radius:999px;background:linear-gradient(135deg,#e6cf9f,#c9a55a);color:#1b2b40;font-weight:700;font-size:.94rem;transition:transform .3s var(--ease),box-shadow .3s}
-.srivari .sm-btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.25)}
-.srivari .sm-btn.ghost{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.08);color:#fff}
-.srivari .sm-dots{position:absolute;right:clamp(20px,4vw,48px);bottom:clamp(24px,4vw,40px);z-index:3;display:flex;gap:8px}
-.srivari .sm-dots button{width:34px;height:3px;padding:0;border:0;border-radius:3px;background:rgba(255,255,255,.35);transition:background .3s,width .3s}
+.srivari .sm-btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.2)}
+.srivari .sm-btn.ghost{border-color:var(--ink);background:transparent;color:var(--ink)}
+
+/* hero: full screen, edge to edge, no card */
+.srivari .sm-hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:100vh;height:100svh;min-height:520px;overflow:hidden;background:rgba(33,69,111,.12)}
+.srivari .sm-hero-img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;opacity:0;transition:opacity 1.4s ease}
+.srivari .sm-hero-img.on{opacity:1;animation:sm-ken 24s ease-in-out infinite alternate}
+.srivari .sm-dots{position:absolute;left:50%;bottom:clamp(20px,3vw,34px);z-index:3;display:flex;gap:8px;transform:translateX(-50%)}
+.srivari .sm-dots button{width:34px;height:3px;padding:0;border:0;border-radius:3px;background:rgba(255,255,255,.5);transition:background .3s,width .3s}
 .srivari .sm-dots button.on{width:52px;background:#e6cf9f}
 
 /* facts */
@@ -1048,7 +1077,7 @@ const CSS = `
 .srivari .sm-facts strong{display:block;font-family:var(--serif);font-size:clamp(2rem,3.6vw,3rem);font-weight:500;line-height:1;color:var(--ink)}
 .srivari .sm-facts>div>span{display:block;margin-top:8px;color:var(--mute);font-size:.92rem}
 
-/* section nav (plain text, no band) */
+/* section nav */
 .srivari .sm-nav{position:sticky;top:84px;z-index:20;display:flex;gap:30px;overflow:auto;margin-top:26px;padding:12px 4px;border-bottom:1px solid var(--line);scrollbar-width:none;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 .srivari .sm-nav::-webkit-scrollbar{display:none}
 .srivari .sm-nav a{position:relative;flex:none;padding:4px 0;color:var(--mute);font-size:.92rem;font-weight:500;transition:color .3s}
@@ -1062,13 +1091,19 @@ const CSS = `
 .srivari .sm-points strong{display:block;font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:500;line-height:1.05;color:var(--ink)}
 .srivari .sm-points small{font-family:inherit;font-size:.9rem;font-weight:500;color:var(--acc)}
 .srivari .sm-points p{margin-top:8px;font-size:.92rem}
-.srivari .sm-row{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(30px,6vw,84px);align-items:center}
+.srivari .sm-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:center}
+.srivari .sm-row.top{align-items:start}
+.srivari .sm-row>*{min-width:0}
 .srivari .sm-row.flip>:first-child{order:2}
-.srivari .sm-frame{position:relative;margin:0 0 0 18px}
-.srivari .sm-frame::before{content:'';position:absolute;inset:-18px 18px 18px -18px;border:2px solid var(--acc);border-radius:26px;opacity:.6;pointer-events:none}
-.srivari .sm-frame img{position:relative;width:100%;aspect-ratio:4/3.2;object-fit:cover;border-radius:24px;background:rgba(33,69,111,.08)}
-.srivari .sm-frame>button{position:relative;display:block;width:100%;padding:0;border:0;background:none;overflow:visible}
-.srivari .sm-row.flip .sm-frame{margin:0 18px 0 0}
+
+/* image frame: the picture sits INSIDE the border, edge to edge */
+.srivari .sm-frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(184,149,63,.6);border-radius:30px;background:rgba(255,255,255,.55)}
+.srivari .sm-frame>button{position:relative;display:block;width:100%;padding:0;border:0;background:none;border-radius:20px;overflow:hidden}
+.srivari .sm-frame img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;background:rgba(33,69,111,.08)}
+.srivari .sm-frame.contain img{aspect-ratio:auto;height:auto;object-fit:contain;background:#fff}
+.srivari .sm-frame.in{opacity:1}
+.srivari .sm-frame .sm-hint{top:22px;right:22px}
+
 .srivari .sm-ticks{display:grid;gap:11px;margin:18px 0 0;padding:0;list-style:none}
 .srivari .sm-ticks.two{grid-template-columns:1fr 1fr;gap:11px 22px}
 .srivari .sm-ticks li{position:relative;padding-left:32px;color:var(--ink);font-weight:500;line-height:1.5}
@@ -1082,7 +1117,7 @@ const CSS = `
 .srivari dt{color:var(--mute)}
 .srivari dd{margin:0;color:var(--ink);font-weight:600;text-align:right}
 
-/* tabs (text with underline, no pills) */
+/* tabs */
 .srivari .sm-tabs{display:flex;flex-wrap:wrap;gap:6px 28px;margin-bottom:-6px;border-bottom:1px solid var(--line)}
 .srivari .sm-tabs button{position:relative;display:grid;gap:2px;padding:10px 0 14px;border:0;background:none;color:var(--mute);font-weight:600;text-align:left;transition:color .3s}
 .srivari .sm-tabs button small{color:var(--mute);font-size:.76rem;font-weight:500}
@@ -1114,9 +1149,10 @@ const CSS = `
 .srivari .sm-floors span{color:var(--mute);font-size:.92rem;line-height:1.55}
 .srivari .sm-planbar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 30px;margin-top:20px}
 .srivari .sm-planbar .sm-tabs{border:0}
-.srivari .sm-plan{position:relative;display:block;width:100%;padding:0;border:0;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 18px 50px rgba(15,34,56,.08);animation:sm-pop .8s var(--ease) both}
-.srivari .sm-plan img{width:100%;height:auto}
-.srivari .sm-hint{position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.74rem;font-weight:600;opacity:0;transition:opacity .3s}
+.srivari .sm-plan{position:relative;display:block;width:100%;padding:12px;border:1.5px solid rgba(184,149,63,.6);border-radius:28px;overflow:hidden;background:#fff;animation:sm-pop .8s var(--ease) both}
+.srivari .sm-plan img{width:100%;height:auto;border-radius:18px}
+.srivari .sm-hint{position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.74rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}
+.srivari .sm-plan .sm-hint{top:24px;right:24px}
 .srivari .sm-plan:hover .sm-hint,.srivari .sm-frame button:hover .sm-hint{opacity:1}
 
 /* amenities */
@@ -1138,17 +1174,19 @@ const CSS = `
 .srivari .sm-pics.n4 .p2,.srivari .sm-pics.n4 .p3,.srivari .sm-pics.n5 .p2,.srivari .sm-pics.n5 .p3{grid-column:span 2}
 .srivari .sm-pics.n4 .p4{grid-column:span 6}
 
-/* master plan, wide images */
+/* master plan */
 .srivari .sm-legend{display:grid;margin:0 0 26px;padding:0;list-style:none}
 .srivari .sm-legend li{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink)}
 .srivari .sm-legend b{display:grid;place-items:center;width:30px;height:30px;border:1.5px solid var(--acc);border-radius:50%;color:var(--acc);font-size:.76rem}
 .srivari .sm-link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;color:var(--ink);font-weight:700;border-bottom:1.5px solid var(--acc);padding-bottom:3px}
-.srivari .sm-wide{position:relative;margin:0}
-.srivari .sm-wide img{width:100%;max-height:560px;object-fit:cover;border-radius:26px;background:rgba(33,69,111,.08)}
-.srivari .sm-wide figcaption{position:absolute;inset:auto 0 0 0;max-width:640px;padding:clamp(22px,4vw,44px);color:#fff;background:linear-gradient(0deg,rgba(15,34,56,.92) 15%,rgba(15,34,56,.55) 60%,transparent);border-radius:0 0 26px 26px;max-width:none;padding-top:90px}
+
+/* wide images: shown in full, never cropped */
+.srivari .sm-wide{position:relative;margin:0;padding:10px;border:1.5px solid rgba(184,149,63,.6);border-radius:30px;background:rgba(255,255,255,.55)}
+.srivari .sm-wide>button{display:block;width:100%;padding:0;border:0;background:none;border-radius:20px;overflow:hidden}
+.srivari .sm-wide img{width:100%;height:auto;border-radius:20px;background:rgba(33,69,111,.08)}
+.srivari .sm-wide figcaption{position:absolute;left:10px;right:10px;bottom:10px;padding:90px clamp(22px,4vw,44px) clamp(20px,3vw,36px);color:#fff;background:linear-gradient(0deg,rgba(15,34,56,.92) 15%,rgba(15,34,56,.55) 60%,transparent);border-radius:0 0 20px 20px;pointer-events:none}
 .srivari .sm-wide figcaption h3{color:#fff}
-.srivari .sm-wide figcaption p{max-width:620px;color:rgba(255,255,255,.88)}
-.srivari .sm-wide.plain img{max-height:none}
+.srivari .sm-wide figcaption p{max-width:620px;margin:0;color:rgba(255,255,255,.9)}
 
 /* specs */
 .srivari .sm-spec{border-bottom:1px solid var(--line)}
@@ -1177,7 +1215,6 @@ const CSS = `
 .srivari .sm-access p{font-size:.94rem;line-height:1.9}
 .srivari .sm-map{overflow:hidden;border-radius:26px}
 .srivari .sm-map iframe{display:block;width:100%;height:clamp(300px,40vw,440px);border:0}
-.srivari .sm-frame.in{opacity:1}
 
 /* developer */
 .srivari .sm-logo{max-width:230px;height:auto;mix-blend-mode:multiply}
@@ -1198,38 +1235,15 @@ const CSS = `
 .srivari summary::after{content:'+';position:absolute;right:4px;top:50%;transform:translateY(-50%);color:var(--acc);font-size:1.5rem;transition:transform .3s}
 .srivari details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
 .srivari details p{margin:0 0 18px}
-
-/* visit */
-.srivari .sm-visit{position:relative;display:grid;align-items:end;min-height:clamp(340px,40vw,440px);margin-top:clamp(64px,8vw,104px);overflow:hidden;border-radius:28px;background:rgba(33,69,111,.12)}
-.srivari .sm-visit-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:sm-ken 26s ease-in-out infinite alternate}
-.srivari .sm-visit-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,34,56,.9),rgba(15,34,56,.35))}
-.srivari .sm-visit-copy{position:relative;max-width:620px;padding:clamp(26px,5vw,56px);color:#fff}
-.srivari .sm-visit-copy .sm-eyebrow{color:#e6cf9f}
-.srivari .sm-visit-copy h2{color:#fff}
-.srivari .sm-visit-copy p{color:rgba(255,255,255,.9)}
 .srivari .sm-legal{margin-top:22px;font-size:.78rem;text-align:center}
 
 /* floating button */
 .srivari .sm-float{position:fixed;right:18px;bottom:18px;z-index:30;display:none;align-items:center;gap:8px;padding:13px 20px;border-radius:999px;background:var(--ink);color:#fff;font-weight:700;box-shadow:0 12px 30px rgba(15,34,56,.35)}
 
-/* lightbox */
-.sm-lb{position:fixed;inset:0;z-index:9999;display:grid;grid-template-rows:auto 1fr auto;background:rgba(10,20,34,.94);color:#fff;animation:sm-fade .3s ease}
-.sm-lb-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;font-size:.9rem}
-.sm-lb-bar div{display:flex;gap:10px}
-.sm-lb-bar button{padding:8px 14px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:none;color:#fff;cursor:pointer}
-.sm-lb-stage{display:grid;place-items:center;min-height:0;overflow:hidden;padding:0 70px}
-.sm-lb-stage img{max-width:100%;max-height:100%;object-fit:contain;transition:transform .35s}
-.sm-lb-stage.zoom{overflow:auto;place-items:start center;cursor:zoom-out}
-.sm-lb-stage.zoom img{max-width:none;max-height:none;width:200%}
-.sm-lb-cap{margin:0;padding:12px 20px 18px;text-align:center;color:rgba(255,255,255,.85);font-size:.9rem}
-.sm-lb-nav{position:absolute;top:50%;width:48px;height:48px;margin-top:-24px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:1.8rem;line-height:1;cursor:pointer}
-.sm-lb-nav.prev{left:14px}.sm-lb-nav.next{right:14px}
-
 @keyframes sm-ken{from{transform:scale(1)}to{transform:scale(1.09)}}
 @keyframes sm-sheen{0%,60%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
 @keyframes sm-pulse{0%,100%{box-shadow:0 0 0 0 rgba(88,214,141,.6)}50%{box-shadow:0 0 0 7px rgba(88,214,141,0)}}
 @keyframes sm-pop{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
-@keyframes sm-fade{from{opacity:0}to{opacity:1}}
 
 @media (max-width:960px){
   .srivari .sm-facts,.srivari .sm-points{grid-template-columns:1fr 1fr}
@@ -1242,11 +1256,16 @@ const CSS = `
   .srivari .sm-tile:nth-child(7n+1){grid-column:span 2;grid-row:span 1}
   .srivari .sm-access{grid-template-columns:1fr}
   .srivari .sm-float{display:inline-flex}
+  .srivari .sm-hero{height:auto;min-height:0;aspect-ratio:16/11;max-height:80vh;max-height:80svh}
 }
 @media (max-width:640px){
   .srivari .sm-nav{top:76px;gap:22px}
-  .srivari .sm-hero{min-height:520px}
-  .srivari .sm-hero-copy{left:22px;right:22px;bottom:64px}
+  .srivari .sm-hero{height:auto;min-height:0;aspect-ratio:4/5;max-height:80vh;max-height:80svh}
+  .srivari .sm-hero-img{object-position:center}
+  .srivari .sm-intro{padding-left:6px;padding-right:6px}
+  .srivari .sm-intro h1{font-size:clamp(2.6rem,13vw,3.4rem)}
+  .srivari .sm-actions{width:100%}
+  .srivari .sm-actions .sm-btn{flex:1 1 100%;justify-content:center}
   .srivari .sm-ticks.two{grid-template-columns:1fr}
   .srivari .sm-spec-body dl>div{grid-template-columns:1fr;gap:4px}
   .srivari .sm-spec-body>dl{margin-left:0}
@@ -1254,11 +1273,15 @@ const CSS = `
   .srivari .sm-pics{grid-template-columns:repeat(2,1fr)}
   .srivari .sm-pics button{grid-column:span 1!important;grid-row:span 1!important}
   .srivari .sm-pics .p1{grid-column:span 2!important}
-  .srivari .sm-lb-stage{padding:0 8px}
-  .srivari .sm-frame{margin:0 0 0 12px}
+  .srivari .sm-frame,.srivari .sm-wide{padding:7px;border-radius:24px}
+  .srivari .sm-frame>button,.srivari .sm-frame img,.srivari .sm-wide>button,.srivari .sm-wide img{border-radius:17px}
+  .srivari .sm-wide figcaption{position:static;padding:18px 6px 6px;background:none;color:var(--ink)}
+  .srivari .sm-wide figcaption h3{color:var(--ink)}
+  .srivari .sm-wide figcaption p{color:var(--mute)}
+  .srivari .sm-plan{padding:7px;border-radius:22px}
 }
 @media (prefers-reduced-motion:reduce){
-  .srivari *,.sm-lb{animation:none!important;transition:none!important}
+  .srivari *{animation:none!important;transition:none!important}
   .srivari .sm-rv{opacity:1;transform:none}
 }
 `;
