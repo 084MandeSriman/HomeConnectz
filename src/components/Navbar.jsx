@@ -87,9 +87,9 @@ export function Navbar() {
         {label}<Icon name="down" size={15} stroke={2} />
       </button>
       <div id={`${name}-menu`} className="nav-dropdown-menu">
-        {items.map((item) => (
-          <Link key={item.to} to={item.to}>{item.label}</Link>
-        ))}
+      {items.map((item) => (
+        <Link key={item.to} to={item.to}>{item.label}</Link>
+      ))}
       </div>
     </div>
   );

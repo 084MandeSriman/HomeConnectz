@@ -36,16 +36,31 @@ function ProjectCard({ p }) {
   );
 }
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ status: selectedStatus, type: selectedType, onFiltersChange }) {
   const [city, setCity] = useState('Hyderabad');
-  const [status, setStatus] = useState('completed');
-  const [type, setType] = useState('all');
+  const [localStatus, setLocalStatus] = useState('completed');
+  const [localType, setLocalType] = useState('all');
   const [start, setStart] = useState(0);
 
+  const status = selectedStatus ?? localStatus;
+  const type = selectedType ?? localType;
   const list = projects.filter((p) => p.city === city && p.status === status && (type === 'all' || p.type === type));
   const ordered = list.map((_, n) => list[(n + start) % list.length]);
   const move = (dir) => setStart((c) => (list.length ? (c + dir + list.length) % list.length : 0));
   const cur = statuses.find((x) => x.key === status);
+  const changeStatus = (next) => {
+    setStart(0);
+    if (onFiltersChange) onFiltersChange(next, 'all');
+    else {
+      setLocalStatus(next);
+      setLocalType('all');
+    }
+  };
+  const changeType = (next) => {
+    setStart(0);
+    if (onFiltersChange) onFiltersChange(status, next);
+    else setLocalType(next);
+  };
 
   return (
     <section className="sp-section" id="projects">
@@ -59,7 +74,12 @@ export default function ProjectsSection() {
           {CITIES.map((c) => (
             <button key={c} type="button" role="tab" aria-selected={city === c}
               className={city === c ? 'on' : ''}
-              onClick={() => { setCity(c); setType('all'); setStart(0); }}>
+              onClick={() => {
+                setCity(c);
+                setStart(0);
+                if (onFiltersChange) onFiltersChange(status, 'all');
+                else setLocalType('all');
+              }}>
               <Icon name="pin" size={16} /> {c}
             </button>
           ))}
@@ -69,7 +89,7 @@ export default function ProjectsSection() {
           {statuses.map((x) => (
             <button key={x.key} type="button" role="tab" aria-selected={status === x.key}
               className={status === x.key ? 'on' : ''}
-              onClick={() => { setStatus(x.key); setType('all'); setStart(0); }}>
+              onClick={() => changeStatus(x.key)}>
               {x.label}
             </button>
           ))}
@@ -78,7 +98,7 @@ export default function ProjectsSection() {
         <div className="sp-types" role="tablist" aria-label="Project type">
           {TYPES.map(([key, label]) => (
             <button key={key} type="button" role="tab" aria-selected={type === key}
-              className={type === key ? 'on' : ''} onClick={() => { setType(key); setStart(0); }}>
+              className={type === key ? 'on' : ''} onClick={() => changeType(key)}>
               {label}
             </button>
           ))}
@@ -106,7 +126,7 @@ export default function ProjectsSection() {
         )}
 
         <div className="center sp-more-link">
-          <Link to={`/projects?status=${status}`} className="btn btn-dark">View all projects</Link>
+          <Link to={`/projects?status=${status}&type=${type}`} className="btn btn-dark">View all projects</Link>
         </div>
       </div>
     </section>
