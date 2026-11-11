@@ -34,7 +34,7 @@ export const SERVICE = {
   title: 'Granite',
   tagline: 'Surfaces that last',
   icon: 'layers',
-  image: 'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=2000&q=75',
+  image: '/images/services/cards/granite.jpg',
   fallback: '/images/services/granite.svg',
   summary:
     'Premium Black Pearl and Steel Grey granite slabs, supplied in bulk with transport, loading and mining charges already included in the rate.',
@@ -99,6 +99,14 @@ const CSS = `
 .granite-page .granite-intro{max-width:none;margin:0 auto clamp(28px,4vw,48px);text-align:center}
 .granite-page .granite-intro h1{margin:0;font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(2.1rem,3.6vw,3rem);line-height:1.15;color:var(--navy)}
 .granite-page .granite-intro p{max-width:none;margin:12px auto 0;color:var(--g-muted);font-size:1rem;line-height:1.65;letter-spacing:.01em}
+.granite-page .granite-contacts{max-width:980px;margin:clamp(36px,6vw,72px) auto 0;padding:clamp(22px,4vw,36px);border:1px solid var(--g-line);border-radius:18px;background:rgba(255,255,255,.62);text-align:center}
+.granite-page .granite-contact-eyebrow{color:var(--g-gold);font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.granite-page .granite-contacts h2{margin-top:5px;color:var(--g-navy);font-family:var(--g-serif);font-size:clamp(1.5rem,3vw,2.1rem);font-weight:500}
+.granite-page .granite-contact-list{display:flex;justify-content:center;flex-wrap:wrap;gap:24px 60px;margin-top:22px}
+.granite-page .granite-contact-list p{display:grid;gap:2px;color:var(--g-navy)}
+.granite-page .granite-contact-list span{font-weight:700}
+.granite-page .granite-contact-list small{color:var(--g-muted)}
+.granite-page .granite-contact-list a{color:var(--g-navy);font-weight:700}
 @media(max-width:700px){
   .granite-page .granite-intro h1{font-size:clamp(1.9rem,8vw,2.5rem)}
   .granite-page .granite-intro p{font-size:.92rem}
@@ -351,6 +359,15 @@ export default function Granite() {
           </button>
         ))}
       </div>
+
+      <section className="granite-contacts" aria-labelledby="granite-contacts-title">
+        <p className="granite-contact-eyebrow">Granite supplier</p>
+        <h2 id="granite-contacts-title">Sree Shivaganga Granite Exports</h2>
+        <div className="granite-contact-list">
+          <p><span>P. Suresh</span><small>Managing Partner</small><a href="tel:+919985689529">+91 99856 89529</a></p>
+          <p><span>K. Manideep</span><small>Marketing</small><a href="tel:+919866384827">+91 98663 84827</a></p>
+        </div>
+      </section>
 
       {open !== null && <StoneModal index={open} onClose={() => setOpen(null)} />}
     </section>

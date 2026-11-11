@@ -10,7 +10,7 @@ const SITE = { phone: '+91 98663 84827', tel: '+919866384827', whatsapp: '919866
 
 // Services shown in the dropdown (ids match their detail routes)
 const services = [
-  { id: 'residential', title: 'Residential & Commercial' },
+  { id: 'residential', title: 'Residential and Commercial Sales' },
   { id: 'granite', title: 'Granite' },
   { id: 'solar', title: 'Solar panels' },
 ];

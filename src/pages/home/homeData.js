@@ -32,23 +32,42 @@ export const statuses = [
   { key: 'completed', label: 'Completed', long: 'Completed projects', blurb: 'Ready to move in and handed-over communities.', empty: 'No completed projects to show yet.' },
 ];
 
-// Only Sapphire Residences and Srivari Meadows are currently shown in the project listings.
+// Only the projects with dedicated detail pages are shown in the project listings.
 export const projects = [
   {
-    "slug": "sapphire-residences",
+    "slug": "praneeta-singapore-town-phase-ii",
+    "city": "Hyderabad",
+    "type": "villas",
+    "bhk": "4 BHK villas",
+    "possession": "Ongoing",
+    "status": "ongoing",
+    "tag": "Ongoing",
+    "name": "Praneeta Singapore Town Phase-II",
+    "meta": [
+      "Shankarpally, Hyderabad",
+      "35 premium 4 BHK villas",
+      "2,250–2,850 sq ft"
+    ],
+    "summary": "35 exclusive villas across 2 acres 10 guntas, with 150–190 sq yd plots in Shankarpally.",
+    "price": "Price on request",
+    "priceNote": "Ask for availability",
+    "img": "/images/praneeta/villa-main.jpg"
+  },
+  {
+    "slug": "meridian-residences",
     "city": "Hyderabad",
     "type": "apartments",
     "bhk": "Apartment homes",
     "possession": "Upcoming",
     "status": "upcoming",
     "tag": "Upcoming",
-    "name": "Sapphire Residences",
+    "name": "Meridian Residences",
     "meta": [
-      "Near ORR Exit 2, Hyderabad",
+      "Nagulapalli, Hyderabad",
       "Luxury G+11 floor apartments",
       "1,900–2,750 sq ft"
     ],
-    "summary": "Upcoming apartments with a clubhouse, high-speed lifts, landscaped gardens and easy access to ORR Exit 2.",
+    "summary": "Upcoming G+11 apartments with a clubhouse, high-speed lifts and landscaped gardens in Nagulapalli.",
     "price": "Price on request",
     "priceNote": "Ask for launch details",
     "img": "/images/sapphire-residences.png"
@@ -182,7 +201,7 @@ export const projects = [
     "meta": [
       "Mokila, Hyderabad",
       "4 BHK villas, G+2",
-      "4,254–5,000 sq ft"
+      "4,254–4,800 sq ft"
     ],
     "summary": "117 villas on 14 acres by Vara Prasad Constructions. Lift, home theatre and terrace garden in every villa. 100% Vaastu. TG-RERA P02400004825.",
     "price": "₹5 Cr onwards",
@@ -308,7 +327,7 @@ export const projects = [
     "priceNote": "Builder price, zero brokerage",
     "img": "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&h=1100&q=75"
   }
-].filter((project) => ['sapphire-residences', 'srivari-meadows'].includes(project.slug));
+].filter((project) => ['meridian-residences', 'srivari-meadows', 'praneeta-singapore-town-phase-ii'].includes(project.slug));
 
 export const services = [residential, granite, solar].map((service) => ({
   ...service,

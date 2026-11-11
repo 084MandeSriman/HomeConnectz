@@ -20,7 +20,7 @@ const SITE = {
 };
 
 const PROJECT_NAMES = [
-  "Sapphire Residences",
+  "Meridian Residences",
   "Srivari Meadows",
 ];
 

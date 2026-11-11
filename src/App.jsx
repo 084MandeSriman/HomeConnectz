@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import Loader from './components/Loader.jsx';
 import { Navbar, MobileBar } from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
@@ -11,7 +11,8 @@ import Residential from './pages/services/Residential.jsx';
 import Solar from './pages/services/Solar.jsx';
 import Contact from './pages/Contact.jsx';
 import SrivariMeadows from './pages/SrivariMeadows.jsx';
-import SapphireResidences from './pages/SapphireResidences.jsx';
+import MeridianResidences from './pages/MeridianResidences.jsx';
+import PraneetaSingaporeTown from './pages/PraneetaSingaporeTown.jsx';
 
 // Each page / component file holds its own data and its own design (CSS).
 // This file only holds the routes and the site-wide base design (colours, fonts, buttons).
@@ -61,8 +62,10 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/sapphire-residences" element={<SapphireResidences />} />
+          <Route path="/projects/meridian-residences" element={<MeridianResidences />} />
+          <Route path="/projects/sapphire-residences" element={<Navigate to="/projects/meridian-residences" replace />} />
           <Route path="/projects/srivari-meadows" element={<SrivariMeadows />} />
+          <Route path="/projects/praneeta-singapore-town-phase-ii" element={<PraneetaSingaporeTown />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/granite" element={<Granite />} />
           <Route path="/services/residential" element={<Residential />} />

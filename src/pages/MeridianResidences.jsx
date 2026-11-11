@@ -2,17 +2,22 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 
-/* The project render stays where your site already keeps it:
-   public/images/sapphire-residences.png                              */
+/* The project render uses the supplied apartment rendering. */
 const IMAGE = '/images/sapphire-residences.png';
 
 const HERO_IMAGE = '/images/sapphire-hero.png';
+const LOCATION = {
+  label: 'Nagulapalli, Edulnagulapally, Hyderabad, Telangana 502300',
+  coordinates: '17.4550143,78.1978371',
+  mapsUrl: 'https://maps.app.goo.gl/Gva3ib2JxNwTaH2H9?g_st=iw',
+};
 
 const PROJECT = {
-  name: 'Sapphire Residences',
+  name: 'Meridian Residences',
   status: 'Upcoming',
   size: '1,900–2,750 sq ft',
   floors: 'G+11 floors',
+  location: LOCATION.label,
   amenities: [
     ['Grand entrance lobby', 'lobby'],
     ['Exclusive clubhouse', 'club'],
@@ -25,26 +30,17 @@ const PROJECT = {
     ['Indoor games zone', 'target'],
   ],
   highlights: [
-    '1900 sft to 2750 sft spacious homes',
+    '1,900–2,750 sq ft spacious homes',
     '8 flats per floor',
-    '100 ft radial road access',
-    ['Opp. to ', 'Acumen International School'],
-    ['Near by ', 'Aparna – 17 Degrees North Club'],
+    'G+11 floor apartments',
   ],
-  lifestyle: ['Surrounded by 10+ international schools'],
-  /* [place, label, minutes] */
-  connectivity: [
-    ['ORR – Exit 2', '5 minutes', 5],
-    ['Nagulapalli Railway Station (New Junction)', '2 minutes', 2],
-    ['Neopolis', '10 minutes', 10],
-    ['Financial District', '15 minutes', 15],
-  ],
+  lifestyle: [],
   faqs: [
-    ['Is this an upcoming project?', 'Yes. Sapphire Residences is listed as an upcoming project. Contact us for the latest launch and availability updates.'],
+    ['Is this an upcoming project?', 'Yes. Meridian Residences is listed as an upcoming project. Contact us for the latest launch and availability updates.'],
     ['What home sizes are shown?', 'The shared project information lists spacious homes from 1,900 sq ft to 2,750 sq ft.'],
     ['How many homes are on each floor?', 'The project information lists 8 flats per floor.'],
     ['Are there additional charges?', 'Floor-rise charges apply. East-facing and corner flats have extra charges. Please confirm the current charges with the developer.'],
-    ['Where is the project?', 'The supplied information places the project near ORR Exit 2 and Nagulapalli Railway Station (New Junction). Ask us to confirm the exact site address before visiting.'],
+    ['Where is the project?', `The supplied location pin is ${LOCATION.label}. Open the exact pin in Maps or contact us to arrange a visit.`],
     ['Where can I get the price, possession and approval details?', 'These details were not included in the supplied project information. Contact us and we will share updates once confirmed by the developer.'],
   ],
 };
@@ -254,14 +250,14 @@ function Hero() {
         </span>
         <p className="sr-eyebrow">Luxury apartments · Hyderabad</p>
         <h1>
-          Sapphire <em>Residences</em>
+          Meridian <em>Residences</em>
         </h1>
         <p className="sr-lead">Contemporary G+11 floor apartments with a clubhouse, landscaped gardens and convenient access to key destinations.</p>
         
       </div>
 
       <header className="sr-hero">
-        <Image className="sr-hero-img" src={HERO_IMAGE} fallback={IMAGE} alt="Sapphire Residences project" eager />
+        <Image className="sr-hero-img" src={HERO_IMAGE} fallback={IMAGE} alt="Meridian Residences project" eager />
       </header>
 
       <div className="sr-facts">
@@ -303,7 +299,7 @@ function SectionNav() {
     return () => io.disconnect();
   }, []);
   return (
-    <nav className="sr-nav" aria-label="Sapphire Residences sections">
+    <nav className="sr-nav" aria-label="Meridian Residences sections">
       {SECTIONS.map(([id, label]) => (
         <a key={id} href={`#${id}`} className={active === id ? 'on' : ''}>
           {label}
@@ -317,7 +313,7 @@ function Overview({ onOpen }) {
   return (
     <section className="sr-sec" id="overview">
       <Heading eyebrow="A new address to look forward to" title={<>Modern homes, <em>thoughtfully connected.</em></>}>
-        <p>Sapphire Residences brings spacious apartment living together with everyday amenities and access to Hyderabad’s key destinations.</p>
+        <p>Meridian Residences brings spacious apartment living together with everyday amenities in Nagulapalli, Hyderabad.</p>
       </Heading>
 
       <div className="sr-row">
@@ -330,8 +326,8 @@ function Overview({ onOpen }) {
           </Link>
         </Reveal>
         <Reveal className="sr-frame" delay={140}>
-          <button type="button" onClick={() => onOpen([{ src: IMAGE, alt: 'Sapphire Residences apartment building rendering' }], 0)} aria-label="Open Sapphire Residences image">
-            <Image src={IMAGE} alt="Sapphire Residences apartment building rendering" />
+          <button type="button" onClick={() => onOpen([{ src: IMAGE, alt: 'Meridian Residences apartment building rendering' }], 0)} aria-label="Open Meridian Residences image">
+            <Image src={IMAGE} alt="Meridian Residences apartment building rendering" />
             <span className="sr-hint">Click to enlarge</span>
           </button>
           <span className="sr-cap">Project rendering supplied with the project information</span>
@@ -383,14 +379,11 @@ function Highlights() {
           </ul>
         </Reveal>
         <Reveal delay={140}>
-          <h3>Excellent connectivity</h3>
-          <ul className="sr-ticks">
-            {PROJECT.connectivity.map(([place, label]) => (
-              <li key={place}>
-                <b>{label}</b> to {place}
-              </li>
-            ))}
-          </ul>
+          <h3>Project location</h3>
+          <p>{PROJECT.location}</p>
+          <a className="sr-link" href={LOCATION.mapsUrl} target="_blank" rel="noreferrer">
+            Open exact location in Maps <Arrow diagonal />
+          </a>
           <p className="sr-charge">
             <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 5h16v14H4zM4 10h16M10 10v9" />
@@ -404,49 +397,32 @@ function Highlights() {
 }
 
 function Connectivity() {
-  const mapQuery = encodeURIComponent('Nagulapalli Railway Station, Telangana');
+  const mapQuery = encodeURIComponent(LOCATION.coordinates);
   const [ref, seen] = useInView();
   return (
     <section className="sr-sec" id="connectivity">
-      <Heading eyebrow="Around the neighbourhood" title="Hyderabad, within easy reach.">
-        <p>Travel times below are as supplied and should be confirmed for your route and time of travel.</p>
+      <Heading eyebrow="Project location" title="Find Meridian Residences.">
+        <p>View the project location in Nagulapalli using the exact map pin provided.</p>
       </Heading>
       <div className="sr-row top">
         <div ref={ref} className={`sr-dist ${seen ? 'in' : ''}`}>
-          {PROJECT.connectivity.map(([place, label, mins], i) => (
-            <div key={place} style={{ '--w': `${(mins / 15) * 100}%`, '--d': `${i * 160}ms` }}>
-              <p>
-                <span>{place}</span>
-                <b>{label}</b>
-              </p>
-              <i />
-            </div>
-          ))}
           <p className="sr-place">
-            <span>Acumen International School</span>
-            <b>Opposite the project</b>
+            <span>Meridian Residences</span>
+            <b>{PROJECT.location}</b>
           </p>
-          <p className="sr-place">
-            <span>Aparna 17 Degrees North Club</span>
-            <b>Nearby</b>
-          </p>
-          <p className="sr-place">
-            <span>International schools</span>
-            <b>10+ in the area</b>
-          </p>
-          <a className="sr-link" href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noreferrer">
+          <a className="sr-link" href={LOCATION.mapsUrl} target="_blank" rel="noreferrer">
             Open location in Maps <Arrow diagonal />
           </a>
         </div>
         <Reveal className="sr-map" delay={140}>
-          <iframe title="Map near Nagulapalli Railway Station" src={`https://www.google.com/maps?q=${mapQuery}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+          <iframe title={`Meridian Residences location: ${LOCATION.label}`} src={`https://www.google.com/maps?q=${mapQuery}&z=16&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         </Reveal>
       </div>
     </section>
   );
 }
 
-export default function SapphireResidences() {
+export default function MeridianResidences() {
   const [lb, setLb] = useState(null);
   const open = useCallback((items, index) => setLb({ items, index }), []);
   const close = useCallback(() => setLb(null), []);

@@ -30,7 +30,7 @@ export const SERVICE = {
   title: 'Solar panels',
   tagline: 'Power that pays back',
   icon: 'sun',
-  image: IMG + 'hero.jpg',
+  image: '/images/services/cards/solar.jpg',
   fallback: '/images/services/solar.svg',
   summary:
     'Design, engineering, installation and maintenance of grid-connected and off-grid solar PV systems, from Hyderabad rooftops to utility-scale plants across India.',
