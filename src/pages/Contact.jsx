@@ -12,7 +12,7 @@ const SITE = {
   tel: '+919866384827',
   whatsapp: '919866384827',
   email: 'sales@homeconnectz.com',
-  hours: '9 AM and 8 PM, all days',
+  hours: '10 AM and 7 PM, all days',
   addressLines: ['HomeConnectz', 'Ameerpet', 'Hyderabad, Telangana'],
   rera: 'TG-RERA Agent Regn. No. — applied for',
   // Text used to find the office on the map. Replace with your full street address for an exact pin.
@@ -105,7 +105,7 @@ function MapView() {
 
 export default function Contact() {
   return (
-    <section className="section container page-top">
+    <section className="section container page-top contact-page">
       <style>{CSS}</style>
       <div className="talk">
         <div className="talk-info">
@@ -127,8 +127,19 @@ export default function Contact() {
 // ==========================================================================
 //  DESIGN. CONTACT PAGE DESIGN
 //  All styling for this file lives here (injected with <style>).
+//
+//  FONT: this page uses "DM Sans" for everything (headings, phone number,
+//  form fields, buttons). It loads from Google Fonts automatically, so there
+//  is no file to add. If the user is offline, the page falls back to the
+//  site's normal fonts.
 // ==========================================================================
 const CSS = `
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+.contact-page{--dmsans:'DM Sans',var(--sans,system-ui),-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+.contact-page,.contact-page *{font-family:var(--dmsans)}
+.contact-page input,.contact-page select,.contact-page textarea,.contact-page button{font-family:var(--dmsans);font-size:inherit}
+.contact-page ::placeholder{font-family:var(--dmsans)}
+
 .form{background:#fff;border-radius:24px;padding:28px;box-shadow:var(--shadow);display:grid;gap:16px}
 .form label{display:grid;gap:6px;font-size:.9rem;font-weight:500}
 .form input,.form select,.form textarea{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg);resize:vertical}
@@ -137,9 +148,9 @@ const CSS = `
 .ok{background:#e3f4e8;color:#1d6b3a;padding:12px 16px;border-radius:12px}
 .talk{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:start}
 .talk-info{display:grid;gap:18px;justify-items:start;padding-top:8px}
-.talk-info h1{color:var(--navy);font-family:var(--serif);font-style:normal;font-weight:500;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:0}
+.talk-info h1{color:var(--navy);font-style:normal;font-weight:500;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:0}
 .talk-info .contact-intro{max-width:560px;margin:0;font-size:1.05rem;line-height:1.65;letter-spacing:0}
-.big-phone{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3rem);font-weight:600;color:var(--navy);line-height:1}
+.big-phone{font-size:clamp(2.2rem,4vw,3rem);font-weight:600;color:var(--navy);line-height:1}
 .talk address{font-style:normal;display:grid;margin-top:8px}
 .map-card{width:100%;display:grid;gap:14px;justify-items:center;margin:clamp(40px,6vw,72px) auto 0}
 .map-frame{width:100%;height:clamp(300px,40vw,420px);border:0;border-radius:24px;box-shadow:var(--shadow);background:var(--bg)}
