@@ -362,7 +362,7 @@ const CSS = `
 @keyframes hxrise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 .hx-eyebrow{display:flex;align-items:center;gap:16px;margin:0 0 22px;font-size:.76rem;letter-spacing:.3em;text-transform:uppercase;font-weight:700;color:var(--gold,#d2b88f)}
 .hx-eyebrow span{width:46px;height:1px;background:currentColor}
-.hx h1{margin:0 0 22px;font-family:var(--serif,'Cormorant Garamond',Georgia,serif);font-weight:500;color:#fff;font-size:clamp(2.5rem,4.7vw,4.5rem);line-height:1.04;letter-spacing:-.012em}
+.hx h1{margin:0 0 22px;font-family:var(--sans);font-weight:500;color:#fff;font-size:clamp(2.5rem,4.7vw,4.5rem);line-height:1.04;letter-spacing:-.012em}
 .hx h1 em{font-style:italic;color:var(--gold,#d2b88f);font-weight:500;white-space:nowrap}
 .hx-lead{margin:0 0 34px;max-width:540px;font-size:clamp(1rem,1.3vw,1.14rem);line-height:1.7;color:rgba(255,255,255,.82)}
 .hx-cta{display:flex;flex-wrap:wrap;gap:14px}
@@ -405,8 +405,8 @@ const CSS = `
 @keyframes hxfill{from{width:0}to{width:100%}}
 
 /* collapsed label */
-.hx-num{position:absolute;z-index:2;top:20px;left:50%;transform:translateX(-50%);font-family:var(--serif,Georgia,serif);font-style:italic;font-size:1.35rem;color:var(--gold,#d2b88f);transition:opacity .35s}
-.hx-vlabel{position:absolute;z-index:2;left:50%;bottom:26px;transform:translateX(-50%) rotate(180deg);writing-mode:vertical-rl;white-space:nowrap;font-family:var(--serif,Georgia,serif);font-size:1.6rem;font-weight:500;letter-spacing:.04em;color:#fff;transition:opacity .35s}
+.hx-num{position:absolute;z-index:2;top:20px;left:50%;transform:translateX(-50%);font-family:var(--sans);font-style:italic;font-size:1.35rem;color:var(--gold,#d2b88f);transition:opacity .35s}
+.hx-vlabel{position:absolute;z-index:2;left:50%;bottom:26px;transform:translateX(-50%) rotate(180deg);writing-mode:vertical-rl;white-space:nowrap;font-family:var(--sans);font-size:1.6rem;font-weight:500;letter-spacing:.04em;color:#fff;transition:opacity .35s}
 .hx-card.on .hx-num,.hx-card.on .hx-vlabel{opacity:0}
 
 /* expanded body */
@@ -414,13 +414,13 @@ const CSS = `
 .hx-card.on .hx-body{opacity:1;transform:none;pointer-events:auto;transition:opacity .6s .4s,transform .7s .4s var(--hx-ease)}
 .hx-badge{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;margin-bottom:14px;background:rgba(210,184,143,.18);border:1px solid rgba(210,184,143,.5);color:var(--gold,#d2b88f);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .hx-tag{margin:0 0 6px;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:var(--gold,#d2b88f)}
-.hx-body h3{margin:0 0 8px;font-family:var(--serif,Georgia,serif);font-weight:500;font-size:clamp(2rem,3vw,2.7rem);line-height:1.05;color:#fff}
+.hx-body h3{margin:0 0 8px;font-family:var(--sans);font-weight:500;font-size:clamp(2rem,3vw,2.7rem);line-height:1.05;color:#fff}
 .hx-body-text{margin:0 0 14px;font-size:.95rem;line-height:1.6;color:rgba(255,255,255,.86)}
 .hx-points{display:grid;gap:7px;margin-bottom:18px}
 .hx-points li{display:flex;align-items:center;gap:9px;font-size:.88rem;color:rgba(255,255,255,.92)}
 .hx-points svg{flex:none;color:var(--gold,#d2b88f)}
 .hx-body-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2)}
-.hx-stat strong{display:block;font-family:var(--serif,Georgia,serif);font-weight:500;font-size:2.2rem;line-height:1;color:var(--gold,#d2b88f)}
+.hx-stat strong{display:block;font-family:var(--sans);font-weight:500;font-size:2.2rem;line-height:1;color:var(--gold,#d2b88f)}
 .hx-stat span{display:block;margin-top:3px;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 .hx-go{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;background:#fff;color:var(--deep,#0f2238);font-weight:600;font-size:.9rem;text-decoration:none;white-space:nowrap;transition:background .25s,transform .25s}
 .hx-go:hover{background:var(--gold,#d2b88f)}
@@ -443,7 +443,7 @@ const CSS = `
 .hx-stats{display:grid;grid-template-columns:repeat(4,auto);gap:12px clamp(28px,4.5vw,68px)}
 .hx-stats li{display:flex;align-items:baseline;gap:12px}
 .hx-stats li+li{padding-left:clamp(28px,4.5vw,68px);border-left:1px solid rgba(255,255,255,.16);margin-left:calc(-1 * clamp(0px,0px,0px))}
-.hx-stats strong{font-family:var(--serif,Georgia,serif);font-weight:500;font-size:2.5rem;line-height:1;color:var(--gold,#d2b88f);font-variant-numeric:tabular-nums}
+.hx-stats strong{font-family:var(--sans);font-weight:500;font-size:2.5rem;line-height:1;color:var(--gold,#d2b88f);font-variant-numeric:tabular-nums}
 .hx-stats span{max-width:120px;font-size:.74rem;line-height:1.35;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72)}
 .hx-call{display:inline-flex;align-items:center;gap:14px;color:#fff;text-decoration:none;white-space:nowrap}
 .hx-call-ico{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--gold,#d2b88f);color:var(--deep,#0f2238);transition:transform .3s}

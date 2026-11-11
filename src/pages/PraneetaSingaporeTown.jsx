@@ -720,7 +720,7 @@ html,body{overflow-x:clip}
 .praneeta .pr-facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:32px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .praneeta .pr-facts>div{padding:26px 22px;border-left:1px solid var(--line)}
 .praneeta .pr-facts>div:first-child{border-left:0}
-.praneeta .pr-facts strong{display:block;font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.6rem);font-weight:500;line-height:1.05;color:var(--ink);white-space:nowrap}
+.praneeta .pr-facts strong{display:block;font-family:var(--sans);font-size:clamp(1.6rem,3vw,2.6rem);font-weight:500;line-height:1.05;color:var(--ink);white-space:nowrap}
 .praneeta .pr-facts>div>span{display:block;margin-top:8px;color:var(--mute);font-size:.92rem}
 
 /* section nav */
@@ -734,7 +734,7 @@ html,body{overflow-x:clip}
 /* overview */
 .praneeta .pr-points{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
 .praneeta .pr-points>div{padding:22px 20px 0 0}
-.praneeta .pr-points strong{display:block;font-family:var(--serif);font-size:clamp(1.6rem,2.6vw,2.2rem);font-weight:500;line-height:1.1;color:var(--ink)}
+.praneeta .pr-points strong{display:block;font-family:var(--sans);font-size:clamp(1.6rem,2.6vw,2.2rem);font-weight:500;line-height:1.1;color:var(--ink)}
 .praneeta .pr-points small{font-family:inherit;font-size:.9rem;font-weight:500;color:var(--acc)}
 .praneeta .pr-points p{margin-top:8px;font-size:.92rem}
 .praneeta .pr-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:center}
@@ -786,7 +786,7 @@ html,body{overflow-x:clip}
 
 /* plans */
 .praneeta .pr-nums{display:flex;flex-wrap:wrap;gap:14px 44px}
-.praneeta .pr-nums strong{display:block;font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.2rem);font-weight:500;line-height:1;color:var(--ink)}
+.praneeta .pr-nums strong{display:block;font-family:var(--sans);font-size:clamp(2.2rem,4vw,3.2rem);font-weight:500;line-height:1;color:var(--ink)}
 .praneeta .pr-nums span{color:var(--mute);font-size:.88rem}
 .praneeta .pr-plan{position:relative;display:block;width:100%;padding:0;border:0;border-radius:0;overflow:visible;background:transparent;animation:pr-pop .8s var(--ease) both;cursor:zoom-in}
 .praneeta .pr-plan img{width:100%;height:auto;max-width:100%;max-height:84vh;object-fit:contain;margin:0 auto}
@@ -795,7 +795,7 @@ html,body{overflow-x:clip}
 /* amenities */
 .praneeta .pr-list{display:grid;margin:22px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
 .praneeta .pr-list button{display:flex;align-items:center;gap:16px;width:100%;padding:15px 0;border:0;border-bottom:1px solid var(--line);background:none;color:var(--mute);font-weight:600;text-align:left;transition:color .3s,padding .3s}
-.praneeta .pr-list button span{color:var(--acc);font-family:var(--serif);font-size:1.05rem}
+.praneeta .pr-list button span{color:var(--acc);font-family:var(--sans);font-size:1.05rem}
 .praneeta .pr-list button:hover,.praneeta .pr-list button[aria-current="true"]{color:var(--ink)}
 .praneeta .pr-list button[aria-current="true"]{padding-left:10px;box-shadow:inset 3px 0 0 var(--acc)}
 

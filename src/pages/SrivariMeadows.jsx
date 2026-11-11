@@ -1074,7 +1074,7 @@ html,body{overflow-x:clip}
 .srivari .sm-facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:32px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .srivari .sm-facts>div{padding:26px 22px;border-left:1px solid var(--line)}
 .srivari .sm-facts>div:first-child{border-left:0}
-.srivari .sm-facts strong{display:block;font-family:var(--serif);font-size:clamp(2rem,3.6vw,3rem);font-weight:500;line-height:1;color:var(--ink)}
+.srivari .sm-facts strong{display:block;font-family:var(--sans);font-size:clamp(2rem,3.6vw,3rem);font-weight:500;line-height:1;color:var(--ink)}
 .srivari .sm-facts>div>span{display:block;margin-top:8px;color:var(--mute);font-size:.92rem}
 
 /* section nav */
@@ -1088,7 +1088,7 @@ html,body{overflow-x:clip}
 /* overview */
 .srivari .sm-points{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
 .srivari .sm-points>div{padding:22px 20px 0 0}
-.srivari .sm-points strong{display:block;font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:500;line-height:1.05;color:var(--ink)}
+.srivari .sm-points strong{display:block;font-family:var(--sans);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:500;line-height:1.05;color:var(--ink)}
 .srivari .sm-points small{font-family:inherit;font-size:.9rem;font-weight:500;color:var(--acc)}
 .srivari .sm-points p{margin-top:8px;font-size:.92rem}
 .srivari .sm-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:center}
@@ -1139,7 +1139,7 @@ html,body{overflow-x:clip}
 /* villas */
 .srivari .sm-villa{margin-top:10px;animation:sm-pop .8s var(--ease) both}
 .srivari .sm-nums{display:flex;gap:44px;margin-bottom:18px}
-.srivari .sm-nums strong{display:block;font-family:var(--serif);font-size:clamp(2.4rem,4.4vw,3.6rem);font-weight:500;line-height:1;color:var(--ink)}
+.srivari .sm-nums strong{display:block;font-family:var(--sans);font-size:clamp(2.4rem,4.4vw,3.6rem);font-weight:500;line-height:1;color:var(--ink)}
 .srivari .sm-nums span{color:var(--mute);font-size:.88rem}
 .srivari .sm-rooms{padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);font-weight:500;line-height:1.9}
 .srivari .sm-floors{display:grid;gap:0;margin:20px 0 0;padding:0 0 0 22px;list-style:none;border-left:2px solid var(--line)}
@@ -1192,8 +1192,8 @@ html,body{overflow-x:clip}
 .srivari .sm-spec{border-bottom:1px solid var(--line)}
 .srivari .sm-spec-list{border-top:1px solid var(--line)}
 .srivari .sm-spec>button{display:grid;grid-template-columns:44px 1fr 24px;align-items:center;width:100%;padding:20px 0;border:0;background:none;text-align:left}
-.srivari .sm-spec .n{color:var(--acc);font-family:var(--serif);font-style:italic}
-.srivari .sm-spec .t{font-family:var(--serif);font-size:1.25rem;color:var(--ink)}
+.srivari .sm-spec .n{color:var(--acc);font-family:var(--sans);font-style:italic}
+.srivari .sm-spec .t{font-family:var(--sans);font-size:1.25rem;color:var(--ink)}
 .srivari .sm-spec .p{position:relative;width:16px;height:16px}
 .srivari .sm-spec .p::before,.srivari .sm-spec .p::after{content:'';position:absolute;left:0;right:0;top:7px;height:2px;background:var(--ink);transition:transform .35s var(--ease)}
 .srivari .sm-spec .p::after{transform:rotate(90deg)}
@@ -1211,7 +1211,7 @@ html,body{overflow-x:clip}
 .srivari .sm-places li{display:flex;justify-content:space-between;gap:20px;padding:13px 0;border-bottom:1px solid var(--line);color:var(--ink)}
 .srivari .sm-places b{color:var(--acc);white-space:nowrap}
 .srivari .sm-access{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,4vw,50px);padding-top:26px;border-top:1px solid var(--line)}
-.srivari .sm-access h4{margin-bottom:8px;color:var(--ink);font-family:var(--serif);font-size:1.2rem}
+.srivari .sm-access h4{margin-bottom:8px;color:var(--ink);font-family:var(--sans);font-size:1.2rem}
 .srivari .sm-access p{font-size:.94rem;line-height:1.9}
 .srivari .sm-map{overflow:hidden;border-radius:26px}
 .srivari .sm-map iframe{display:block;width:100%;height:clamp(300px,40vw,440px);border:0}

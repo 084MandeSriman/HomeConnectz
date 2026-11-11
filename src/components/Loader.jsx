@@ -55,7 +55,7 @@ const css = `
   animation: hc-roof .5s ease .7s both;
 }
 .hc-name {
-  font-family: 'Source Sans 3', 'Segoe UI', 'Noto Sans', -apple-system, Roboto, Arial, sans-serif;
+  font-family: var(--sans);
   font-weight: 700;
   font-size: 58px;
   fill: var(--hc-navy);

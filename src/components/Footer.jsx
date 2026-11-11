@@ -119,7 +119,7 @@ const CSS = `
 .footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:36px}
 .footer-logo{height:64px;width:auto;margin-bottom:0;filter:brightness(0) invert(1)}
 .footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:34px}
-.footer h4{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:12px;color:#fff}
+.footer h4{font-family:var(--sans);font-size:1.3rem;font-weight:600;margin-bottom:12px;color:#fff}
 .footer a,.footer span,.footer p{display:block;color:rgba(255,255,255,.9);font-size:.93rem;margin-bottom:8px}
 .footer a:hover{color:#d8c3a6}
 .socials{display:flex;align-items:center;gap:22px;margin:0}

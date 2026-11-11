@@ -128,17 +128,12 @@ export default function Contact() {
 //  DESIGN. CONTACT PAGE DESIGN
 //  All styling for this file lives here (injected with <style>).
 //
-//  FONT: this page uses "DM Sans" for everything (headings, phone number,
-//  form fields, buttons). It loads from Google Fonts automatically, so there
-//  is no file to add. If the user is offline, the page falls back to the
-//  site's normal fonts.
+//  FONT: this page uses the site-wide DM Sans stack.
 // ==========================================================================
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
-.contact-page{--dmsans:'DM Sans',var(--sans,system-ui),-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
-.contact-page,.contact-page *{font-family:var(--dmsans)}
-.contact-page input,.contact-page select,.contact-page textarea,.contact-page button{font-family:var(--dmsans);font-size:inherit}
-.contact-page ::placeholder{font-family:var(--dmsans)}
+.contact-page,.contact-page *{font-family:var(--sans)}
+.contact-page input,.contact-page select,.contact-page textarea,.contact-page button{font-family:var(--sans);font-size:inherit}
+.contact-page ::placeholder{font-family:var(--sans)}
 
 .form{background:#fff;border-radius:24px;padding:28px;box-shadow:var(--shadow);display:grid;gap:16px}
 .form label{display:grid;gap:6px;font-size:.9rem;font-weight:500}

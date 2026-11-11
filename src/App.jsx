@@ -87,14 +87,15 @@ export default function App() {
 const CSS = `
 :root{--bg:#e9e8e6; --navy:#21456f; --ink:#1b2b40; --muted:#5d6f84; --tan:#b8a088; --cream:#f9f0e8; --white:#fff;
   --line:rgba(33,69,111,.14); --shadow:0 10px 30px rgba(33,69,111,.10);
-  --nav-h:66px;--nav-top:16px;--deep:#0f2238;--deep2:#14233b;--gold:#d2b88f;--paper:#f6f1e7; --serif:'Cormorant Garamond',Georgia,serif; --sans:'DM Sans',system-ui,sans-serif;}
+  --nav-h:66px;--nav-top:16px;--deep:#0f2238;--deep2:#14233b;--gold:#d2b88f;--paper:#f6f1e7; --serif:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; --sans:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg) url('/images/paper-bg.jpg') repeat;background-size:800px 800px;color:var(--ink);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
+html,body{font-family:var(--sans)}
+body{background:var(--bg) url('/images/paper-bg.jpg') repeat;background-size:800px 800px;color:var(--ink);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
-button,input,select,textarea{font:inherit;color:inherit}
-h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.15;color:var(--ink)}
+button,input,select,textarea{font:inherit;font-family:inherit;color:inherit}
+h1,h2,h3{font-family:var(--sans);font-weight:500;line-height:1.15;color:var(--ink)}
 h1{font-size:clamp(2.4rem,5vw,3.8rem)}
 h2{font-size:clamp(2rem,4vw,3rem)}
 h3{font-size:1.55rem}
@@ -108,7 +109,7 @@ h3{font-size:1.55rem}
 .muted{color:var(--muted)}
 .lead{color:var(--muted);font-size:1.05rem;max-width:560px;margin:10px auto 0}
 .head{text-align:center;margin-bottom:44px}
-.statement{font-family:var(--serif);font-style:italic;font-size:clamp(1.4rem,2.6vw,2rem);line-height:1.4}
+.statement{font-family:var(--sans);font-style:italic;font-size:clamp(1.4rem,2.6vw,2rem);line-height:1.4}
 .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:999px;font-weight:600;font-size:.95rem;border:1.5px solid transparent;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
 .btn-dark{background:var(--navy);color:#fff}

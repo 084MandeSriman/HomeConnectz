@@ -331,7 +331,7 @@ html,body{overflow-x:clip}
 .solar-page .stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .solar-page .stat{padding:28px 24px;border-left:1px solid var(--line)}
 .solar-page .stat:first-child{border-left:0}
-.solar-page .stat strong{display:block;font-family:var(--serif);font-size:clamp(2rem,3.6vw,3rem);font-weight:500;line-height:1;color:var(--ink)}
+.solar-page .stat strong{display:block;font-family:var(--sans);font-size:clamp(2rem,3.6vw,3rem);font-weight:500;line-height:1;color:var(--ink)}
 .solar-page .stat>span{display:block;margin-top:8px;color:var(--mute);font-size:.92rem}
 
 /* image frame: the picture sits INSIDE the border, edge to edge */
@@ -343,7 +343,7 @@ html,body{overflow-x:clip}
 .solar-page .tag{position:absolute;left:14px;top:14px;padding:7px 14px;border-radius:999px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#1b2b40;font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
 .solar-page .cap{position:absolute;left:24px;bottom:24px;margin:0;padding:8px 14px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.82rem;pointer-events:none}
 .solar-page .badge{position:absolute;right:24px;bottom:24px;display:grid;padding:14px 18px;border-radius:16px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#1b2b40;box-shadow:0 14px 30px rgba(0,0,0,.22);pointer-events:none}
-.solar-page .badge strong{font-family:var(--serif);font-size:1.8rem;font-weight:500;line-height:1}
+.solar-page .badge strong{font-family:var(--sans);font-size:1.8rem;font-weight:500;line-height:1}
 .solar-page .badge span{font-size:.76rem;font-weight:600}
 
 /* about */
@@ -409,7 +409,7 @@ html,body{overflow-x:clip}
 .solar-page .nums{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .solar-page .nums>div{padding:18px 26px 18px 0;margin-right:26px;border-right:1px solid var(--line)}
 .solar-page .nums>div:last-child{margin-right:0;padding-right:0;border-right:0}
-.solar-page .nums strong{display:block;font-family:var(--serif);font-size:clamp(1.5rem,2.6vw,2.2rem);font-weight:500;line-height:1.05;color:var(--ink);white-space:nowrap}
+.solar-page .nums strong{display:block;font-family:var(--sans);font-size:clamp(1.5rem,2.6vw,2.2rem);font-weight:500;line-height:1.05;color:var(--ink);white-space:nowrap}
 .solar-page .nums span{display:block;margin-top:6px;color:var(--mute);font-size:.8rem}
 .solar-page .specs{display:grid;margin:6px 0 0}
 .solar-page .specs div{display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
@@ -423,7 +423,7 @@ html,body{overflow-x:clip}
 .solar-page td{padding:16px 14px 16px 0;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:top}
 .solar-page td:first-child{font-weight:600}
 .solar-page td small{display:block;color:var(--mute);font-size:.82rem;font-weight:400}
-.solar-page td.mw{font-family:var(--serif);font-size:1.5rem;color:var(--acc);white-space:nowrap}
+.solar-page td.mw{font-family:var(--sans);font-size:1.5rem;color:var(--acc);white-space:nowrap}
 .solar-page tbody tr{opacity:0;transform:translateX(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .solar-page .tbl-wrap.in tbody tr{opacity:1;transform:none}
 .solar-page .tbl-wrap.in tbody tr:nth-child(1){transition-delay:.1s}.solar-page .tbl-wrap.in tbody tr:nth-child(2){transition-delay:.25s}.solar-page .tbl-wrap.in tbody tr:nth-child(3){transition-delay:.4s}.solar-page .tbl-wrap.in tbody tr:nth-child(4){transition-delay:.55s}.solar-page .tbl-wrap.in tbody tr:nth-child(5){transition-delay:.7s}
@@ -435,7 +435,7 @@ html,body{overflow-x:clip}
 .solar-page .track{height:12px;border-radius:99px;background:rgba(33,69,111,.08);overflow:hidden}
 .solar-page .fill{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--g1),var(--acc));transition:width 1.6s var(--ease) var(--d,0ms)}
 .solar-page .bars.in .fill{width:var(--w)}
-.solar-page .bar b{font-family:var(--serif);font-size:1.25rem;font-weight:500;color:var(--ink);text-align:right}
+.solar-page .bar b{font-family:var(--sans);font-size:1.25rem;font-weight:500;color:var(--ink);text-align:right}
 .solar-page .bar b small{font-size:.65em;color:var(--mute);font-family:inherit}
 .solar-page .more{align-self:start;justify-self:start;display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border:1.5px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);font-weight:600;transition:all .3s}
 .solar-page .more:hover{background:var(--ink);color:#fff}
@@ -445,7 +445,7 @@ html,body{overflow-x:clip}
 .solar-page .plist .row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.7fr) 130px;gap:18px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
 .solar-page .plist .row b{color:var(--ink)}
 .solar-page .plist .row span{color:var(--mute);font-size:.92rem;line-height:1.5}
-.solar-page .plist .row em{color:var(--acc);font-family:var(--serif);font-size:1.15rem;font-style:normal;text-align:right}
+.solar-page .plist .row em{color:var(--acc);font-family:var(--sans);font-size:1.15rem;font-style:normal;text-align:right}
 .solar-page .plist .row.head{padding:0 0 10px;border-bottom:2px solid var(--ink);color:var(--ink);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 .solar-page .plist .row.head *{font:inherit;color:inherit}
 
@@ -464,7 +464,7 @@ html,body{overflow-x:clip}
 .solar-page .vm-item{position:relative;padding-top:26px;border-top:2px solid var(--line)}
 .solar-page .vm-item::before{content:'';position:absolute;left:0;top:-2px;width:0;height:2px;background:var(--acc);transition:width 1.2s var(--ease) .3s}
 .solar-page .vm-item.in::before{width:100%}
-.solar-page .vm-item .num{display:block;margin-bottom:10px;font-family:var(--serif);font-size:2.6rem;line-height:1;color:var(--acc)}
+.solar-page .vm-item .num{display:block;margin-bottom:10px;font-family:var(--sans);font-size:2.6rem;line-height:1;color:var(--acc)}
 .solar-page .vm-item h3{font-size:1.4rem;color:var(--ink)}
 .solar-page .vm-item p{margin:0;font-size:1rem}
 .solar-page .vm-item .checks{margin-top:0;gap:10px;font-size:.96rem}
@@ -474,7 +474,7 @@ html,body{overflow-x:clip}
 .solar-page .logo-cell{display:grid;place-items:center;min-height:150px;padding:26px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .solar-page .logos.in .logo-cell{opacity:1;transform:none}
 .solar-page .logo-cell img{width:auto;height:auto;max-width:100%;max-height:92px;object-fit:contain;mix-blend-mode:multiply}
-.solar-page .logo-name{color:var(--ink);font-family:var(--serif);font-size:1.15rem;text-align:center}
+.solar-page .logo-name{color:var(--ink);font-family:var(--sans);font-size:1.15rem;text-align:center}
 .solar-page .logos.in .logo-cell:nth-child(5n+2){transition-delay:.05s}.solar-page .logos.in .logo-cell:nth-child(5n+3){transition-delay:.1s}.solar-page .logos.in .logo-cell:nth-child(5n+4){transition-delay:.15s}.solar-page .logos.in .logo-cell:nth-child(5n){transition-delay:.2s}
 
 /* leadership */

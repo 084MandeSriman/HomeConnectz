@@ -548,7 +548,7 @@ html,body{overflow-x:clip}
 .sapphire .sr-facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sapphire .sr-facts>div{padding:26px 22px;border-left:1px solid var(--line)}
 .sapphire .sr-facts>div:first-child{border-left:0}
-.sapphire .sr-facts strong{display:block;font-family:var(--serif);font-size:clamp(1.35rem,2.3vw,2rem);font-weight:500;line-height:1.1;color:var(--ink);white-space:nowrap}
+.sapphire .sr-facts strong{display:block;font-family:var(--sans);font-size:clamp(1.35rem,2.3vw,2rem);font-weight:500;line-height:1.1;color:var(--ink);white-space:nowrap}
 .sapphire .sr-facts>div>span{display:block;margin-top:8px;color:var(--mute);font-size:.9rem}
 
 /* nav */
@@ -563,7 +563,7 @@ html,body{overflow-x:clip}
 .sapphire .sr-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:center}
 .sapphire .sr-row>*{min-width:0}
 .sapphire .sr-row.top{align-items:start}
-.sapphire .sr-count{display:block;font-family:var(--serif);font-size:clamp(4rem,9vw,7rem);line-height:1;color:var(--acc);opacity:.85}
+.sapphire .sr-count{display:block;font-family:var(--sans);font-size:clamp(4rem,9vw,7rem);line-height:1;color:var(--acc);opacity:.85}
 .sapphire .sr-row h3{font-size:clamp(1.5rem,2.4vw,2rem)}
 .sapphire .sr-row h3.gap{margin-top:34px}
 .sapphire .sr-link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding-bottom:3px;border-bottom:1.5px solid var(--acc);color:var(--ink);font-weight:700}
@@ -575,7 +575,7 @@ html,body{overflow-x:clip}
 .sapphire .sr-amenities .ic{display:grid;place-items:center;width:46px;height:46px;border:1.5px solid var(--acc);border-radius:50%;color:var(--acc);transition:background .35s,color .35s,transform .35s}
 .sapphire .sr-amenities li:hover .ic{background:var(--acc);color:#fff;transform:rotate(-8deg) scale(1.06)}
 .sapphire .sr-amenities b{flex:1;color:var(--ink);font-weight:600;font-size:1.04rem}
-.sapphire .sr-amenities em{color:var(--acc);font-family:var(--serif);font-size:1rem}
+.sapphire .sr-amenities em{color:var(--acc);font-family:var(--sans);font-size:1rem}
 
 /* ticks */
 .sapphire .sr-ticks{display:grid;gap:13px;margin:16px 0 0;padding:0;list-style:none}

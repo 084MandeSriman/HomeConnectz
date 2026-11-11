@@ -92,7 +92,7 @@ const STONES = [
 const CSS = `
 .granite-page{
   --g-navy:var(--navy,#21456f);--g-deep:var(--deep,#0f2238);--g-gold:var(--gold,#c9a45c);
-  --g-muted:var(--muted,#5c6b7c);--g-line:rgba(15,34,56,.14);--g-serif:var(--serif,Georgia,serif);
+  --g-muted:var(--muted,#5c6b7c);--g-line:rgba(15,34,56,.14);--g-serif:var(--sans);
   padding-top:clamp(24px,3vw,40px);padding-bottom:clamp(48px,6vw,96px);
 }
 .granite-page *{box-sizing:border-box}
@@ -128,7 +128,7 @@ const CSS = `
 
 /* modal */
 .g-modal{position:fixed;inset:0;z-index:1000;display:grid;place-items:stretch;padding:0;background:rgba(8,16,28,.78);backdrop-filter:blur(7px);animation:g-fade .3s ease both}
-.g-panel{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;overflow:hidden;padding:0;background-color:#ececec;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .45 0 0 0 0 .45 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");border:0;border-radius:0;box-shadow:none;animation:g-fade .3s ease both;color:#0f2238;--g-navy:var(--navy,#21456f);--g-deep:var(--deep,#0f2238);--g-gold:var(--gold,#c9a45c);--g-muted:var(--muted,#5c6b7c);--g-line:rgba(15,34,56,.14);--g-serif:var(--serif,Georgia,serif)}
+.g-panel{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;overflow:hidden;padding:0;background-color:#ececec;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .45 0 0 0 0 .45 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");border:0;border-radius:0;box-shadow:none;animation:g-fade .3s ease both;color:#0f2238;--g-navy:var(--navy,#21456f);--g-deep:var(--deep,#0f2238);--g-gold:var(--gold,#c9a45c);--g-muted:var(--muted,#5c6b7c);--g-line:rgba(15,34,56,.14);--g-serif:var(--sans)}
 .g-panel *{box-sizing:border-box}
 .g-photo-side{min-width:0;min-height:0;padding:clamp(16px,2vw,28px)}
 .g-photo{position:relative;display:block;width:100%;height:100%;min-height:0;padding:0;border:0;overflow:hidden;background:#111;cursor:zoom-in;border-radius:16px}
