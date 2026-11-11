@@ -97,9 +97,9 @@ const CSS = `
 }
 .granite-page *{box-sizing:border-box}
 .granite-page .granite-intro{max-width:none;margin:0 auto clamp(28px,4vw,48px);text-align:center}
-.granite-page .granite-intro h1{margin:0;font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(2.1rem,3.6vw,3rem);line-height:1.15;color:var(--navy)}
+.granite-page .granite-intro h1{margin:0;font-family:var(--g-serif);font-style:normal;font-weight:500;font-size:clamp(2.1rem,3.6vw,3rem);line-height:1.15;color:var(--navy)}
 .granite-page .granite-intro p{max-width:none;margin:12px auto 0;color:var(--g-muted);font-size:1rem;line-height:1.65;letter-spacing:.01em}
-.granite-page .granite-contacts{max-width:980px;margin:clamp(36px,6vw,72px) auto 0;padding:clamp(22px,4vw,36px);border:1px solid var(--g-line);border-radius:18px;background:rgba(255,255,255,.62);text-align:center}
+.granite-page .granite-contacts{max-width:980px;margin:clamp(36px,6vw,72px) auto 0;padding:clamp(22px,4vw,36px) 0;border:0;border-radius:0;background:transparent;text-align:center}
 .granite-page .granite-contact-eyebrow{color:var(--g-gold);font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
 .granite-page .granite-contacts h2{margin-top:5px;color:var(--g-navy);font-family:var(--g-serif);font-size:clamp(1.5rem,3vw,2.1rem);font-weight:500}
 .granite-page .granite-contact-list{display:flex;justify-content:center;flex-wrap:wrap;gap:24px 60px;margin-top:22px}

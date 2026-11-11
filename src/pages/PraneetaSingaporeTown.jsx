@@ -788,9 +788,9 @@ html,body{overflow-x:clip}
 .praneeta .pr-nums{display:flex;flex-wrap:wrap;gap:14px 44px}
 .praneeta .pr-nums strong{display:block;font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.2rem);font-weight:500;line-height:1;color:var(--ink)}
 .praneeta .pr-nums span{color:var(--mute);font-size:.88rem}
-.praneeta .pr-plan{position:relative;display:block;width:100%;padding:14px;border:1.5px solid rgba(184,149,63,.6);border-radius:28px;overflow:hidden;background:#fff;animation:pr-pop .8s var(--ease) both;cursor:zoom-in}
-.praneeta .pr-plan img{width:100%;height:auto;max-height:78vh;object-fit:contain;margin:0 auto}
-.praneeta .pr-plan .pr-hint{top:24px;right:24px}
+.praneeta .pr-plan{position:relative;display:block;width:100%;padding:0;border:0;border-radius:0;overflow:visible;background:transparent;animation:pr-pop .8s var(--ease) both;cursor:zoom-in}
+.praneeta .pr-plan img{width:100%;height:auto;max-width:100%;max-height:84vh;object-fit:contain;margin:0 auto}
+.praneeta .pr-plan .pr-hint{top:14px;right:14px}
 
 /* amenities */
 .praneeta .pr-list{display:grid;margin:22px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
@@ -848,7 +848,7 @@ html,body{overflow-x:clip}
   .praneeta .pr-actions{width:100%}
   .praneeta .pr-actions .pr-btn{flex:1 1 100%;justify-content:center}
   .praneeta .pr-facts strong{white-space:normal;font-size:1.35rem}
-  .praneeta .pr-frame,.praneeta .pr-plan{padding:7px;border-radius:24px}
+  .praneeta .pr-frame{padding:7px;border-radius:24px}
   .praneeta .pr-frame>button,.praneeta .pr-frame img{border-radius:17px}
   .praneeta .pr-mosaic{grid-auto-rows:150px;gap:10px}
   .praneeta .pr-approvals>div{flex-direction:column;align-items:flex-start;gap:14px}
