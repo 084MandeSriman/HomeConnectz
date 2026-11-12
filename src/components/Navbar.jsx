@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 // ==========================================================================
@@ -50,6 +50,28 @@ export function Navbar() {
   const [openDropdown, setOpenDropdown] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navRef = useRef(null);
+  const closeMenus = () => {
+    setOpen(false);
+    setOpenDropdown('');
+  };
+  useEffect(() => {
+    const outside = (event) => {
+      if (!navRef.current?.contains(event.target)) closeMenus();
+    };
+    const escape = (event) => {
+      if (event.key !== 'Escape') return;
+      const trigger = navRef.current?.querySelector('.nav-dropdown.expanded .nav-dropdown-trigger');
+      closeMenus();
+      trigger?.focus();
+    };
+    document.addEventListener('pointerdown', outside);
+    document.addEventListener('keydown', escape);
+    return () => {
+      document.removeEventListener('pointerdown', outside);
+      document.removeEventListener('keydown', escape);
+    };
+  }, []);
   useEffect(() => {
     setOpen(false);
     setOpenDropdown('');
@@ -88,14 +110,14 @@ export function Navbar() {
       </button>
       <div id={`${name}-menu`} className="nav-dropdown-menu">
       {items.map((item) => (
-        <Link key={item.to} to={item.to}>{item.label}</Link>
+        <Link key={item.to} to={item.to} onClick={closeMenus}>{item.label}</Link>
       ))}
       </div>
     </div>
   );
 
   return (
-    <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
+    <header ref={navRef} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setOpenDropdown(''); }} className={`nav ${scrolled ? 'scrolled' : ''}`}>
       <style>{CSS}</style>
       <div className="nav-in">
         <Link to="/" className="nav-logo" aria-label="HomeConnectz home">
@@ -160,11 +182,11 @@ const CSS = `
 .nav-links>a:not(.btn)::after,.nav-dropdown-trigger::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:2px;background:var(--tan);transform:scaleX(0);transform-origin:left;transition:transform .3s}
 .nav-links>a:not(.btn):hover::after,.nav-links>a.active::after,.nav-dropdown-trigger:hover::after,.nav-dropdown-trigger.active::after{transform:scaleX(1)}
 .nav-dropdown-trigger svg{transition:transform .25s}
-.nav-dropdown.expanded .nav-dropdown-trigger svg,.nav-dropdown:hover .nav-dropdown-trigger svg{transform:rotate(180deg)}
+.nav-dropdown.expanded .nav-dropdown-trigger svg{transform:rotate(180deg)}
 .nav-dropdown{position:relative}
 .nav-dropdown-menu{position:absolute;top:calc(100% + 24px);left:50%;z-index:5;display:grid;min-width:230px;padding:8px;border-radius:18px;background:rgba(255,255,255,.98);box-shadow:0 20px 44px rgba(6,16,32,.22);opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,8px);transition:opacity .22s,transform .22s,visibility .22s}
 .nav-dropdown-menu::before{content:'';position:absolute;left:0;right:0;top:-26px;height:26px}
-.nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown:focus-within .nav-dropdown-menu,.nav-dropdown.expanded .nav-dropdown-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0)}
+.nav-dropdown.expanded .nav-dropdown-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0)}
 .nav-dropdown-menu a{padding:12px 14px;border-radius:11px;color:var(--ink);font-size:.95rem;font-weight:500;white-space:nowrap;transition:background .2s}
 .nav-dropdown-menu a:hover{background:rgba(33,69,111,.08);color:var(--navy)}
 .nav-call{justify-self:end;display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 30px;border-radius:999px;background:var(--navy);color:#fff;font-weight:700;font-size:1.02rem;white-space:nowrap;transition:background .2s}
@@ -187,9 +209,7 @@ const CSS = `
   .nav-dropdown{width:100%}
   .nav-dropdown-menu{position:static;min-width:0;padding:0 0 0 12px;border-radius:0;background:transparent;box-shadow:none;max-height:0;overflow:hidden;opacity:0;visibility:hidden;pointer-events:none;transform:none;transition:max-height .3s,opacity .22s,visibility .22s}
   .nav-dropdown-menu::before{display:none}
-  .nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown:focus-within .nav-dropdown-menu{opacity:0;visibility:hidden;max-height:0;pointer-events:none;transform:none}
   .nav-dropdown.expanded .nav-dropdown-menu{max-height:240px;opacity:1;visibility:visible;pointer-events:auto;transform:none}
-  .nav-dropdown:hover .nav-dropdown-trigger svg{transform:none}
   .nav-dropdown.expanded .nav-dropdown-trigger svg{transform:rotate(180deg)}
   .nav-dropdown-menu a{padding:12px;font-size:1rem}
   .nav-call-mobile{display:inline-flex;margin-top:18px;height:50px}

@@ -154,7 +154,7 @@ const CSS = `
 .g-view>:nth-child(6){animation-delay:.5s}
 .g-view>:nth-child(7){animation-delay:.6s}
 .g-short{margin:-4px 0 22px;color:var(--g-gold);font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
-.g-title{font-style:italic}
+.g-title{font-style:normal}
 
 .g-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0 0 6px;border-top:1px solid var(--g-line)}
 .g-specs>div{padding:16px 6px 16px 0;border-bottom:1px solid var(--g-line)}
@@ -211,6 +211,23 @@ const CSS = `
   .g-view>*{opacity:1;transform:none}
   .granite-page .tile{opacity:1;transform:none}
 }
+
+/* Shared typography scale, scoped to granite and its product dialogs. */
+.granite-page .granite-intro h1,.granite-page .granite-contacts h2{font-size:var(--type-h2,38px)!important;font-weight:600!important;line-height:1.2!important;letter-spacing:normal!important;color:var(--navy)}
+.granite-page .granite-intro p{max-width:900px;margin:16px auto 0;font-size:var(--type-body,16px)!important;font-weight:400!important;line-height:1.65!important;letter-spacing:normal;color:var(--muted)}
+.granite-page .tile-label strong{font-size:var(--type-card,22px)!important;font-weight:600!important;line-height:1.25!important}
+.granite-page .tile-label .sub{font-size:var(--type-body,16px)!important;font-weight:400!important;line-height:1.65!important}
+.granite-page .tile-cta,.g-panel .g-close,.g-panel .btn{font-size:15px!important;font-weight:600!important;line-height:1.4!important}
+.g-panel .g-title{font-size:var(--type-h3,26px)!important;font-weight:500!important;line-height:1.2!important;font-style:normal!important;color:var(--navy)}
+.g-panel .g-short{font-size:var(--type-body,16px)!important;font-weight:400!important;line-height:1.65!important;letter-spacing:normal;text-transform:none;color:var(--muted)}
+.g-panel .g-sec h4{font-size:var(--type-card,22px)!important;font-weight:600!important;line-height:1.25!important;letter-spacing:normal!important;text-transform:none;color:var(--navy)}
+.g-panel :is(.g-sec>p,.g-app,.g-price,.g-foot,.g-foot span,.g-specs dd){font-size:var(--type-body,16px)!important;font-weight:400!important;line-height:1.65!important}
+.g-panel :is(.g-sec>p,.g-foot,.g-foot span){color:var(--muted)}
+.g-panel .g-specs dd,.g-panel .g-price b{font-size:var(--type-body,16px)!important;font-weight:600!important;color:var(--navy)}
+.g-panel :is(.g-specs dt,.g-price b small,.g-note),.granite-page .granite-contact-eyebrow,.granite-page .granite-contact-list small{font-size:var(--type-small,14px)!important;font-weight:400!important;line-height:1.65!important;color:var(--muted)}
+.granite-page .granite-contact-eyebrow{font-weight:500!important;letter-spacing:normal;text-transform:none}
+.granite-page .granite-contact-list :is(span,a){font-size:var(--type-body,16px)!important;font-weight:600!important}
+@media(max-width:480px){.granite-page .tile-label{left:20px;right:20px;bottom:24px;flex-wrap:wrap;align-items:start}}
 `;
 
 /* ------------------------------------------------------------------ */
@@ -338,7 +355,7 @@ export default function Granite() {
     <section className="section container page-top granite-page">
       <style>{CSS}</style>
       <header className="granite-intro">
-        <h1>GRANITES</h1>
+        <h1>Granites</h1>
         <p>Granite is one of the hardest materials on earth. It is long lasting, durable, and available in an array of colors and textures. The variation in each granite slab and especially the grain and movement in the crystal structure are part of the charm of buying a natural stone.</p>
       </header>
       <div className="tiles">

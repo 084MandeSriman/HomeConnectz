@@ -111,7 +111,7 @@
 .hero-scroll em{font-style:normal}
 @keyframes scrolldot{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
 .svc-section .head{margin-bottom:44px}
-.svc-section .head h2{color:var(--ink);font-weight:500}
+.svc-section .head h2{color:var(--navy);font-weight:500}
 .svc-section.svc-page{padding-top:clamp(40px,6vw,72px)}
 .svc-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:24px}
 .svc-card{display:flex;flex-direction:column;min-width:0;background:var(--deep);border-radius:26px;overflow:hidden;box-shadow:0 14px 40px rgba(20,35,59,.12);transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s}
@@ -228,3 +228,27 @@
 /* touch screens cannot hover, so the details are always open */
 @media (hover:none){.sp-more{grid-template-rows:1fr;opacity:1}}
 @media (prefers-reduced-motion:reduce){.sp-card .ph img,.sp-more,.sp-arrow,.sp-cities button,.sp-status button,.sp-types button{transition:none}}
+
+/* One shared gap between homepage sections; avoid adding adjacent padding. */
+.home-main { --home-section-gap: 72px; --home-heading-gap: 32px; }
+.home-main .sp-section { padding-bottom: 0; }
+.home-main .svc-section {
+  padding-top: var(--home-section-gap);
+  padding-bottom: var(--home-section-gap);
+}
+.home-main .svc-section .head { margin-bottom: var(--home-heading-gap); }
+@media (max-width: 760px) {
+  .home-main { --home-section-gap: 48px; --home-heading-gap: 24px; }
+}
+
+/* Full-card service photography with readable foreground content. */
+.svc-section .svc-card{position:relative;isolation:isolate;min-height:520px}
+.svc-section .svc-media{position:absolute;inset:0;z-index:-1}
+.svc-section .svc-media .ph{width:100%;height:100%;aspect-ratio:auto;background:var(--deep)}
+.svc-section .svc-media .ph img{width:100%;height:100%;object-fit:cover}
+.svc-section .svc-shade{background:linear-gradient(180deg,rgba(18,35,58,.04) 10%,rgba(18,35,58,.4) 40%,rgba(18,35,58,.94) 100%)}
+.svc-section .svc-body{position:relative;flex:1;justify-content:flex-end;padding:28px;padding-top:160px}
+.svc-section .svc-badge{position:static;flex:none;margin-bottom:8px}
+.svc-section .svc-body h3{color:#fff}
+.svc-section .svc-body .svc-text{color:rgba(255,255,255,.95)!important}
+@media(max-width:640px){.svc-section .svc-card{min-height:480px}.svc-section .svc-body{padding:24px;padding-top:140px}}

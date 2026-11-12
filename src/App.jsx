@@ -58,7 +58,7 @@ export default function App() {
       {loading && <Loader onDone={() => setLoading(false)} />}
       <ScrollToTop />
       <Navbar />
-      <main className={padded ? 'pad-nav' : ''}>
+      <main className={pathname === '/' ? 'home-main' : padded ? 'pad-nav' : ''}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
@@ -91,11 +91,11 @@ const CSS = `
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 html,body{font-family:var(--sans)}
-body{background:var(--bg) url('/images/paper-bg.jpg') repeat;background-size:800px 800px;color:var(--ink);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
+body{background:var(--bg) url('/images/paper-bg.jpg') repeat;background-size:800px 800px;color:var(--type-body-color);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;font-family:inherit;color:inherit}
-h1,h2,h3{font-family:var(--sans);font-weight:500;line-height:1.15;color:var(--ink)}
+h1,h2,h3{font-family:var(--sans);font-weight:500;line-height:1.15;color:var(--type-heading-color)}
 h1{font-size:clamp(2.4rem,5vw,3.8rem)}
 h2{font-size:clamp(2rem,4vw,3rem)}
 h3{font-size:1.55rem}

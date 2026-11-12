@@ -11,12 +11,13 @@ const SITE = {
   phone: '+91 98663 84827',
   tel: '+919866384827',
   whatsapp: '919866384827',
-  email: 'sales@homeconnectz.com',
+  email: 'homeconnectzmarketing@gmail.com',
   hours: '10 AM and 7 PM, all days',
-  addressLines: ['HomeConnectz', 'Ameerpet', 'Hyderabad, Telangana'],
+  addressLines: ['HomeConnectz', '8-3-231/W/40/202, Road No 2', 'Sri Krishna Nagar, Yousufguda', 'Hyderabad, Telangana 500045'],
   rera: 'TG-RERA Agent Regn. No. — applied for',
-  // Text used to find the office on the map. Replace with your full street address for an exact pin.
-  mapQuery: 'Ameerpet, Hyderabad, Telangana',
+  // Full office address used by the embedded map and directions.
+  mapQuery: '8-3-231/W/40/202, Road No 2, Sri Krishna Nagar, Yousufguda, Hyderabad, Telangana 500045',
+  mapUrl: 'https://maps.app.goo.gl/u31XSXiqQZ14N9pF6?g_st=acin',
 };
 
 const PROJECT_NAMES = [
@@ -93,7 +94,7 @@ function MapView() {
       />
       <div className="map-actions">
         <a className="link" href={`https://www.google.com/maps/dir/?api=1&destination=${q}`} target="_blank" rel="noreferrer">Get directions &rarr;</a>
-        <a className="link" href={`https://www.google.com/maps/search/?api=1&query=${q}`} target="_blank" rel="noreferrer">Open in Google Maps &rarr;</a>
+        <a className="link" href={SITE.mapUrl} target="_blank" rel="noreferrer">Open in Google Maps &rarr;</a>
       </div>
     </div>
   );
@@ -107,19 +108,23 @@ export default function Contact() {
   return (
     <section className="section container page-top contact-page">
       <style>{CSS}</style>
-      <div className="talk">
-        <div className="talk-info">
+      <header className="talk-info">
           <h1>Talk to us</h1>
           <p className="muted contact-intro">Call or WhatsApp between {SITE.hours}. Or leave your number and we’ll call you.</p>
           <a className="big-phone" href={`tel:${SITE.tel}`}>{SITE.phone}</a>
           <a className="link wa-link" href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp us &rarr;</a>
+      </header>
+      <div className="talk">
+        <div className="contact-left">
+        <div className="contact-details">
           <address className="muted">{SITE.addressLines.map((l) => <span key={l}>{l}</span>)}</address>
           <p className="muted small">{SITE.rera}</p>
           <p className="muted small">Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
         </div>
+        <MapView />
+        </div>
         <EnquiryForm title="Book a site visit" button="Book a site visit" />
       </div>
-      <MapView />
     </section>
   );
 }
@@ -141,21 +146,27 @@ const CSS = `
 .form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--navy)}
 .form small{color:#b3261e}
 .ok{background:#e3f4e8;color:#1d6b3a;padding:12px 16px;border-radius:12px}
-.talk{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:start}
-.talk-info{display:grid;gap:18px;justify-items:start;padding-top:8px}
+.talk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start}
+.contact-left{display:grid;gap:28px;min-width:0}
+.contact-page .form{min-width:0}
+.talk-info{display:grid;gap:18px;justify-items:center;text-align:center;padding-top:0;margin-bottom:48px}
+.contact-details{display:grid;gap:14px;text-align:center;justify-items:center}
+.contact-details .small{font-size:14px!important;overflow-wrap:anywhere}
 .talk-info h1{color:var(--navy);font-style:normal;font-weight:500;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:0}
-.talk-info .contact-intro{max-width:560px;margin:0;font-size:1.05rem;line-height:1.65;letter-spacing:0}
+.talk-info .contact-intro{max-width:760px;margin:0;font-size:1.05rem;line-height:1.65;letter-spacing:0}
 .big-phone{font-size:clamp(2.2rem,4vw,3rem);font-weight:600;color:var(--navy);line-height:1}
 .talk address{font-style:normal;display:grid;margin-top:8px}
-.map-card{width:100%;display:grid;gap:14px;justify-items:center;margin:clamp(40px,6vw,72px) auto 0}
-.map-frame{width:100%;height:clamp(300px,40vw,420px);border:0;border-radius:24px;box-shadow:var(--shadow);background:var(--bg)}
+.map-card{width:100%;display:grid;gap:14px;justify-items:center;margin:0}
+.map-frame{width:100%;height:280px;border:0;border-radius:24px;box-shadow:var(--shadow);background:var(--bg)}
 .map-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 28px}
 .form-title{font-size:2rem;color:var(--navy)}
 .consent{display:flex!important;grid-template-columns:none;gap:12px;align-items:flex-start;font-weight:400!important;font-size:.88rem!important;line-height:1.55;color:var(--ink)}
 .consent input{width:20px;height:20px;flex:none;margin-top:3px;accent-color:var(--navy);padding:0}
 .consent a{color:var(--navy);text-decoration:underline}
 .fine{font-size:.82rem;color:var(--muted);margin-top:-6px}
-@media (max-width:1024px){
-  .talk{grid-template-columns:1fr}
+@media (max-width:900px){
+  .talk{grid-template-columns:1fr;gap:32px}
+  .contact-left{gap:24px}
+  .talk-info{margin-bottom:32px}
 }
 `;

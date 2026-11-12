@@ -1,0 +1,154 @@
+﻿/* Permanent HomeConnectz typography standard.
+   Typography uses !important because page components inject their own style tags.
+   Keep sizes here instead of adding section-specific overrides. Mobile: <=760px. */
+:root {
+  --font-family: 'DM Sans', sans-serif;
+  --type-h1: 52px;
+  --type-h2: 38px;
+  --type-h3: 26px;
+  --type-body: 16px;
+  --type-small: 14px;
+  --type-card: 22px;
+  --type-nav: 15px;
+  --type-footer-heading: 18px;
+  --type-heading-color: #222222;
+  --type-body-color: #666666;
+}
+html body, body * {
+  font-family: var(--font-family) !important;
+}
+body {
+  font-size: var(--type-body) !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+  color: var(--type-body-color);
+}
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2 !important;
+  font-style: normal !important;
+  letter-spacing: normal !important;
+  color: var(--type-heading-color);
+}
+h1 { font-size: var(--type-h1) !important; font-weight: 600 !important; }
+h2 { font-size: var(--type-h2) !important; font-weight: 600 !important; }
+h3 { font-size: var(--type-h3) !important; font-weight: 500 !important; }
+h1 :is(em, span), h2 :is(em, span), h3 :is(em, span) {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  font-style: normal !important;
+}
+p, address, li, dd, dt {
+  font-size: var(--type-body) !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+}
+/* Light page copy uses the standard colours; existing dark surfaces retain contrast. */
+main :is(h1, h2, h3) { color: var(--type-heading-color); }
+main :is(.muted, .lead, .svc-text, .sp-sum, .contact-intro) { color: var(--type-body-color) !important; }
+:is(.srivari, .sapphire, .praneeta, .svc, .solar-page) {
+  --ink: #222222;
+  --mute: #666666;
+}
+:is(small, .small, .fine, .eyebrow, .sv-eyebrow, .sm-eyebrow, .sr-eyebrow, .pr-eyebrow,
+  .meta, .sp-config li, .sp-config p, .consent, .contact-page .consent) {
+  font-size: var(--type-small) !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+}
+:is(.eyebrow, .sv-eyebrow, .sm-eyebrow, .sr-eyebrow, .pr-eyebrow) { font-weight: 500 !important; }
+:is(.btn, .hx-btn, .hx-go, .sv-btn, .sr-btn, .sm-btn, .pr-btn, .tile-cta,
+  button[type='submit']) {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+label, .form label {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.6 !important;
+}
+input, select, textarea, .contact-page :is(input, select, textarea) {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+}
+:is(.svc-card, .sp-card, .project-card, .spec-card, .loc-card, .sv-benefits,
+  .sv-help, .sv-stages, .sv-why, .solar-page .step) h3 {
+  font-size: var(--type-card) !important;
+  font-weight: 600 !important;
+}
+:is(.svc-card, .sp-card, .project-card, .spec-card, .loc-card) p {
+  font-size: var(--type-small) !important;
+}
+.nav-logo { font-size: 24px !important; font-weight: 600 !important; }
+:is(.nav-links > a:not(.btn), .nav-dropdown-trigger, .nav-dropdown-menu a) {
+  font-size: var(--type-nav) !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+}
+:is(.nav-call, .nav-call-mobile) {
+  font-size: var(--type-nav) !important;
+  font-weight: 600 !important;
+}
+.footer h4 {
+  font-size: var(--type-footer-heading) !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+.footer :is(a, span, p) {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+}
+.footer .disclaimer {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+}
+.footer .footer-logo-text {
+  font-size: 24px !important;
+  font-weight: 600 !important;
+}
+.footer .footer-bottom {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+}
+@media (max-width: 760px) {
+  :root {
+    --type-h1: 36px;
+    --type-h2: 28px;
+    --type-h3: 22px;
+    --type-body: 15px;
+    --type-small: 13px;
+    --type-card: 20px;
+    --type-nav: 14px;
+    --type-footer-heading: 17px;
+  }
+  .nav-logo { font-size: 20px !important; }
+  .footer .footer-logo-text { font-size: 20px !important; }
+}
+/* The navigation switches to its mobile menu at 900px. */
+@media (min-width: 761px) and (max-width: 900px) {
+  .nav { --type-nav: 14px; }
+  .nav-logo { font-size: 20px !important; }
+}
+
+/* Match the services introduction to the project section brand blues. */
+main .svc-section .head .lead { color: var(--muted) !important; }
+
+/* Contact-specific type sizes approved in the contact layout reference. */
+.contact-page .talk-info h1 { font-size:var(--type-h2) !important; font-weight:600 !important; line-height:1.2 !important; letter-spacing:normal !important; color:var(--navy) !important; }
+.contact-page .form-title { font-size:26px !important; font-weight:600 !important; }
+.contact-page .big-phone { font-size:38px !important; font-weight:600 !important; line-height:1.2 !important; }
+.contact-page .contact-intro, .contact-page address { font-size:16px !important; font-weight:400 !important; }
+.contact-page .wa-link { font-size:15px !important; font-weight:600 !important; }
+.contact-page .talk-info .small, .contact-page .consent { font-size:14px !important; font-weight:400 !important; }
+.contact-page .talk-info .small { overflow-wrap:anywhere; }
+.contact-page .form label:not(.consent) { font-weight:500 !important; }
+.contact-page .form :is(input, select, textarea) { font-size:16px !important; font-weight:400 !important; }
+.contact-page .form button[type='submit'] { font-size:15px !important; font-weight:600 !important; }
+@media(max-width:380px) {
+  .contact-page .big-phone { font-size:clamp(26px,9vw,38px) !important; }
+  .contact-page .form { padding:20px; }
+}

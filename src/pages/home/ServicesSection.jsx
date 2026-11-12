@@ -8,9 +8,10 @@ function ServiceCard({ s }) {
       <div className="svc-media">
         <Img src={s.img} alt={s.title} fallback={s.fallback} />
         <span className="svc-shade" />
-        <span className="svc-badge"><Icon name={s.icon || 'sparkle'} size={36} /></span>
+
       </div>
       <div className="svc-body">
+        <span className="svc-badge"><Icon name={s.icon || 'sparkle'} size={36} /></span>
         <h3>{s.title}</h3>
         <p className="svc-text">{s.summary || s.text}</p>
         <span className="svc-link" aria-hidden="true">

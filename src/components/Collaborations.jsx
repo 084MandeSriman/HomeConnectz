@@ -28,10 +28,6 @@ function Logo({ collaborator }) {
 }
 
 export default function Collaborations() {
-  /* The three logos are repeated so the strip scrolls smoothly without gaps. */
-  const half = [...collaborators, ...collaborators, ...collaborators];
-  const loop = [...half, ...half];
-
   return (
     <>
       <style>{CSS}</style>
@@ -42,11 +38,10 @@ export default function Collaborations() {
         </div>
         <div className="co-viewport">
           <div className="co-track">
-            {loop.map((collaborator, index) => (
+            {collaborators.map((collaborator) => (
               <div
                 className="co-item"
-                key={`${collaborator.id}-${index}`}
-                aria-hidden={index >= collaborators.length ? 'true' : undefined}
+                key={collaborator.id}
               >
                 <Logo collaborator={collaborator} />
               </div>
@@ -61,16 +56,18 @@ export default function Collaborations() {
 const CSS = `
 .collab{padding:0;background:transparent;overflow:hidden}
 .collab .head{margin-bottom:clamp(30px,5vw,52px)}
-.collab h2{color:#1b2b40}
-.co-viewport{position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.co-track{display:flex;width:max-content;animation:co-scroll 40s linear infinite}
-.co-viewport:hover .co-track{animation-play-state:paused}
-@keyframes co-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.co-item{flex:none;width:290px;height:140px;display:grid;place-items:center;padding:0 14px}
-.co-logo{display:grid;place-items:center;width:100%;height:100px;padding:14px 22px;border:1px solid rgba(33,69,111,.1);border-radius:16px;background:#fff;box-shadow:0 10px 26px rgba(33,69,111,.08);text-align:center;transition:transform .3s,box-shadow .3s}
-.co-item:hover .co-logo{transform:translateY(-3px);box-shadow:0 16px 34px rgba(33,69,111,.14)}
-.co-logo img{display:block;width:auto;height:auto;max-width:100%;max-height:70px;object-fit:contain}
-.co-name{font-family:var(--sans);font-weight:700;font-size:1.2rem;color:#1b2b40}
-@media(max-width:640px){.co-item{width:220px;height:116px;padding:0 10px}.co-logo{height:84px;padding:10px 16px}.co-logo img{max-height:56px}.co-track{animation-duration:32s}}
-@media(prefers-reduced-motion:reduce){.co-track{animation:none}.co-viewport{overflow-x:auto}}
+.collab h2{color:var(--navy)}
+.collab .lead{color:var(--muted)}
+.home-main ~ .collab{padding-top:0;padding-bottom:64px}
+.home-main ~ .collab .head{margin-bottom:32px}
+@media(max-width:760px){.home-main ~ .collab{padding-bottom:48px}.home-main ~ .collab .head{margin-bottom:24px}}
+
+.co-viewport{width:min(1000px,100% - 40px);margin-inline:auto}
+.co-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;gap:clamp(24px,5vw,72px);padding:16px 0}
+.co-item{min-width:0;display:grid;place-items:center}
+.co-logo{display:grid;place-items:center;width:100%;height:110px;background:transparent;border:0;box-shadow:none;text-align:center}
+.co-logo img{display:block;width:auto;height:auto;max-width:100%;max-height:90px;object-fit:contain;mix-blend-mode:multiply}
+.co-name{font-family:var(--sans);font-weight:600;font-size:1.2rem;color:var(--navy)}
+@media(max-width:640px){.co-viewport{width:calc(100% - 32px)}.co-track{gap:20px}.co-logo{height:80px}.co-logo img{max-height:64px}.co-name{font-size:13px}}
+@media(max-width:380px){.co-track{grid-template-columns:1fr;gap:20px}.co-logo{height:76px;max-width:220px}}
 `;

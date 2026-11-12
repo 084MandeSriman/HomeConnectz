@@ -10,8 +10,8 @@ const SITE = {
   name: 'HomeConnectz',
   phone: '+91 98663 84827',
   tel: '+919866384827',
-  email: 'sales@homeconnectz.com',
-  addressLines: ['HomeConnectz', 'Ameerpet', 'Hyderabad, Telangana'],
+  email: 'homeconnectzmarketing@gmail.com',
+  addressLines: ['HomeConnectz', '8-3-231/W/40/202, Road No 2', 'Sri Krishna Nagar, Yousufguda', 'Hyderabad, Telangana 500045'],
   rera: 'TG-RERA Agent Regn. No. — applied for',
 };
 
@@ -119,17 +119,17 @@ const CSS = `
 .footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:36px}
 .footer-logo{height:64px;width:auto;margin-bottom:0;filter:brightness(0) invert(1)}
 .footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:34px}
-.footer h4{font-family:var(--sans);font-size:1.3rem;font-weight:600;margin-bottom:12px;color:#fff}
-.footer a,.footer span,.footer p{display:block;color:rgba(255,255,255,.9);font-size:.93rem;margin-bottom:8px}
+.footer h4{font-family:var(--sans);font-size:18px;font-weight:600;margin-bottom:12px;color:#fff}
+.footer a,.footer span,.footer p{display:block;color:rgba(255,255,255,.9);font-size:14px;font-weight:400;margin-bottom:8px}
 .footer a:hover{color:#d8c3a6}
 .socials{display:flex;align-items:center;gap:22px;margin:0}
 .socials a{display:grid;place-items:center;width:auto;height:auto;margin:0;background:none;border-radius:0;color:#fff;transition:color .2s,transform .2s}
 .socials a:hover{color:#d8c3a6;transform:translateY(-2px)}
-.footer-bottom{margin-top:40px;padding:20px 0;border-top:1px solid rgba(255,255,255,.45);font-size:.85rem;color:rgba(255,255,255,.9);text-align:center}
+.footer-bottom{margin-top:40px;padding:20px 0;border-top:1px solid rgba(255,255,255,.45);font-size:12px;font-weight:400;color:rgba(255,255,255,.9);text-align:center}
 .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .trust>div{background:#fff;border-radius:20px;padding:26px 28px;box-shadow:var(--shadow);border-top:3px solid var(--tan)}
 .trust p{margin-top:6px}
-.footer .disclaimer{font-size:.78rem;color:rgba(255,255,255,.9);line-height:1.6;margin-top:36px;padding-top:24px;border-top:1px solid rgba(255,255,255,.45)}
+.footer .disclaimer{font-size:14px;font-weight:400;color:rgba(255,255,255,.9);line-height:1.6;margin-top:36px;padding-top:24px;border-top:1px solid rgba(255,255,255,.45)}
 @media (max-width:1024px){
   .footer-grid{grid-template-columns:1fr 1fr}
 }
