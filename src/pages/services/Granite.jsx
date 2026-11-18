@@ -173,7 +173,7 @@ const CSS = `
 .g-app:hover svg{transform:rotate(45deg) scale(1.1);background:var(--g-gold);color:#fff}
 
 .g-prices{margin:0;padding:0;list-style:none}
-.g-price{display:flex;align-items:baseline;gap:12px;padding:14px 0;border-bottom:1px solid var(--g-line);color:var(--g-deep);font-weight:500;transition:padding .3s}
+.g-price{display:flex;align-items:baseline;gap:12px;padding:14px 0;color:var(--g-deep);font-weight:500;transition:padding .3s}
 .g-price:hover{padding-left:8px}
 .g-price i{flex:1;align-self:center;height:0;border-top:1px dotted rgba(15,34,56,.28);min-width:20px}
 .g-price b{font-family:inherit;font-weight:700;font-size:1.12rem;color:var(--g-navy);white-space:nowrap;font-variant-numeric:lining-nums tabular-nums}

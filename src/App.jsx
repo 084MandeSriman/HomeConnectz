@@ -85,13 +85,13 @@ export default function App() {
 //  All styling for this file lives here (injected with <style>).
 // ==========================================================================
 const CSS = `
-:root{--bg:#e9e8e6; --navy:#21456f; --ink:#1b2b40; --muted:#5d6f84; --tan:#b8a088; --cream:#f9f0e8; --white:#fff;
+:root{--bg:#fff; --navy:#21456f; --ink:#1b2b40; --muted:#5d6f84; --tan:#b8a088; --cream:#f9f0e8; --white:#fff;
   --line:rgba(33,69,111,.14); --shadow:0 10px 30px rgba(33,69,111,.10);
-  --nav-h:66px;--nav-top:16px;--deep:#0f2238;--deep2:#14233b;--gold:#d2b88f;--paper:#f6f1e7; --serif:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; --sans:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;}
+  --nav-h:66px;--nav-top:16px;--deep:#0f2238;--deep2:#14233b;--gold:#d2b88f;--paper:#fff; --serif:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; --sans:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 html,body{font-family:var(--sans)}
-body{background:var(--bg) url('/images/paper-bg.jpg') repeat;background-size:800px 800px;color:var(--type-body-color);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
+body{background:#fff;color:var(--type-body-color);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button,input,select,textarea{font:inherit;font-family:inherit;color:inherit}

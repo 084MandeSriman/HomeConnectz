@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Collaborations from './Collaborations.jsx';
 
 // ==========================================================================
@@ -62,9 +62,11 @@ function Icon({ name, size = 20, stroke = 1.8 }) {
 // ==========================================================================
 
 export default function Footer() {
+  const { pathname } = useLocation();
+
   return (
     <>
-    <Collaborations />
+    {pathname === '/' && <Collaborations />}
     <style>{CSS}</style>
     <footer className="footer">
       <div className="container footer-grid">

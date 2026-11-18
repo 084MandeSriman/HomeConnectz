@@ -249,11 +249,11 @@ const LEADERS = [
 const CONTACT = {
   name: 'Helios Services',
   address: '#37, UBI Colony, Road No. 3, Banjara Hills, Hyderabad, Telangana – 500034',
-  phone: '+91 93973 82189',
-  phoneHref: 'tel:+919397382189',
+  phone: '+91 98663 84827',
+  phoneHref: 'tel:+91 98663 84827',
   web: 'www.heliosenergy.in',
   webHref: 'https://www.heliosenergy.in',
-  email: 'madhu@thehelios.in',
+  email: 'homeconnectzmarketing@gmail.com',
 };
 
 /* ------------------------------------------------------------------ */
@@ -1161,9 +1161,9 @@ export default function Solar() {
             </table>
           </InView>
         </div>
-        <Reveal>
+        {/* <Reveal>
           <Pic src={IMG + 'band-utility.jpg'} fallback={[STOCK.farm, SERVICE.fallback]} alt="Utility-scale solar plant" caption="Ground-mounted solar plant" ratio="21 / 9" onOpen={open} />
-        </Reveal>
+        </Reveal> */}
       </div>
 
       {/* Notable installations */}
@@ -1272,7 +1272,7 @@ export default function Solar() {
       </div>
 
       {/* Leadership */}
-      <div className="section">
+      {/* <div className="section">
         <Reveal className="sec-head">
           <p className="eyebrow">Our leadership</p>
           <h2>
@@ -1293,7 +1293,7 @@ export default function Solar() {
             </Reveal>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Contact */}
       <div className="section">
