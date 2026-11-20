@@ -27,7 +27,7 @@ const CLIENTS = [
 /* NOTE: keep this export — the Services listing page imports it.      */
 export const SERVICE = {
   id: 'solar',
-  title: 'Solar panels',
+  title: 'Solar',
   tagline: 'Power that pays back',
   icon: 'sun',
   image: '/images/services/cards/solar.jpg',

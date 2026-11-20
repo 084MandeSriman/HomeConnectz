@@ -15,8 +15,13 @@ const SITE = {
   rera: 'TG-RERA Agent Regn. No. — applied for',
 };
 
-const DISCLAIMER =
-  'HomeConnectz is a marketing channel partner. We are not the promoter, developer or builder of any project shown on this site. We charge no brokerage to buyers; we are compensated by the developer. All project information, imagery, plans, specifications and prices are supplied by the respective developer and are indicative only, subject to change and to confirmation with the developer. Images may be artistic impressions. Nothing on this site constitutes an offer or a contract. Please verify all details and approvals on the TG-RERA portal before making any payment.';
+const DISCLAIMER = (
+  <>
+    HomeConnectz is a marketing channel partner. We are not the promoter, developer or builder of any project shown on this site. We charge no brokerage to buyers; we are compensated by the developer. All project information, imagery, plans, specifications and prices are supplied by the respective developer and are indicative only, subject to change and to confirmation with the developer. Images may be artistic impressions. Nothing on this site constitutes an offer or a contract. Please verify all details and approvals on the{' '}
+    <a href="https://rera.telangana.gov.in/" target="_blank" rel="noopener noreferrer">TG-RERA portal</a>
+    {' '}before making any payment.
+  </>
+);
 
 const links = [
   { to: '/services', label: 'Services' },
@@ -24,15 +29,14 @@ const links = [
 ];
 
 const services = [
+  { id: 'residential', title: 'Residential and Commercial Sales' },
   { id: 'granite', title: 'Granite' },
-  { id: 'residential', title: 'Residential' },
-  { id: 'solar', title: 'Solar panels' },
+  { id: 'solar', title: 'Solar' },
 ];
 
 // Social media links. Replace each url with your real page address.
 const socials = [
   { id: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/homeconnectz' },
-  { id: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/homeconnectz' },
   { id: 'whatsapp', label: 'WhatsApp', url: `https://wa.me/${SITE.tel.replace('+', '')}` },
 ];
 
@@ -42,7 +46,6 @@ const socials = [
 
 const ICONS = {
   instagram: 'M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.5-3.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z',
-  facebook: 'M14 8h3V4h-3a4 4 0 0 0-4 4v2H7v4h3v7h4v-7h3l1-4h-4V8z',
   whatsapp: 'M2 22l1.4-5.2A10 10 0 1 1 7.2 20.6L2 22zm6.4-15.1c-1 0-1.9 1-1.9 2.4 0 2.9 4.4 7.4 7.7 7.4 1.5 0 2.8-.9 2.8-2 0-.3-.1-.5-.4-.7l-2.2-1.1c-.3-.1-.5-.1-.7.2l-.9 1c-1.6-.6-2.9-1.8-3.6-3.3l.8-.9c.2-.3.2-.5.1-.8l-.9-1.9c-.1-.2-.4-.3-.8-.3z',
 };
 
@@ -129,6 +132,7 @@ const CSS = `
 .trust>div{background:#fff;border-radius:20px;padding:26px 28px;box-shadow:var(--shadow);border-top:3px solid var(--accent)}
 .trust p{margin-top:6px}
 .footer .disclaimer{font-size:14px;font-weight:400;color:rgba(255,255,255,.9);line-height:1.6;margin-top:36px;padding-top:24px;border-top:1px solid rgba(255,255,255,.45)}
+.footer .disclaimer a{display:inline;margin:0;font:inherit;text-decoration:underline;text-underline-offset:2px}
 @media (max-width:1024px){
   .footer-grid{grid-template-columns:1fr 1fr}
 }

@@ -43,6 +43,7 @@ export default function Collaborations() {
             {collaborators.map((collaborator) => (
               <div
                 className="co-item"
+                data-collaborator={collaborator.id}
                 key={collaborator.id}
               >
                 <Logo collaborator={collaborator} />
@@ -73,6 +74,7 @@ const CSS = `
 .co-item{min-width:0;display:grid;place-items:center}
 .co-logo{display:grid;place-items:center;width:100%;height:110px;background:transparent;border:0;box-shadow:none;text-align:center}
 .co-logo img{display:block;width:auto;height:auto;max-width:100%;max-height:90px;object-fit:contain;mix-blend-mode:multiply}
+.co-item[data-collaborator="cadence"] img{filter:brightness(0) invert(1);mix-blend-mode:normal}
 .co-name{font-family:var(--sans);font-weight:600;font-size:1.2rem;color:var(--navy)}
 @media(max-width:640px){.co-viewport{width:calc(100% - 32px)}.co-track{gap:20px}.co-logo{height:80px}.co-logo img{max-height:64px}.co-name{font-size:13px}}
 @media(max-width:380px){.co-track{grid-template-columns:1fr;gap:20px}.co-logo{height:76px;max-width:220px}}
