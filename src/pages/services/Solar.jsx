@@ -277,7 +277,7 @@ const LB_CSS = `
 `;
 
 const CSS = `
-.solar-page{padding-top:0!important;padding-bottom:clamp(20px,3vw,36px)!important;--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--gold,#b8953f);--g1:#e6cf9f;--g2:#c9a55a;--night:var(--deep,#0f2238);--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1)}
+.solar-page{padding-top:0!important;padding-bottom:clamp(20px,3vw,36px)!important;--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--accent,#355d83);--g1:#dcebf8;--g2:#aecbe6;--night:var(--deep,#0f2238);--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1)}
 .solar-page *{box-sizing:border-box}
 .solar-page img{display:block;max-width:100%}
 .solar-page button{font:inherit;color:inherit;cursor:pointer}
@@ -335,7 +335,7 @@ html,body{overflow-x:clip}
 .solar-page .stat>span{display:block;margin-top:8px;color:var(--mute);font-size:.92rem}
 
 /* image frame: the picture sits INSIDE the border, edge to edge */
-.solar-page .frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(184,149,63,.6);border-radius:30px;background:rgba(255,255,255,.55)}
+.solar-page .frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(53,93,131,.6);border-radius:30px;background:rgba(255,255,255,.55)}
 .solar-page .frame>button{position:relative;display:block;width:100%;padding:0;border:0;background:var(--night);border-radius:20px;overflow:hidden;cursor:zoom-in}
 .solar-page .frame img{display:block;width:100%;aspect-ratio:var(--ar,4/3);object-fit:cover;border-radius:20px}
 .solar-page .hint{position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.74rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}
@@ -351,7 +351,7 @@ html,body{overflow-x:clip}
 .solar-page .about>*{min-width:0}
 .solar-page .checks{display:grid;gap:12px;margin:18px 0 0;padding:0;list-style:none}
 .solar-page .checks li{display:flex;align-items:flex-start;gap:12px;color:var(--ink);font-weight:500;line-height:1.5}
-.solar-page .checks .ico{width:22px;height:22px;margin-top:1px;padding:3px;border-radius:50%;background:rgba(184,149,63,.2);color:var(--acc)}
+.solar-page .checks .ico{width:22px;height:22px;margin-top:1px;padding:3px;border-radius:50%;background:rgba(53,93,131,.2);color:var(--acc)}
 .solar-page .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:30px;border-top:1px solid var(--line)}
 .solar-page .pillar{padding:18px 16px 0 0}
 .solar-page .pillar .ico{width:26px;height:26px;color:var(--acc)}
@@ -384,7 +384,7 @@ html,body{overflow-x:clip}
 .solar-page .lists h4{margin:0 0 4px;color:var(--ink);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
 .solar-page .flow{display:flex;align-items:flex-start;margin-top:26px}
 .solar-page .flow-node{flex:1;min-width:0;text-align:center}
-.solar-page .flow-ico{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 8px;border-radius:50%;background:rgba(184,149,63,.18);color:var(--ink);font-size:1.5rem}
+.solar-page .flow-ico{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 8px;border-radius:50%;background:rgba(53,93,131,.18);color:var(--ink);font-size:1.5rem}
 .solar-page .flow-node b{display:block;color:var(--ink);font-size:.95rem}
 .solar-page .flow-node span{display:block;color:var(--mute);font-size:.8rem;line-height:1.4}
 .solar-page .flow-line{flex:0 0 clamp(18px,3vw,40px);height:2px;margin-top:26px;background:repeating-linear-gradient(90deg,var(--acc) 0 6px,transparent 6px 12px)}
@@ -402,7 +402,7 @@ html,body{overflow-x:clip}
 .solar-page .thumb img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
 .solar-page .thumb span{position:absolute;left:0;right:0;bottom:0;padding:16px 8px 6px;background:linear-gradient(transparent,rgba(15,34,56,.82));color:#fff;font-size:.74rem;font-weight:600;text-align:center}
 .solar-page .thumb:hover{transform:translateY(-2px)}
-.solar-page .thumb[aria-current=true]{border-color:var(--acc);box-shadow:0 0 0 2px rgba(184,149,63,.35)}
+.solar-page .thumb[aria-current=true]{border-color:var(--acc);box-shadow:0 0 0 2px rgba(53,93,131,.35)}
 .solar-page .glance-info{animation:s-fadeup .6s var(--ease)}
 .solar-page .glance-info h3{margin:0 0 20px;font-size:clamp(1.7rem,2.8vw,2.3rem);line-height:1.15;color:var(--ink)}
 .solar-page .glance-info .eyebrow{margin-bottom:8px}
@@ -480,7 +480,7 @@ html,body{overflow-x:clip}
 /* leadership */
 .solar-page .leaders{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,72px)}
 .solar-page .leader{display:grid;grid-template-columns:132px 1fr;gap:24px;align-items:start}
-.solar-page .avatar{width:132px;height:132px;border-radius:50%;padding:5px;border:1.5px solid rgba(184,149,63,.6);background:rgba(255,255,255,.55)}
+.solar-page .avatar{width:132px;height:132px;border-radius:50%;padding:5px;border:1.5px solid rgba(53,93,131,.6);background:rgba(255,255,255,.55)}
 .solar-page .avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
 .solar-page .leader h3{margin:0;font-size:1.5rem;color:var(--ink)}
 .solar-page .leader .role{margin:2px 0 10px;color:var(--acc);font-weight:600;font-size:.92rem}
@@ -492,7 +492,7 @@ html,body{overflow-x:clip}
 .solar-page .reach li{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--line);color:var(--ink);line-height:1.5}
 .solar-page .reach .ico{width:40px;height:40px;padding:10px;border:1.5px solid var(--acc);border-radius:50%;color:var(--acc)}
 .solar-page .reach small{display:block;color:var(--mute);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase}
-.solar-page .reach a{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:rgba(184,149,63,.6);text-underline-offset:3px;word-break:break-word}
+.solar-page .reach a{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:rgba(53,93,131,.6);text-underline-offset:3px;word-break:break-word}
 
 @keyframes s-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 @keyframes s-fadeup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
@@ -692,7 +692,7 @@ function Logo({ name, src }) {
   );
 }
 
-/* A framed picture: sits inside its gold border and opens in the viewer when clicked. */
+/* A framed picture: sits inside its blue border and opens in the viewer when clicked. */
 function Pic({ src, fallback, alt, caption, tag, ratio = '4 / 3', onOpen, children }) {
   return (
     <figure className="frame" style={{ '--ar': ratio }}>

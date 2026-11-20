@@ -41,18 +41,15 @@ const socials = [
 // ==========================================================================
 
 const ICONS = {
-  check: 'M5 12.5l4.5 4.5L19 7.5',
-  instagram: 'M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM17.5 6.5h.01',
+  instagram: 'M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.5-3.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z',
   facebook: 'M14 8h3V4h-3a4 4 0 0 0-4 4v2H7v4h3v7h4v-7h3l1-4h-4V8z',
-  whatsapp: 'M3 21l1.65-4.8A8.5 8.5 0 1 1 8 19.4L3 21zM9 10c0 3 2 5 5 5l1.2-1.2a.8.8 0 0 0 0-1.1l-1.1-.9a.8.8 0 0 0-1 0l-.5.5c-.9-.4-1.6-1.1-2-2l.5-.5a.8.8 0 0 0 0-1l-.9-1.1a.8.8 0 0 0-1.1 0L9 10z',
-  linkedin: 'M4 9h4v11H4zM6 4a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM10 9h4v1.6A4 4 0 0 1 17.5 9c3 0 3.5 2 3.5 4.6V20h-4v-5.6c0-1.2 0-2.4-1.5-2.4S14 13 14 14.4V20h-4z',
+  whatsapp: 'M2 22l1.4-5.2A10 10 0 1 1 7.2 20.6L2 22zm6.4-15.1c-1 0-1.9 1-1.9 2.4 0 2.9 4.4 7.4 7.7 7.4 1.5 0 2.8-.9 2.8-2 0-.3-.1-.5-.4-.7l-2.2-1.1c-.3-.1-.5-.1-.7.2l-.9 1c-1.6-.6-2.9-1.8-3.6-3.3l.8-.9c.2-.3.2-.5.1-.8l-.9-1.9c-.1-.2-.4-.3-.8-.3z',
 };
 
-function Icon({ name, size = 20, stroke = 1.8 }) {
+function Icon({ name }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d={ICONS[name] || ICONS.check} />
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d={ICONS[name]} fillRule="evenodd" />
     </svg>
   );
 }
@@ -71,7 +68,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer-grid">
         <div className="footer-brand">
-          <img src="/logo.png" alt="HomeConnectz" className="footer-logo" />
+          <img src="/logo-footer.png" alt="HomeConnectz" className="footer-logo" />
           <div className="socials">
             {socials.map((s) => (
               <a
@@ -82,7 +79,7 @@ export default function Footer() {
                 aria-label={`HomeConnectz on ${s.label}`}
                 title={s.label}
               >
-                <Icon name={s.id} size={26} stroke={1.6} />
+                <Icon name={s.id} />
               </a>
             ))}
           </div>
@@ -117,19 +114,19 @@ export default function Footer() {
 //  All styling for this file lives here (injected with <style>).
 // ==========================================================================
 const CSS = `
-.footer{background:linear-gradient(115deg,#0a3a6a 0%,#062c52 100%);border-top:1px solid rgba(255,255,255,.18);padding-top:56px;color:#fff}
+.footer{--footer-accent:#b8a289;background:var(--footer-background);border-top:1px solid rgba(255,255,255,.18);padding-top:56px;color:#fff}
 .footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:36px}
-.footer-logo{height:64px;width:auto;margin-bottom:0;filter:brightness(0) invert(1)}
+.footer-logo{width:min(320px,100%);height:auto;margin-bottom:0}
 .footer-brand{display:flex;flex-direction:column;align-items:flex-start;gap:34px}
 .footer h4{font-family:var(--sans);font-size:18px;font-weight:600;margin-bottom:12px;color:#fff}
 .footer a,.footer span,.footer p{display:block;color:rgba(255,255,255,.9);font-size:14px;font-weight:400;margin-bottom:8px}
-.footer a:hover{color:#d8c3a6}
-.socials{display:flex;align-items:center;gap:22px;margin:0}
-.socials a{display:grid;place-items:center;width:auto;height:auto;margin:0;background:none;border-radius:0;color:#fff;transition:color .2s,transform .2s}
-.socials a:hover{color:#d8c3a6;transform:translateY(-2px)}
+.footer a:hover,.footer a:focus-visible{color:var(--footer-accent)}
+.footer .socials{display:flex;align-items:center;gap:10px;margin:0}
+.footer .socials a{display:grid;place-items:center;width:50px;height:50px;margin:0;border:1px solid rgba(255,255,255,.22);border-radius:50%;color:#fff;transition:color .2s,border-color .2s}
+.footer .socials a:hover,.footer .socials a:focus-visible{color:var(--footer-accent);border-color:currentColor}
 .footer-bottom{margin-top:40px;padding:20px 0;border-top:1px solid rgba(255,255,255,.45);font-size:12px;font-weight:400;color:rgba(255,255,255,.9);text-align:center}
 .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.trust>div{background:#fff;border-radius:20px;padding:26px 28px;box-shadow:var(--shadow);border-top:3px solid var(--tan)}
+.trust>div{background:#fff;border-radius:20px;padding:26px 28px;box-shadow:var(--shadow);border-top:3px solid var(--accent)}
 .trust p{margin-top:6px}
 .footer .disclaimer{font-size:14px;font-weight:400;color:rgba(255,255,255,.9);line-height:1.6;margin-top:36px;padding-top:24px;border-top:1px solid rgba(255,255,255,.45)}
 @media (max-width:1024px){
@@ -139,6 +136,6 @@ const CSS = `
   .trust{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr}
 }
-.eyebrow.gold{color:var(--gold)}
+.eyebrow.on-dark{color:var(--accent-light)}
 .nav{position:fixed;top:var(--nav-top);left:0;right:0;z-index:60;pointer-events:none}
 `;

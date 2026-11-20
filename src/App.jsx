@@ -85,9 +85,14 @@ export default function App() {
 //  All styling for this file lives here (injected with <style>).
 // ==========================================================================
 const CSS = `
-:root{--bg:#fff; --navy:#21456f; --ink:#1b2b40; --muted:#5d6f84; --tan:#b8a088; --cream:#f9f0e8; --white:#fff;
+:root{--bg:#fff; --navy:#21456f; --ink:#1b2b40; --muted:#5d6f84; --accent:#355d83; --cream:#f9f0e8; --white:#fff;
+  --footer-background:#0d345b;
+  --beige-glass-background:
+    radial-gradient(ellipse at 16% 0%, rgba(255,255,255,.62), transparent 55%),
+    linear-gradient(128deg, transparent 18%, rgba(255,255,255,.42) 34%, transparent 52%),
+    #f0ebe1;
   --line:rgba(33,69,111,.14); --shadow:0 10px 30px rgba(33,69,111,.10);
-  --nav-h:66px;--nav-top:16px;--deep:#0f2238;--deep2:#14233b;--gold:#d2b88f;--paper:#fff; --serif:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; --sans:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;}
+  --nav-h:66px;--nav-top:16px;--deep:#0f2238;--deep2:#14233b;--accent-light:#bdd8f1;--paper:#fff; --serif:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; --sans:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 html,body{font-family:var(--sans)}
@@ -119,7 +124,7 @@ h3{font-size:1.55rem}
 .btn-ghost{border-color:#fff;color:#fff}
 .btn-ghost:hover{background:#fff;color:var(--ink)}
 .link{display:inline-flex;align-items:center;gap:6px;color:var(--navy);font-weight:600;font-size:.95rem}
-.link:hover{color:var(--tan)}
+.link:hover{color:var(--accent)}
 .btn-sm{padding:9px 18px;font-size:.88rem}
 .btn-block{width:100%;padding:16px}
 .btn[disabled]{background:#c9d4e2;color:#fff;cursor:not-allowed}
@@ -131,13 +136,13 @@ h3{font-size:1.55rem}
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 em{font-style:italic}
-.btn-gold{background:var(--gold);color:var(--deep);border-color:var(--gold)}
-.btn-gold:hover{background:#fff;border-color:#fff}
+.btn-accent{background:var(--accent-light);color:var(--deep);border-color:var(--accent-light)}
+.btn-accent:hover{background:#fff;border-color:#fff}
 .btn-outline-light{border-color:rgba(255,255,255,.55);color:#fff}
 .btn-outline-light:hover{background:#fff;color:var(--deep);border-color:#fff}
 .btn-line{border-color:rgba(33,69,111,.3);color:var(--navy);background:transparent}
 .btn-line:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
-.eyebrow{display:inline-flex;align-items:center;gap:14px;text-transform:uppercase;letter-spacing:.26em;font-size:.74rem;font-weight:700;color:var(--tan);margin-bottom:14px}
+.eyebrow{display:inline-flex;align-items:center;gap:14px;text-transform:uppercase;letter-spacing:.26em;font-size:.74rem;font-weight:700;color:var(--accent);margin-bottom:14px}
 .eyebrow span,.eyebrow::after{content:'';width:34px;height:1px;background:currentColor}
 .head h2 em{color:var(--navy)}
 main.pad-nav{padding-top:calc(var(--nav-top) + var(--nav-h) + 10px)}

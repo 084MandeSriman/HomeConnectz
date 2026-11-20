@@ -8,16 +8,14 @@ const CIRC = 2 * Math.PI * R;
 
 const css = `
 .hc-loader {
-  --hc-bg: #e3f0fa;
   --hc-navy: #1f4577;
-  --hc-tan: #b89b7a;
+  --hc-roof: #b8a289;
   position: fixed;
   inset: 0;
   z-index: 9999;
   display: grid;
   place-items: center;
-  background: var(--hc-bg) url('/images/paper-bg.jpg') repeat;
-  background-size: 800px 800px;
+  background: #f3f0e9;
   transition: opacity .6s ease, visibility .6s ease;
 }
 .hc-loader.leave { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -135,7 +133,7 @@ export default function Loader({ onDone }) {
         {/* house icon: outer group = position, inner group = animation */}
         <g transform="translate(170 100)">
           <g className="hc-house-anim">
-            <path className="hc-roof" fill="#b89b7a" d="M0 57 L75 0 L149 57 V74 L75 20 L0 74 Z" />
+            <path className="hc-roof" fill="var(--hc-roof)" d="M0 57 L75 0 L149 57 V74 L75 20 L0 74 Z" />
             <path fill="#1f4577" d="M0 74 L75 20 L149 74 V153 H100 V108 H49 V153 H0 Z" />
           </g>
         </g>

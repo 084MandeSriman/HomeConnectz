@@ -91,7 +91,7 @@ const STONES = [
 
 const CSS = `
 .granite-page{
-  --g-navy:var(--navy,#21456f);--g-deep:var(--deep,#0f2238);--g-gold:var(--gold,#c9a45c);
+  --g-navy:var(--navy,#21456f);--g-deep:var(--deep,#0f2238);--g-accent:var(--accent,#355d83);
   --g-muted:var(--muted,#5c6b7c);--g-line:rgba(15,34,56,.14);--g-serif:var(--sans);
   padding-top:clamp(24px,3vw,40px);padding-bottom:clamp(48px,6vw,96px);
 }
@@ -100,7 +100,7 @@ const CSS = `
 .granite-page .granite-intro h1{margin:0;font-family:var(--g-serif);font-style:normal;font-weight:500;font-size:clamp(2.1rem,3.6vw,3rem);line-height:1.15;color:var(--navy)}
 .granite-page .granite-intro p{max-width:none;margin:12px auto 0;color:var(--g-muted);font-size:1rem;line-height:1.65;letter-spacing:.01em}
 .granite-page .granite-contacts{max-width:980px;margin:clamp(36px,6vw,72px) auto 0;padding:clamp(22px,4vw,36px) 0;border:0;border-radius:0;background:transparent;text-align:center}
-.granite-page .granite-contact-eyebrow{color:var(--g-gold);font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.granite-page .granite-contact-eyebrow{color:var(--g-accent);font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
 .granite-page .granite-contacts h2{margin-top:5px;color:var(--g-navy);font-family:var(--g-serif);font-size:clamp(1.5rem,3vw,2.1rem);font-weight:500}
 .granite-page .granite-contact-list{display:flex;justify-content:center;flex-wrap:wrap;gap:24px 60px;margin-top:22px}
 .granite-page .granite-contact-list p{display:grid;gap:2px;color:var(--g-navy)}
@@ -118,7 +118,7 @@ const CSS = `
 .granite-page .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1);z-index:-1}
 .granite-page .tile:hover img,.granite-page .tile:focus-visible img{transform:scale(1.07)}
 .granite-page .tile::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,16,28,.88),rgba(8,16,28,0) 50%);z-index:0}
-.granite-page .tile::before{content:'';position:absolute;inset:14px;border:1px solid rgba(201,164,92,.9);z-index:1;opacity:0;transform:scale(1.04);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.granite-page .tile::before{content:'';position:absolute;inset:14px;border:1px solid rgba(53,93,131,.9);z-index:1;opacity:0;transform:scale(1.04);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1);pointer-events:none}
 .granite-page .tile:hover::before,.granite-page .tile:focus-visible::before{opacity:1;transform:scale(1)}
 .granite-page .tile-label{position:absolute;left:clamp(24px,3.4vw,38px);right:clamp(24px,3.4vw,38px);bottom:clamp(24px,3.2vw,36px);z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .granite-page .tile-label strong{display:block;font-family:var(--g-serif);font-weight:500;font-size:clamp(1.8rem,3.2vw,2.8rem);line-height:1}
@@ -128,7 +128,7 @@ const CSS = `
 
 /* modal */
 .g-modal{position:fixed;inset:0;z-index:1000;display:grid;place-items:stretch;padding:0;background:rgba(8,16,28,.78);backdrop-filter:blur(7px);animation:g-fade .3s ease both}
-.g-panel{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;overflow:hidden;padding:0;background-color:#ececec;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .45 0 0 0 0 .45 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");border:0;border-radius:0;box-shadow:none;animation:g-fade .3s ease both;color:#0f2238;--g-navy:var(--navy,#21456f);--g-deep:var(--deep,#0f2238);--g-gold:var(--gold,#c9a45c);--g-muted:var(--muted,#5c6b7c);--g-line:rgba(15,34,56,.14);--g-serif:var(--sans)}
+.g-panel{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;overflow:hidden;padding:0;background-color:#ececec;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .45 0 0 0 0 .45 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");border:0;border-radius:0;box-shadow:none;animation:g-fade .3s ease both;color:#0f2238;--g-navy:var(--navy,#21456f);--g-deep:var(--deep,#0f2238);--g-accent:var(--accent,#355d83);--g-muted:var(--muted,#5c6b7c);--g-line:rgba(15,34,56,.14);--g-serif:var(--sans)}
 .g-panel *{box-sizing:border-box}
 .g-photo-side{min-width:0;min-height:0;padding:clamp(16px,2vw,28px)}
 .g-photo{position:relative;display:block;width:100%;height:100%;min-height:0;padding:0;border:0;overflow:hidden;background:#111;cursor:zoom-in;border-radius:16px}
@@ -153,7 +153,7 @@ const CSS = `
 .g-view>:nth-child(5){animation-delay:.4s}
 .g-view>:nth-child(6){animation-delay:.5s}
 .g-view>:nth-child(7){animation-delay:.6s}
-.g-short{margin:-4px 0 22px;color:var(--g-gold);font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.g-short{margin:-4px 0 22px;color:var(--g-accent);font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
 .g-title{font-style:normal}
 
 .g-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0 0 6px;border-top:1px solid var(--g-line)}
@@ -163,14 +163,14 @@ const CSS = `
 .g-specs dt{margin-top:6px;color:var(--g-muted);font-size:.82rem}
 
 .g-sec{padding-top:30px}
-.g-sec h4{display:flex;align-items:center;gap:12px;margin:0 0 14px;font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--g-gold)}
+.g-sec h4{display:flex;align-items:center;gap:12px;margin:0 0 14px;font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--g-accent)}
 .g-sec h4::after{content:'';flex:1;height:1px;background:var(--g-line)}
 .g-sec>p{margin:0;color:var(--g-muted);font-size:1.02rem;line-height:1.85}
 
 .g-apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 26px;margin:0;padding:0;list-style:none}
 .g-app{position:relative;padding-left:32px;color:var(--g-deep);font-weight:500;line-height:1.5}
-.g-app svg{position:absolute;left:0;top:1px;width:22px;height:22px;padding:5px;border-radius:50%;background:rgba(201,164,92,.22);color:#8a6a2a;transition:transform .35s,background .35s}
-.g-app:hover svg{transform:rotate(45deg) scale(1.1);background:var(--g-gold);color:#fff}
+.g-app svg{position:absolute;left:0;top:1px;width:22px;height:22px;padding:5px;border-radius:50%;background:rgba(53,93,131,.22);color:#355d83;transition:transform .35s,background .35s}
+.g-app:hover svg{transform:rotate(45deg) scale(1.1);background:var(--g-accent);color:#fff}
 
 .g-prices{margin:0;padding:0;list-style:none}
 .g-price{display:flex;align-items:baseline;gap:12px;padding:14px 0;color:var(--g-deep);font-weight:500;transition:padding .3s}
@@ -179,7 +179,7 @@ const CSS = `
 .g-price b{font-family:inherit;font-weight:700;font-size:1.12rem;color:var(--g-navy);white-space:nowrap;font-variant-numeric:lining-nums tabular-nums}
 .g-price b small{margin-left:4px;font-family:inherit;font-size:.76rem;font-weight:400;color:var(--g-muted)}
 .g-note{margin:14px 0 0;font-size:.88rem;color:var(--g-muted)}
-.g-note::before{content:'';display:inline-block;width:7px;height:7px;margin-right:10px;border-radius:50%;background:var(--g-gold)}
+.g-note::before{content:'';display:inline-block;width:7px;height:7px;margin-right:10px;border-radius:50%;background:var(--g-accent)}
 
 .g-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:30px;padding:22px 0 4px;border-top:1px solid var(--g-line);font-size:.95rem;color:var(--g-muted)}
 .g-foot span{max-width:420px;line-height:1.6}
@@ -190,7 +190,7 @@ const CSS = `
 .g-zoom img{display:block;width:100%;max-height:calc(84vh - 34px);object-fit:contain;border-radius:8px;background:#101820}
 .g-zoom button{position:absolute;top:22px;right:22px;display:grid;place-items:center;width:40px;height:40px;padding:0;border:2px solid #fff;border-radius:50%;background:rgba(8,16,28,.82);color:#fff;font:inherit;font-size:1.5rem;line-height:1;cursor:pointer}
 .g-zoom button:hover{background:#0f2238}
-.g-panel .btn:focus-visible,.g-close:focus-visible,.g-photo:focus-visible,.g-zoom button:focus-visible,.granite-page .tile:focus-visible{outline:3px solid var(--g-gold);outline-offset:3px}
+.g-panel .btn:focus-visible,.g-close:focus-visible,.g-photo:focus-visible,.g-zoom button:focus-visible,.granite-page .tile:focus-visible{outline:3px solid var(--g-accent);outline-offset:3px}
 
 @keyframes g-rise{to{opacity:1;transform:none}}
 @keyframes g-up{to{opacity:1;transform:none}}
@@ -319,7 +319,7 @@ function StoneModal({ index, onClose }) {
 
           <div className="g-foot">
             <span>Interested in {stone.name}? Our team will confirm grade, quantity and delivery.</span>
-            <Link to="/contact" className="btn btn-gold">Request a quote</Link>
+            <Link to="/contact" className="btn btn-accent">Request a quote</Link>
           </div>
         </div>
       </div>

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
+export const VARA_PRASAD_LOGO = 'https://varaprasadconstructions.com/assets/vp-b-cons-images.png';
+
 const collaborators = [
   { id: 'praneeta', name: 'Praneeta', src: 'https://www.praneeta.dev/logo.png' },
-  { id: 'vara-prasad', name: 'Vara Prasad Constructions', src: 'https://varaprasadconstructions.com/assets/vp-b-cons-images.png' },
+  { id: 'vara-prasad', name: 'Vara Prasad Constructions', src: VARA_PRASAD_LOGO },
   { id: 'cadence', name: 'Cadence Realty', src: 'https://www.cadencerealty.in/images/cadence.svg' },
 ];
 
@@ -54,7 +56,11 @@ export default function Collaborations() {
 }
 
 const CSS = `
-.collab{padding:0;background:#e7e7e7;overflow:hidden}
+.collab{
+  padding-block:clamp(32px,5vw,64px);
+  background:var(--beige-glass-background);
+  overflow:hidden;
+}
 .collab .head{margin-bottom:clamp(30px,5vw,52px)}
 .collab h2{color:var(--navy)}
 .collab .lead{color:var(--muted)}

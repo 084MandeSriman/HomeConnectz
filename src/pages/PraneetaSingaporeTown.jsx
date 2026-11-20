@@ -667,7 +667,7 @@ const LB_CSS = `
 `;
 
 const CSS = `
-.praneeta{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--gold,#b8953f);--g1:#e6cf9f;--g2:#c9a55a;--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1);padding-bottom:clamp(20px,3vw,36px)!important}
+.praneeta{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--accent,#355d83);--g1:#dcebf8;--g2:#aecbe6;--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1);padding-bottom:clamp(20px,3vw,36px)!important}
 .praneeta *{box-sizing:border-box}
 .praneeta img{display:block;max-width:100%}
 .praneeta button{font:inherit;color:inherit;cursor:pointer}
@@ -745,11 +745,11 @@ html,body{overflow-x:clip}
 .praneeta .pr-link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding-bottom:3px;border-bottom:1.5px solid var(--acc);color:var(--ink);font-weight:700}
 .praneeta .pr-ticks{display:grid;gap:11px;margin:18px 0 0;padding:0;list-style:none}
 .praneeta .pr-ticks li{position:relative;padding-left:32px;color:var(--ink);font-weight:500;line-height:1.5}
-.praneeta .pr-ticks li::before{content:'';position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:rgba(184,149,63,.18)}
+.praneeta .pr-ticks li::before{content:'';position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:rgba(53,93,131,.18)}
 .praneeta .pr-ticks li::after{content:'';position:absolute;left:8px;top:6px;width:5px;height:9px;border:solid var(--acc);border-width:0 2px 2px 0;transform:rotate(45deg)}
 
 /* image frame: the picture sits INSIDE the border, edge to edge */
-.praneeta .pr-frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(184,149,63,.6);border-radius:30px;background:rgba(255,255,255,.55)}
+.praneeta .pr-frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(53,93,131,.6);border-radius:30px;background:rgba(255,255,255,.55)}
 .praneeta .pr-frame.pop{animation:pr-pop .8s var(--ease) both}
 .praneeta .pr-frame>button{position:relative;display:block;width:100%;padding:0;border:0;background:rgba(33,69,111,.08);border-radius:20px;overflow:hidden;cursor:zoom-in}
 .praneeta .pr-frame img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px}
@@ -776,7 +776,7 @@ html,body{overflow-x:clip}
 
 /* gallery */
 .praneeta .pr-mosaic{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:14px}
-.praneeta .pr-tile{position:relative;overflow:hidden;padding:0;border:1.5px solid rgba(184,149,63,.45);border-radius:20px;background:rgba(33,69,111,.08);animation:pr-pop .8s var(--ease) both;animation-delay:calc(var(--i) * 80ms)}
+.praneeta .pr-tile{position:relative;overflow:hidden;padding:0;border:1.5px solid rgba(53,93,131,.45);border-radius:20px;background:rgba(33,69,111,.08);animation:pr-pop .8s var(--ease) both;animation-delay:calc(var(--i) * 80ms)}
 .praneeta .pr-tile:nth-child(1){grid-column:span 2;grid-row:span 2}
 .praneeta .pr-tile:nth-child(4){grid-column:span 2}
 .praneeta .pr-tile img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
@@ -800,7 +800,7 @@ html,body{overflow-x:clip}
 .praneeta .pr-list button[aria-current="true"]{padding-left:10px;box-shadow:inset 3px 0 0 var(--acc)}
 
 /* map */
-.praneeta .pr-map{overflow:hidden;border-radius:26px;border:1.5px solid rgba(184,149,63,.6)}
+.praneeta .pr-map{overflow:hidden;border-radius:26px;border:1.5px solid rgba(53,93,131,.6)}
 .praneeta .pr-map iframe{display:block;width:100%;height:clamp(300px,36vw,400px);border:0}
 
 /* approvals */
@@ -825,7 +825,7 @@ html,body{overflow-x:clip}
 
 @keyframes pr-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 @keyframes pr-pop{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
-@keyframes pr-pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,165,90,.6)}50%{box-shadow:0 0 0 7px rgba(201,165,90,0)}}
+@keyframes pr-pulse{0%,100%{box-shadow:0 0 0 0 rgba(174,203,230,.6)}50%{box-shadow:0 0 0 7px rgba(174,203,230,0)}}
 
 @media (max-width:960px){
   .praneeta .pr-facts,.praneeta .pr-points{grid-template-columns:1fr 1fr}

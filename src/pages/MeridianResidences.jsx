@@ -487,7 +487,7 @@ const LB_CSS = `
 `;
 
 const CSS = `
-.sapphire{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--gold,#b8953f);--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1)}
+.sapphire{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--accent,#355d83);--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1)}
 .sapphire *{box-sizing:border-box}
 .sapphire button{font:inherit;color:inherit;cursor:pointer}
 .sapphire img{display:block;max-width:100%}
@@ -532,7 +532,7 @@ html,body{overflow-x:clip}
 .sapphire .sr-hero-img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center}
 
 /* framed picture: the image sits INSIDE the border, edge to edge, uncropped */
-.sapphire .sr-frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(184,149,63,.6);border-radius:30px;background:rgba(255,255,255,.55)}
+.sapphire .sr-frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(53,93,131,.6);border-radius:30px;background:rgba(255,255,255,.55)}
 .sapphire .sr-frame>button{position:relative;display:block;width:100%;padding:0;border:0;background:none;border-radius:20px;overflow:hidden;cursor:zoom-in}
 .sapphire .sr-frame img{display:block;width:100%;aspect-ratio:15/16;object-fit:cover;border-radius:20px;background:rgba(33,69,111,.08)}
 .sapphire .sr-hint{position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.74rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}
@@ -581,7 +581,7 @@ html,body{overflow-x:clip}
 .sapphire .sr-ticks{display:grid;gap:13px;margin:16px 0 0;padding:0;list-style:none}
 .sapphire .sr-ticks li{position:relative;padding-left:32px;color:var(--mute);line-height:1.5}
 .sapphire .sr-ticks li b{color:var(--ink);font-weight:700}
-.sapphire .sr-ticks li::before{content:'';position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:rgba(184,149,63,.18)}
+.sapphire .sr-ticks li::before{content:'';position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:rgba(53,93,131,.18)}
 .sapphire .sr-ticks li::after{content:'';position:absolute;left:8px;top:6px;width:5px;height:9px;border:solid var(--acc);border-width:0 2px 2px 0;transform:rotate(45deg)}
 .sapphire .sr-charge{display:flex;align-items:center;gap:16px;margin:30px 0 0;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);font-weight:600}
 .sapphire .sr-charge svg{flex:none;color:var(--acc)}
@@ -612,7 +612,7 @@ html,body{overflow-x:clip}
 
 @keyframes sr-reveal{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
 @keyframes sr-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-@keyframes sr-pulse{0%,100%{box-shadow:0 0 0 0 rgba(184,149,63,.55)}50%{box-shadow:0 0 0 7px rgba(184,149,63,0)}}
+@keyframes sr-pulse{0%,100%{box-shadow:0 0 0 0 rgba(53,93,131,.55)}50%{box-shadow:0 0 0 7px rgba(53,93,131,0)}}
 
 @media (max-width:960px){
   .sapphire .sr-row{grid-template-columns:1fr}

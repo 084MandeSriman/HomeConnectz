@@ -173,13 +173,21 @@ const CSS = `
   .mbar .b{background:var(--navy);color:#fff}
 }
 .nav{position:fixed;top:var(--nav-top);left:0;right:0;z-index:60;pointer-events:none}
-.nav-in{pointer-events:auto;position:relative;width:min(1320px,100% - 40px);margin-inline:auto;height:var(--nav-h);border-radius:999px;background:rgba(226,228,233,.93);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 12px 34px rgba(6,16,32,.2);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 9px 0 36px;transition:box-shadow .3s,background .3s}
-.nav.scrolled .nav-in{background:rgba(226,228,233,.98);box-shadow:0 18px 44px rgba(6,16,32,.32)}
+.nav-in{
+  pointer-events:auto;position:relative;width:min(1320px,100% - 40px);margin-inline:auto;height:var(--nav-h);
+  border-radius:999px;
+  background:linear-gradient(135deg,rgba(255,255,255,.62),rgba(255,255,255,.08) 58%),rgba(255,255,255,.66);
+  -webkit-backdrop-filter:blur(18px) saturate(1.15);backdrop-filter:blur(18px) saturate(1.15);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.68),0 12px 34px rgba(6,16,32,.15);
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 9px 0 36px;
+  transition:box-shadow .3s;
+}
+.nav.scrolled .nav-in{box-shadow:inset 0 0 0 1px rgba(255,255,255,.68),0 18px 44px rgba(6,16,32,.21)}
 .nav-logo{justify-self:start;display:flex;align-items:center}
 .nav-logo img{height:40px;width:auto}
 .nav-links{display:flex;align-items:center;gap:40px;justify-self:center}
 .nav-links>a:not(.btn),.nav-dropdown-trigger{position:relative;display:flex;align-items:center;gap:6px;font-size:1.02rem;font-weight:500;color:#1f3a5f;padding:8px 0;border:0;background:none;cursor:pointer;white-space:nowrap}
-.nav-links>a:not(.btn)::after,.nav-dropdown-trigger::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:2px;background:var(--tan);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav-links>a:not(.btn)::after,.nav-dropdown-trigger::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
 .nav-links>a:not(.btn):hover::after,.nav-links>a.active::after,.nav-dropdown-trigger:hover::after,.nav-dropdown-trigger.active::after{transform:scaleX(1)}
 .nav-dropdown-trigger svg{transition:transform .25s}
 .nav-dropdown.expanded .nav-dropdown-trigger svg{transform:rotate(180deg)}

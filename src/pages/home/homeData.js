@@ -204,7 +204,7 @@ export const projects = [
       "4,254–4,800 sq ft"
     ],
     "summary": "117 villas on 14 acres by Vara Prasad Constructions. Lift, home theatre and terrace garden in every villa. 100% Vaastu. TG-RERA P02400004825.",
-    "price": "₹5 Cr onwards",
+    "price": "₹5.75 Cr onwards",
     "priceNote": "Builder price, zero brokerage",
     "img": "/images/srivari-home-project.png"
   },

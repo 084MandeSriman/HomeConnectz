@@ -261,7 +261,7 @@ const CSS = `
 .stk-section{
   --nav-h:96px;--sbw:0px;--r:0px;
   --sv-navy:var(--navy,#14284b);
-  --gold:#c9a45c;
+  --service-accent:var(--accent);
   background:#fff;
 }
 
@@ -274,7 +274,7 @@ const CSS = `
 .spl-img > *,.spl-img img{display:block;width:100%;height:100%;object-fit:cover}
 .spl-img img{transform:scale(1.1);transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
 .spl-img.on img{transform:scale(1)}
-.spl-tag{position:absolute;left:0;bottom:0;z-index:50;display:flex;align-items:center;gap:12px;padding:16px 26px;background:#fff;color:var(--sv-navy);font-weight:600;font-size:1.05rem;border-top:4px solid var(--gold);animation:splTag .5s ease both}
+.spl-tag{position:absolute;left:0;bottom:0;z-index:50;display:flex;align-items:center;gap:12px;padding:16px 26px;background:#fff;color:var(--sv-navy);font-weight:600;font-size:1.05rem;border-top:4px solid var(--service-accent);animation:splTag .5s ease both}
 @keyframes splTag{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 .spl-list{list-style:none;margin:0;padding:0}
@@ -285,7 +285,7 @@ const CSS = `
   border-left:2px solid rgba(20,40,75,.15);
   opacity:.3;transition:opacity .5s,border-color .5s;
 }
-.spl-item.on{opacity:1;border-left-color:var(--gold)}
+.spl-item.on{opacity:1;border-left-color:var(--service-accent)}
 .spl-m{display:none}
 .spl-badge{display:grid;place-items:center;width:60px;height:60px;border:1.5px solid var(--sv-navy);border-radius:var(--r);color:var(--sv-navy)}
 .spl-item h3{margin:6px 0 0;font-size:clamp(1.8rem,3.2vw,2.7rem);font-weight:600;line-height:1.12;letter-spacing:-.015em;color:var(--sv-navy)}
@@ -315,7 +315,7 @@ const CSS = `
 .reel-media{position:absolute;inset:0}
 .reel-media > *,.reel-media img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
 .reel-card:hover .reel-media img{transform:scale(1.04)}
-.reel-cap{position:absolute;left:0;bottom:0;width:min(540px,88%);display:grid;gap:12px;padding:28px 32px 30px;background:rgba(255,255,255,.96);color:var(--sv-navy);border-top:4px solid var(--gold)}
+.reel-cap{position:absolute;left:0;bottom:0;width:min(540px,88%);display:grid;gap:12px;padding:28px 32px 30px;background:rgba(255,255,255,.96);color:var(--sv-navy);border-top:4px solid var(--service-accent)}
 .reel-top{display:flex;align-items:center;gap:14px}
 .reel-badge{flex:none;display:grid;place-items:center;width:48px;height:48px;border:1.5px solid var(--sv-navy);border-radius:var(--r)}
 .reel-cap h3{margin:0;font-size:clamp(1.3rem,2vw,1.7rem);font-weight:600;line-height:1.15;color:var(--sv-navy)}

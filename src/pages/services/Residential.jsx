@@ -58,7 +58,7 @@ function ServiceImage({ src, fallback, alt, className, eager = false }) {
   );
 }
 
-/* A framed picture: sits inside its gold border and opens in the viewer when clicked. */
+/* A framed picture: sits inside its blue border and opens in the viewer when clicked. */
 function Pic({ src, fallback, alt, ratio = '4 / 3', onOpen }) {
   return (
     <figure className="sv-frame" style={{ '--ar': ratio }}>
@@ -453,7 +453,7 @@ const LB_CSS = `
 `;
 
 const CSS = `
-.svc{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--gold,#b8953f);--g1:#e6cf9f;--g2:#c9a55a;--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1);padding-top:0!important;padding-bottom:clamp(20px,3vw,36px)!important}
+.svc{--ink:var(--navy,#21456f);--mute:var(--muted,#5d6b7c);--acc:var(--accent,#355d83);--g1:#dcebf8;--g2:#aecbe6;--line:rgba(33,69,111,.16);--ease:cubic-bezier(.2,.7,.2,1);padding-top:0!important;padding-bottom:clamp(20px,3vw,36px)!important}
 .svc *{box-sizing:border-box}
 .svc img{display:block;max-width:100%}
 .svc button{font:inherit;color:inherit;cursor:pointer}
@@ -550,11 +550,11 @@ html,body{overflow-x:clip}
 .svc .sv-link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding-bottom:3px;border-bottom:1.5px solid var(--acc);color:var(--ink);font-weight:700}
 .svc .sv-ticks{display:grid;gap:11px;margin:16px 0 0;padding:0;list-style:none}
 .svc .sv-ticks li{position:relative;padding-left:32px;color:var(--ink);font-weight:500;line-height:1.5}
-.svc .sv-ticks li::before{content:'';position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:rgba(184,149,63,.18)}
+.svc .sv-ticks li::before{content:'';position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:rgba(53,93,131,.18)}
 .svc .sv-ticks li::after{content:'';position:absolute;left:8px;top:6px;width:5px;height:9px;border:solid var(--acc);border-width:0 2px 2px 0;transform:rotate(45deg)}
 
 /* framed picture: the image sits INSIDE the border, edge to edge */
-.svc .sv-frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(184,149,63,.6);border-radius:30px;background:rgba(255,255,255,.55)}
+.svc .sv-frame{position:relative;margin:0;padding:10px;border:1.5px solid rgba(53,93,131,.6);border-radius:30px;background:rgba(255,255,255,.55)}
 .svc .sv-frame>button{position:relative;display:block;width:100%;padding:0;border:0;background:rgba(33,69,111,.1);border-radius:20px;overflow:hidden;cursor:zoom-in}
 .svc .sv-frame img{display:block;width:100%;aspect-ratio:var(--ar,4/3);object-fit:cover;border-radius:20px}
 .svc .sv-hint{position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;background:rgba(15,34,56,.72);color:#fff;font-size:.74rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}

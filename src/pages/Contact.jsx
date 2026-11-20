@@ -156,7 +156,7 @@ function MapView() {
 
 // ==========================================================================
 //  5. PAGE
-//  One single frosted card on a plain light-blue background.
+//  One single frosted card on a warm beige background with a soft reflection.
 // ==========================================================================
 
 export default function Contact() {
@@ -205,9 +205,14 @@ export default function Contact() {
 // ==========================================================================
 //  DESIGN
 //  Uses your site tokens with fallbacks: --sans, --navy, --ink, --muted.
-//  Change --nav-h if your navbar is taller or shorter.
 // ==========================================================================
 const CSS = `
+main:has(> .contact-page){
+  background:var(--beige-glass-background);
+}
+main.pad-nav:has(> .contact-page){
+  padding-top:calc(var(--nav-top) + var(--nav-h));
+}
 .contact-page{
   --c-navy:var(--navy,#14284b);
   --c-ink:var(--ink,#1c2430);
@@ -215,12 +220,10 @@ const CSS = `
   --c-line:rgba(20,40,75,.14);
   --c-wa:#1d8f4f;
   --c-err:#b3261e;
-  --nav-h:110px;
 
   position:relative;overflow:hidden;isolation:isolate;
-  min-height:100vh;padding:var(--nav-h) 24px 64px;
+  padding:32px 24px;
   display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#c6d9e6 0%,#b2cfe9 100%);
 }
 .contact-page,.contact-page *{font-family:var(--sans),system-ui,sans-serif;box-sizing:border-box}
 .contact-page input,.contact-page select,.contact-page button{font-family:inherit;font-size:inherit}
@@ -305,7 +308,7 @@ const CSS = `
 
 /* ---------- Responsive ---------- */
 @media (max-width:980px){
-  .contact-page{padding:calc(var(--nav-h) - 20px) 16px 40px;align-items:flex-start}
+  .contact-page{padding:24px 16px}
   .ct-card{
     grid-template-columns:1fr;
     grid-template-areas:"head" "rows" "form" "map";

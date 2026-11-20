@@ -1,0 +1,49 @@
+/* The light bands keep a shared reading width while separating full sections. */
+main :is(
+  .srivari .sm-sec:nth-of-type(odd),
+  .sapphire .sr-sec:nth-of-type(odd),
+  .praneeta .pr-sec:nth-of-type(odd),
+  .svc .sv-sec:nth-of-type(even),
+  .solar-page .section:nth-of-type(even)
+) {
+  background: var(--surface);
+  box-shadow: 0 0 0 100vmax var(--surface);
+  clip-path: inset(0 -100vmax);
+}
+
+main :is(.srivari .sm-sec, .sapphire .sr-sec, .praneeta .pr-sec, .svc .sv-sec, .solar-page .section) {
+  margin-top: 0;
+  padding-block: clamp(36px, 6vw, 76px);
+  border-top: 1px solid var(--line);
+}
+
+main :is(.srivari .sm-hero, .sapphire .sr-hero, .praneeta .pr-hero) {
+  width: 100%;
+  margin-inline: 0;
+  border-radius: 20px;
+  background-color: var(--surface);
+}
+
+@media (min-width: 901px) {
+  main :is(.srivari .sm-hero, .sapphire .sr-hero, .praneeta .pr-hero) {
+    height: clamp(420px, 61svh, 650px);
+    min-height: 0;
+  }
+}
+
+main :is(.srivari .sm-head, .sapphire .sr-head, .praneeta .pr-head, .svc .sv-head, .solar-page .sec-head) {
+  border-inline-start: 3px solid var(--roof);
+  padding-inline-start: clamp(14px, 2.3vw, 25px);
+}
+
+main :is(.granite-page .granite-intro, .granite-page .granite-contacts) {
+  padding: clamp(24px, 4vw, 44px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+main :is(.srivari .sm-float, .sapphire .sr-float, .praneeta .pr-float) {
+  bottom: 68px;
+}
+
