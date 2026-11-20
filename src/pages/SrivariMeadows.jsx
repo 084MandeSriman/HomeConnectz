@@ -1130,6 +1130,11 @@ html,body{overflow-x:clip}
 .srivari .sm-plan-buttons button{padding:7px clamp(9px,1.4vw,16px);border:0;border-radius:999px;background:transparent;color:var(--mute);font-size:.92rem;font-weight:500}
 .srivari .sm-plan-buttons button:hover{background:rgba(33,69,111,.08);color:var(--ink)}
 .srivari .sm-plan-buttons button[aria-pressed="true"]{background:var(--ink);color:#fff;font-weight:600}
+@media(max-width:640px){
+  .srivari .sm-plan-buttons{gap:6px;padding:0;border:0;background:none;box-shadow:none}
+  .srivari .sm-plan-buttons button{min-height:44px;padding:6px 10px;border:1px solid var(--line);background:#fff;color:var(--navy);font-size:.82rem}
+  .srivari .sm-plan-buttons button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
+}
 .srivari .sm-plan{position:relative;display:block;width:100%;padding:12px;border:1.5px solid rgba(53,93,131,.6);border-radius:28px;overflow:hidden;background:#fff;box-shadow:0 18px 44px rgba(33,69,111,.1)}
 .srivari .sm-plan img{width:100%;height:auto;border-radius:18px}
 .srivari .sm-master-card button{
