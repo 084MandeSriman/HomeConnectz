@@ -51,7 +51,8 @@ const NotFound = () => (
 export default function App() {
   const [loading, setLoading] = useState(true);
   const { pathname } = useLocation();
-  const padded = !(pathname === '/' || pathname.startsWith('/projects'));
+  const graniteHero = /^\/services\/granite\/?$/i.test(pathname);
+  const padded = !(pathname === '/' || pathname.startsWith('/projects') || graniteHero);
   return (
     <>
       <style>{CSS}</style>
