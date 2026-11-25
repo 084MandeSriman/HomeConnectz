@@ -76,20 +76,19 @@ export const projects = [
     "tag": "Ongoing",
     "name": "Praneeta Singapore Town Phase-II",
     "details": [
-      ["Configuration", "4 BHK villas\nBUA 2,250–2,850 sq ft"],
-      ["Project Highlights", "2 acres 10 guntas · 35 villas"],
-      ["Plot sizes", "150–190 sq yd"],
+      ["Configuration", "4 BHK villas · G+2\n150 sq yd plans: 2,290 sq ft (East) / 2,323 sq ft (West)"],
+      ["Project Highlights", "2 acres 10 guntas · 35 villas\nPlot options: 150–190 sq yd"],
       ["Stage", "Ongoing"]
     ],
     "rera": "P02400009800",
     "meta": [
       "Shankarpally, Hyderabad",
-      "35 premium 4 BHK villas",
-      "2,250–2,850 sq ft"
+      "35 premium 4 BHK G+2 villas",
+      "150 sq yd plans: 2,290 sq ft east / 2,323 sq ft west"
     ],
-    "summary": "35 exclusive villas across 2 acres 10 guntas, with 150–190 sq yd plots in Shankarpally.",
-    "price": "Price on request",
-    "priceNote": "Ask for availability",
+    "summary": "A gated Shankarpally community of 35 G+2, 4 BHK villas, with plot options from 150 to 190 sq yd.",
+    "price": "From ₹1.6 Cr",
+    "priceNote": "₹6,999 per sq ft",
     "img": "/images/praneeta/villa-main.jpg"
   },
   {
