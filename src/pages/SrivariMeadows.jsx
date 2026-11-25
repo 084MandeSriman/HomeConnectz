@@ -112,9 +112,9 @@ const STORY = [
 
 /* [src, alt, category] */
 const VILLAS = [
-  { id: 'east', label: 'East villa', road: '33 ft east road', plan: 'e1' },
-  { id: 'premium', label: 'East premium villa', road: '33 ft east road', plan: 'ep' },
-  { id: 'west', label: 'West villa', road: '33 ft west road', plan: 'w2' },
+  { id: 'east', label: 'East villa', type: 'Villa', facing: 'East', plotSize: '300 sq yds', builtUpArea: '4,254 sq ft', road: '33 ft east road', plan: 'e1' },
+  { id: 'premium', label: 'East premium villa', type: 'Premium Villa', facing: 'East', plotSize: '350 sq yds', builtUpArea: '4,800 sq ft', road: '33 ft east road', plan: 'ep' },
+  { id: 'west', label: 'West villa', type: 'Villa', facing: 'West', plotSize: '300 sq yds', builtUpArea: '4,264 sq ft', road: '33 ft west road', plan: 'w2' },
 ];
 
 const AMENITY_TABS = [
@@ -718,11 +718,28 @@ function Villas({ onOpen }) {
           Isometric views
         </button>
       </div>
-      <button type="button" className="sm-plan" onClick={() => onOpen([planImage], 0)} aria-label={`Enlarge ${planImage.alt}`}>
-        <Image key={planImage.src} src={planImage.src} alt={planImage.alt} />
-        <span className="sm-hint">Click to enlarge and zoom</span>
-      </button>
-      <p className="sm-note">Ground, first and second floor shown left to right. Dimensions and room legends are in the enlarged view. {villa.road}.</p>
+      <div className="sm-plan-showcase">
+        <aside className="sm-plan-details" aria-label={`${villa.label} details`}>
+          <span className="sm-plan-type">{villa.type}</span>
+          <h3>{villa.facing} Floor Plan</h3>
+          <dl>
+            <div>
+              <dt>Plot size</dt>
+              <dd>{villa.plotSize}</dd>
+            </div>
+            <div>
+              <dt>Built-up area</dt>
+              <dd>{villa.builtUpArea}</dd>
+            </div>
+          </dl>
+          <p className="sm-plan-facing">{villa.facing}-facing villa</p>
+        </aside>
+        <button type="button" className="sm-plan" onClick={() => onOpen([planImage], 0)} aria-label={`Enlarge ${planImage.alt}`}>
+          <Image key={planImage.src} src={planImage.src} alt={planImage.alt} />
+          <span className="sm-hint">Click to enlarge and zoom</span>
+        </button>
+      </div>
+      <p className="sm-note">Ground, first and second floors shown left to right. Dimensions and room legends are in the enlarged view. {villa.road}.</p>
     </section>
   );
 }
@@ -1130,12 +1147,23 @@ html,body{overflow-x:clip}
 .srivari .sm-plan-buttons button{padding:7px clamp(9px,1.4vw,16px);border:0;border-radius:999px;background:transparent;color:var(--mute);font-size:.92rem;font-weight:500}
 .srivari .sm-plan-buttons button:hover{background:rgba(33,69,111,.08);color:var(--ink)}
 .srivari .sm-plan-buttons button[aria-pressed="true"]{background:var(--ink);color:#fff;font-weight:600}
+.srivari .sm-plan-showcase{display:grid;grid-template-columns:minmax(190px,.28fr) minmax(0,1fr);align-items:stretch;gap:clamp(14px,2.4vw,32px);width:100%;padding:clamp(12px,1.8vw,22px);border:1.5px solid rgba(53,93,131,.6);border-radius:28px;background:#f1eee8}
+.srivari .sm-plan-details{display:grid;align-content:center;justify-items:start;gap:clamp(12px,1.6vw,22px);min-width:0;padding:clamp(8px,1.4vw,20px)}
+.srivari .sm-plan-type{padding:7px 13px;border-radius:8px;background:#d7b05e;color:#29251d;font-size:.82rem;font-weight:600}
+.srivari .sm-plan-details h3{margin:0;color:#131820;font-size:clamp(1.45rem,2.5vw,2.2rem);line-height:1.1}
+.srivari .sm-plan-details dl{display:grid;gap:clamp(12px,1.6vw,22px);margin:0}
+.srivari .sm-plan-details dl div{display:grid;gap:3px}
+.srivari .sm-plan-details dt{color:#69717d;font-size:.92rem}
+.srivari .sm-plan-details dd{margin:0;color:#161b22;font-size:clamp(1.05rem,1.5vw,1.3rem);font-weight:600}
+.srivari .sm-plan-facing{margin:0;color:var(--ink);font-weight:600}
 @media(max-width:640px){
   .srivari .sm-plan-buttons{gap:6px;padding:0;border:0;background:none;box-shadow:none}
   .srivari .sm-plan-buttons button{min-height:44px;padding:6px 10px;border:1px solid var(--line);background:#fff;color:var(--navy);font-size:.82rem}
   .srivari .sm-plan-buttons button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
+  .srivari .sm-plan-showcase{grid-template-columns:1fr;gap:10px}
+  .srivari .sm-plan-details{gap:12px;padding:8px}
 }
-.srivari .sm-plan{position:relative;display:block;width:100%;padding:12px;border:1.5px solid rgba(53,93,131,.6);border-radius:28px;overflow:hidden;background:#fff;box-shadow:0 18px 44px rgba(33,69,111,.1)}
+.srivari .sm-plan{position:relative;display:block;width:100%;min-width:0;margin:0;padding:8px;border:1.5px solid rgba(53,93,131,.35);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 18px 44px rgba(33,69,111,.1)}
 .srivari .sm-plan img{width:100%;height:auto;border-radius:18px}
 .srivari .sm-master-card button{
   display:grid;width:100%;min-width:0;padding:8px;border:1px solid var(--line);border-radius:16px;

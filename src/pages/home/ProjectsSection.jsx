@@ -111,7 +111,7 @@ function ProjectCard({ p, onRegister }) {
 
 export default function ProjectsSection({ status: selectedStatus, type: selectedType, onFiltersChange, standalone = false }) {
   const [city, setCity] = useState('Hyderabad');
-  const [localStatus, setLocalStatus] = useState('completed');
+  const [localStatus, setLocalStatus] = useState('upcoming');
   const [localType, setLocalType] = useState('all');
   const [interestProject, setInterestProject] = useState(null);
 

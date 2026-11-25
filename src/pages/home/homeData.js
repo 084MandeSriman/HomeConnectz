@@ -45,7 +45,7 @@ export const projects = [
     summary: 'A boutique community of 78 villas in Kondakal, Mokila. Configurations, pricing and launch dates will be shared with the interest list first.',
     details: [
       ['Configuration', '351, 450 & 531 sq yd\nBUA 5,400–7,800 sq ft'],
-      ['Extent', '13.04 guntas · 78 villas\nEast- and west-facing villas'],
+      ['Project Highlights', '13+ acres · 78 villas\nEast- and west-facing villas'],
       ['Stage', 'Under approval'],
     ],
     img: '/images/the-laurels.png',
@@ -54,15 +54,15 @@ export const projects = [
     slug: 'prana',
     city: 'Hyderabad',
     type: 'villas',
-    name: 'Prana',
+    name: 'Prana Villas',
     status: 'upcoming',
     tag: 'Upcoming',
     meta: ['Mansanpalle, Hyderabad'],
-    summary: 'A premium community of 220+ villas across more than 45 acres in Mansanpalle.',
+    summary: 'A premium 4 BHK villa community by Cadence Realty in Mansanpalle, with 220+ villas across 45+ acres.',
     details: [
-      ['Configuration', '4 BHK villas'],
-      ['Extent', '45+ acres · 220+ villas'],
-      ['Year', '2026'],
+      ['Configuration', '300 & 400 sq yd\nBUA 3,591 - 5,108 sq ft'],
+      ['Project Highlights', '45+ acres · 220+ villas\nEast- and west-facing villas'],
+      ['Stage', 'Under approval'],
     ],
     img: '/images/prana.png',
   },
@@ -77,7 +77,7 @@ export const projects = [
     "name": "Praneeta Singapore Town Phase-II",
     "details": [
       ["Configuration", "4 BHK villas\nBUA 2,250–2,850 sq ft"],
-      ["Extent", "2 acres 10 guntas · 35 villas"],
+      ["Project Highlights", "2 acres 10 guntas · 35 villas"],
       ["Plot sizes", "150–190 sq yd"],
       ["Stage", "Ongoing"]
     ],
@@ -96,17 +96,21 @@ export const projects = [
     "slug": "meridian-residences",
     "city": "Hyderabad",
     "type": "apartments",
-    "bhk": "Apartment homes",
-    "possession": "Upcoming",
+    "possession": "Under approval",
     "status": "upcoming",
     "tag": "Upcoming",
     "name": "The Meridian",
     "meta": [
-      "Nagulapalli, Hyderabad",
-      "Luxury G+11 floor apartments",
+      "Kondakal, Mokila, Hyderabad",
+      "G+11 floor apartments",
       "1,900–2,750 sq ft"
     ],
-    "summary": "Upcoming G+11 apartments with a clubhouse, high-speed lifts and landscaped gardens in Nagulapalli.",
+    "details": [
+      ["Configuration", "1,900–2,750 sq ft"],
+      ["Project Highlights", "1 Acre · 88 Apartments\nEast- and west-facing apartments"],
+      ["Stage", "Under approval"]
+    ],
+    "summary": "Upcoming G+11 apartments with a clubhouse, high-speed lifts and landscaped gardens in Kondakal, Mokila.",
     "price": "Price on request",
     "priceNote": "Ask for launch details",
     "img": "/images/sapphire-residences.png"
@@ -239,7 +243,7 @@ export const projects = [
     "name": "Srivari Meadows",
     "details": [
       ["Configuration", "4 BHK villas, G+2\nBUA 4,254–4,800 sq ft"],
-      ["Extent", "14 acres · 117 villas"],
+      ["Project Highlights", "14 acres · 117 villas"],
       ["Layout", "300 & 350 sq yd plots\nEast- and west-facing villas"],
       ["Status", "Ready to move"]
     ],
