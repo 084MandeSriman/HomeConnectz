@@ -1,38 +1,111 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CITIES, TYPES, projects, statuses } from './homeData.js';
+import { CITIES, SITE, TYPES, projects, statuses } from './homeData.js';
 import { Icon, Img } from './HomeShared.jsx';
 
-function ProjectCard({ p }) {
-  const config = [
-    { icon: 'bed', label: p.bhk },
-    { icon: 'expand', label: p.meta[2] },
-    { icon: 'construction', label: p.tag },
-    { icon: 'possession', label: p.possession },
-  ];
+function InterestDialog({ project, onClose }) {
+  const upcoming = project.status === 'upcoming';
+  const dialog = useRef(null);
+  const nameField = useRef(null);
+
+  useEffect(() => {
+    const modal = dialog.current;
+    modal.showModal();
+    nameField.current.focus();
+    return () => modal.close();
+  }, []);
+
+  function submit(event) {
+    event.preventDefault();
+    const fields = new FormData(event.currentTarget);
+    const message = [
+      upcoming ? `I'd like to register interest in ${project.name}.` : `I'd like to enquire about ${project.name}.`,
+      `Name: ${fields.get('name').trim()}`,
+      `Mobile: ${fields.get('phone').trim()}`,
+      `Email: ${fields.get('email').trim()}`,
+    ].join('\n');
+    window.open(`https://wa.me/${SITE.tel.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+  }
+
   return (
-    <Link to={p.page === false ? '/contact' : `/projects/${p.slug}`} className="sp-card" aria-label={`${p.name}, view project`}>
-      <Img src={p.img} alt="" fallback={p.fallback} />
+    <dialog className="sp-interest-dialog" ref={dialog} aria-labelledby="sp-interest-title"
+      onCancel={(event) => { event.preventDefault(); onClose(); }}>
+      <button type="button" className="sp-interest-close" aria-label="Close enquiry form" onClick={onClose}>×</button>
+      <h2 id="sp-interest-title">{upcoming ? 'Register Interest' : 'Project Enquiry'}</h2>
+      <p className="sp-interest-project">{project.name}</p>
+      <form className="sp-interest-form" onSubmit={submit}>
+        <label>Full name
+          <input ref={nameField} name="name" autoComplete="name" required pattern={'.*\\S.*'} />
+        </label>
+        <label>Mobile number
+          <input name="phone" type="tel" autoComplete="tel" required pattern={'(?:\\+91 *)?[0-9](?: *[0-9]){9}'} title="Enter a 10-digit mobile number, optionally starting with +91." />
+        </label>
+        <label>Email
+          <input name="email" type="email" autoComplete="email" required />
+        </label>
+        <label className="sp-interest-consent">
+          <input type="checkbox" required />
+          <span>I agree that HomeConnectz may contact me about this project.</span>
+        </label>
+        <button className="btn btn-dark" type="submit">Continue to WhatsApp <Icon name="arrow" size={18} /></button>
+      </form>
+    </dialog>
+  );
+}
+
+function ProjectCard({ p, onRegister }) {
+  const upcoming = p.status === 'upcoming';
+  const details = p.details ?? [
+    ['Configuration', [p.bhk, p.meta[2]].filter(Boolean).join('\n')],
+    ['Project details', p.meta[1]],
+    ['Stage', p.possession],
+  ];
+  const content = (
+    <>
+      <div className="sp-media">
+        <span className="sp-image-placeholder" aria-hidden="true"><Icon name="building" size={36} /></span>
+        <Img src={p.img} fallback={p.fallback} />
+        <span className="sp-badge" data-status={p.status}>{p.status}</span>
+      </div>
       <div className="sp-panel">
+        <p className="sp-location"><Icon name="pin" size={15} /> {p.meta[0]}</p>
         <h3>{p.name}</h3>
         <p className="sp-sum">{p.summary}</p>
-        <div className="sp-more">
-          <div>
-            <div className="sp-config">
-              <p>Configuration:</p>
-              <ul>
-                {config.map((c) => (
-                  <li key={c.icon}>
-                    <Icon name={c.icon} size={26} stroke={1.35} />
-                    <span>{c.label}</span>
-                  </li>
-                ))}
-              </ul>
+        <dl className="sp-facts">
+          {details.filter(([, value]) => value).map(([label, value]) => (
+            <div key={label}>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
             </div>
-          </div>
-        </div>
+          ))}
+        </dl>
+        {p.rera && <p className="sp-rera">TG RERA · {p.rera}</p>}
       </div>
-    </Link>
+    </>
+  );
+  if (upcoming) {
+    return (
+      <article className="sp-card sp-card-upcoming">
+        {content}
+        <button type="button" className="sp-register" aria-label={`Register interest in ${p.name}`} onClick={() => onRegister(p)}>
+          Register Interest <Icon name="arrow" size={16} />
+        </button>
+      </article>
+    );
+  }
+
+  return (
+    <article className="sp-card">
+      <Link to={p.page === false ? '/contact' : `/projects/${p.slug}`} className="sp-project-link" aria-label={`View ${p.name}`}>
+        {content}
+        <span className="sp-register">View project <Icon name="arrow" size={16} /></span>
+      </Link>
+      {p.status === 'ongoing' && (
+        <button type="button" className="sp-register sp-enquire" onClick={() => onRegister(p)}>
+          Enquire Now <Icon name="arrow" size={16} />
+        </button>
+      )}
+    </article>
   );
 }
 
@@ -40,16 +113,13 @@ export default function ProjectsSection({ status: selectedStatus, type: selected
   const [city, setCity] = useState('Hyderabad');
   const [localStatus, setLocalStatus] = useState('completed');
   const [localType, setLocalType] = useState('all');
-  const [start, setStart] = useState(0);
+  const [interestProject, setInterestProject] = useState(null);
 
   const status = selectedStatus ?? localStatus;
   const type = selectedType ?? localType;
   const list = projects.filter((p) => p.city === city && p.status === status && (type === 'all' || p.type === type));
-  const ordered = list.map((_, n) => list[(n + start) % list.length]);
-  const move = (dir) => setStart((c) => (list.length ? (c + dir + list.length) % list.length : 0));
   const cur = statuses.find((x) => x.key === status);
   const changeStatus = (next) => {
-    setStart(0);
     if (onFiltersChange) onFiltersChange(next, 'all');
     else {
       setLocalStatus(next);
@@ -57,7 +127,6 @@ export default function ProjectsSection({ status: selectedStatus, type: selected
     }
   };
   const changeType = (next) => {
-    setStart(0);
     if (onFiltersChange) onFiltersChange(status, next);
     else setLocalType(next);
   };
@@ -76,7 +145,6 @@ export default function ProjectsSection({ status: selectedStatus, type: selected
               className={city === c ? 'on' : ''}
               onClick={() => {
                 setCity(c);
-                setStart(0);
                 if (onFiltersChange) onFiltersChange(status, 'all');
                 else setLocalType('all');
               }}>
@@ -104,17 +172,11 @@ export default function ProjectsSection({ status: selectedStatus, type: selected
           ))}
         </div>
 
-        {ordered.length ? (
+        {list.length ? (
           <div className="sp-showcase" role="tabpanel">
-            <button type="button" className="sp-arrow prev" onClick={() => move(-1)} aria-label="Previous projects" disabled={list.length < 2}>
-              <Icon name="carouselLeft" size={30} stroke={1.5} />
-            </button>
-            <div className={`sp-track${ordered.length === 1 ? ' single' : ''}`}>
-              {ordered.map((p) => <ProjectCard key={p.slug} p={p} />)}
+            <div className="sp-track">
+              {list.map((p) => <ProjectCard key={p.slug} p={p} onRegister={setInterestProject} />)}
             </div>
-            <button type="button" className="sp-arrow next" onClick={() => move(1)} aria-label="Next projects" disabled={list.length < 2}>
-              <Icon name="carouselRight" size={30} stroke={1.5} />
-            </button>
           </div>
         ) : (
           <div className="empty sp-empty" role="tabpanel">
@@ -129,6 +191,7 @@ export default function ProjectsSection({ status: selectedStatus, type: selected
           <Link to={`/projects?status=${status}&type=${type}`} className="btn btn-dark">View all projects</Link>
         </div>
       </div>
+      {interestProject && <InterestDialog project={interestProject} onClose={() => setInterestProject(null)} />}
     </section>
   );
 }

@@ -32,8 +32,40 @@ export const statuses = [
   { key: 'completed', label: 'Completed', long: 'Completed projects', blurb: 'Ready to move in and handed-over communities.', empty: 'No completed projects to show yet.' },
 ];
 
-// Only the projects with dedicated detail pages are shown in the project listings.
+// The listings include selected projects and upcoming previews.
 export const projects = [
+  {
+    slug: 'the-laurels',
+    city: 'Hyderabad',
+    type: 'villas',
+    name: 'The Laurels',
+    status: 'upcoming',
+    tag: 'Upcoming',
+    meta: ['Kondakal, Mokila, Hyderabad'],
+    summary: 'A boutique community of 78 villas in Kondakal, Mokila. Configurations, pricing and launch dates will be shared with the interest list first.',
+    details: [
+      ['Configuration', '351, 450 & 531 sq yd\nBUA 5,400–7,800 sq ft'],
+      ['Extent', '13.04 guntas · 78 villas\nEast- and west-facing villas'],
+      ['Stage', 'Under approval'],
+    ],
+    img: '/images/the-laurels.png',
+  },
+  {
+    slug: 'prana',
+    city: 'Hyderabad',
+    type: 'villas',
+    name: 'Prana',
+    status: 'upcoming',
+    tag: 'Upcoming',
+    meta: ['Mansanpalle, Hyderabad'],
+    summary: 'A premium community of 220+ villas across more than 45 acres in Mansanpalle.',
+    details: [
+      ['Configuration', '4 BHK villas'],
+      ['Extent', '45+ acres · 220+ villas'],
+      ['Year', '2026'],
+    ],
+    img: '/images/prana.png',
+  },
   {
     "slug": "praneeta-singapore-town-phase-ii",
     "city": "Hyderabad",
@@ -43,6 +75,13 @@ export const projects = [
     "status": "ongoing",
     "tag": "Ongoing",
     "name": "Praneeta Singapore Town Phase-II",
+    "details": [
+      ["Configuration", "4 BHK villas\nBUA 2,250–2,850 sq ft"],
+      ["Extent", "2 acres 10 guntas · 35 villas"],
+      ["Plot sizes", "150–190 sq yd"],
+      ["Stage", "Ongoing"]
+    ],
+    "rera": "P02400009800",
     "meta": [
       "Shankarpally, Hyderabad",
       "35 premium 4 BHK villas",
@@ -61,7 +100,7 @@ export const projects = [
     "possession": "Upcoming",
     "status": "upcoming",
     "tag": "Upcoming",
-    "name": "Meridian Residences",
+    "name": "The Meridian",
     "meta": [
       "Nagulapalli, Hyderabad",
       "Luxury G+11 floor apartments",
@@ -198,12 +237,19 @@ export const projects = [
     "status": "completed",
     "tag": "Ready to move",
     "name": "Srivari Meadows",
+    "details": [
+      ["Configuration", "4 BHK villas, G+2\nBUA 4,254–4,800 sq ft"],
+      ["Extent", "14 acres · 117 villas"],
+      ["Layout", "300 & 350 sq yd plots\nEast- and west-facing villas"],
+      ["Status", "Ready to move"]
+    ],
+    "rera": "P02400004825",
     "meta": [
       "Mokila, Hyderabad",
       "4 BHK villas, G+2",
       "4,254–4,800 sq ft"
     ],
-    "summary": "117 villas on 14 acres by Vara Prasad Constructions. Lift, home theatre and terrace garden in every villa. 100% Vaastu. TG-RERA P02400004825.",
+    "summary": "A gated community by Vara Prasad Constructions with a lift, home theatre and terrace garden in each villa. The community is 100% Vaastu compliant.",
     "price": "₹5.75 Cr onwards",
     "priceNote": "Builder price, zero brokerage",
     "img": "/images/srivari-home-project.png"
@@ -327,7 +373,7 @@ export const projects = [
     "priceNote": "Builder price, zero brokerage",
     "img": "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&h=1100&q=75"
   }
-].filter((project) => ['meridian-residences', 'srivari-meadows', 'praneeta-singapore-town-phase-ii'].includes(project.slug));
+].filter((project) => ['the-laurels', 'prana', 'meridian-residences', 'srivari-meadows', 'praneeta-singapore-town-phase-ii'].includes(project.slug));
 
 export const services = [residential, granite, solar].map((service) => ({
   ...service,
